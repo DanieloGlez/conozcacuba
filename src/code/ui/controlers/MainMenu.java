@@ -1,7 +1,6 @@
-package code.visual.controlers;
+package code.ui.controlers;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXProgressBar;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 

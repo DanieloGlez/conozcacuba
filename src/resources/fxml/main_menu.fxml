@@ -3,8 +3,9 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.visual.controlers.MainMenu">
-   <children>
-      <JFXButton fx:id="connected_button" layoutX="203.0" layoutY="188.0" ripplerFill="#0099ff" text="connected to postgresql@heroku" />
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="code.ui.controlers.MainMenu">
+   <JFXButton fx:id="connected_button" layoutX="203.0" layoutY="188.0" ripplerFill="#0099ff"
+              text="connected to postgresql@heroku"/>
 </AnchorPane>

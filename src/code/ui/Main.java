@@ -1,4 +1,4 @@
-package code;
+package code.ui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +18,7 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         launch(args);
     }
 }
