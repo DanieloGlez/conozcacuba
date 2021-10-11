@@ -16,10 +16,11 @@ public class TouristicPackageDto {
 
     // References
     private List<ContractDto> contracts;
-    private List<DailyActivityDto> dailyActivities;
 
     // Constructors
-    public TouristicPackageDto(String id, String promotionalName, int daysAmount, int nightsAmount, int paxAmount, float costHotel, float costTransport, float costTransportHA, float costTotal, float price) {
+
+
+    public TouristicPackageDto(String id, String promotionalName, int daysAmount, int nightsAmount, int paxAmount, float costHotel, float costTransport, float costTransportHA, float costTotal, float price, List<ContractDto> contracts) {
         this.id = id;
         this.promotionalName = promotionalName;
         this.daysAmount = daysAmount;
@@ -30,6 +31,7 @@ public class TouristicPackageDto {
         this.costTransportHA = costTransportHA;
         this.costTotal = costTotal;
         this.price = price;
+        this.contracts = contracts;
     }
 
     // Getters & Setters
@@ -111,5 +113,13 @@ public class TouristicPackageDto {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public List<ContractDto> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(List<ContractDto> contracts) {
+        this.contracts = contracts;
     }
 }
