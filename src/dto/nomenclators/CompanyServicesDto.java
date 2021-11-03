@@ -1,4 +1,4 @@
-package code.dto.nomenclators;
+package dto.nomenclators;
 
 public class CompanyServicesDto extends NomenclatorDto {
     // Constructors

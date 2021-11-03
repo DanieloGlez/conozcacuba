@@ -1,4 +1,4 @@
-package code.dto.nomenclators;
+package dto.nomenclators;
 
 public class ModalityCommercialDto extends NomenclatorDto {
     public ModalityCommercialDto(String id, String name) {

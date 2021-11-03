@@ -1,4 +1,4 @@
-package code.dto;
+package dto;
 
 public abstract class ModalityTransportDto {
     private String id;

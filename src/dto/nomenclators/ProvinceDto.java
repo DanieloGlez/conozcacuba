@@ -1,4 +1,4 @@
-package code.dto.nomenclators;
+package dto.nomenclators;
 
 public class ProvinceDto extends NomenclatorDto {
     // Constructors

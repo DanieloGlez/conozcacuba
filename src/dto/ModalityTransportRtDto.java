@@ -1,4 +1,4 @@
-package code.dto;
+package dto;
 
 public class ModalityTransportRtDto extends ModalityTransportDto {
     private String rtDescription;

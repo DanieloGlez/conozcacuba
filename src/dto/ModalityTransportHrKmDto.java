@@ -1,4 +1,4 @@
-package code.dto;
+package dto;
 
 public class ModalityTransportHrKmDto extends ModalityTransportDto {
     private float costTraveledKm;

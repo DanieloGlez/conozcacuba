@@ -1,6 +1,6 @@
-package code.dto;
+package dto;
 
-import code.dto.nomenclators.CompanyTransportDto;
+import dto.nomenclators.CompanyTransportDto;
 
 import java.util.Date;
 import java.util.List;

@@ -1,7 +1,7 @@
-package code.dto;
+package dto;
 
-import code.dto.nomenclators.FoodPlanDto;
-import code.dto.nomenclators.RoomTypeDto;
+import dto.nomenclators.FoodPlanDto;
+import dto.nomenclators.RoomTypeDto;
 
 public class RoomPlanDto {
     private RoomTypeDto roomType;

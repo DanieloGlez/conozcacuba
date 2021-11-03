@@ -1,6 +1,6 @@
-package code.dto;
+package dto;
 
-import code.dto.nomenclators.VehicleBrandDto;
+import dto.nomenclators.VehicleBrandDto;
 
 import java.time.Year;
 
