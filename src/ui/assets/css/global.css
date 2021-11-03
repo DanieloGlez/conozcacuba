@@ -1,0 +1,12 @@
+.drawer-jfxbutton:hover {
+    -fx-background-color: #468c82;
+    -fx-text-fill: White;
+}
+
+.jfx-hamburger {
+    -fx-background-color: transparent;
+}
+
+.jfx-hamburger StackPane {
+    -fx-background-color: #468c82;
+}
