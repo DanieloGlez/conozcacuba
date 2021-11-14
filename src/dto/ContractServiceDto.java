@@ -12,8 +12,6 @@ public class ContractServiceDto extends ContractDto {
     private List<DailyActivityDto> dailyActivities;
 
     // Constructors
-
-
     public ContractServiceDto(String id, Date startDate, Date finishDate, Date conciliationDate, String description, String idServiceType, String idProvince, float paxCost, List<DailyActivityDto> dailyActivities) {
         super(id, startDate, finishDate, conciliationDate, description);
         this.idServiceType = idServiceType;

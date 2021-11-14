@@ -8,9 +8,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import service.Service;
+import service.ServicesLocator;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -59,9 +63,10 @@ public class MainMenu implements Initializable {
 
         VBox container_vbox = (VBox) anchorPane.getChildren().get(0);
         container_vbox.getChildren().forEach(node -> {
+            System.out.println(node.getId());
             node.setOnMouseClicked(event -> {
                 switch (node.getId()) {
-                    case "datamanager_button":
+                    case "datamanager_jfxbutton":
                         dynamiccontainer_anchorpane.setVisible(true);
                         dynamiccontainer_anchorpane.getChildren().clear();
 
@@ -72,11 +77,11 @@ public class MainMenu implements Initializable {
                         }
                         break;
 
-                    case "settings_button":
+                    case "settings_jfxbutton":
                         System.out.println("Settings");
                         break;
 
-                    case "aboutus_button":
+                    case "aboutus_jfxbutton":
                         System.out.println("About Us");
                         break;
 

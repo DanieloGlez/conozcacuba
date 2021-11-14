@@ -11,7 +11,7 @@
    <children>
       <VBox alignment="TOP_CENTER" layoutX="78.0" layoutY="260.0" prefHeight="200.0" prefWidth="100.0" spacing="8.0" stylesheets="@../assets/css/global.css" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="64.0">
          <children>
-            <JFXButton accessibleText="data_manager" maxWidth="1.7976931348623157E308" prefHeight="64.0" styleClass="drawer-jfxbutton" text="Data Manager" textFill="#468c82">
+            <JFXButton fx:id="datamanager_jfxbutton" accessibleText="data_manager" maxWidth="1.7976931348623157E308" prefHeight="64.0" styleClass="drawer-jfxbutton" text="Data Manager" textFill="#468c82">
                <font>
                   <Font name="Hack Bold" size="24.0" />
                </font>
@@ -19,12 +19,12 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXButton accessibleText="settings" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" prefHeight="64.0" styleClass="drawer-jfxbutton" text="Settings" textFill="#468c82">
+            <JFXButton fx:id="settings_jfxsettings" accessibleText="settings" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" prefHeight="64.0" styleClass="drawer-jfxbutton" text="Settings" textFill="#468c82">
                <font>
                   <Font name="Hack Bold" size="24.0" />
                </font>
             </JFXButton>
-            <JFXButton accessibleText="about_us" layoutX="10.0" layoutY="74.0" maxWidth="1.7976931348623157E308" prefHeight="64.0" styleClass="drawer-jfxbutton" text="About Us" textFill="#468c82">
+            <JFXButton fx:id="aboutus_jfxbutton" accessibleText="about_us" layoutX="10.0" layoutY="74.0" maxWidth="1.7976931348623157E308" prefHeight="64.0" styleClass="drawer-jfxbutton" text="About Us" textFill="#468c82">
                <font>
                   <Font name="Hack Bold" size="24.0" />
                </font>

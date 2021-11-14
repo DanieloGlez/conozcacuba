@@ -1,17 +1,23 @@
 package service.functionality;
 
 import dto.functionality.UserDto;
+import service.Service;
 import service.ServicesLocator;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UserServices {
+public class UserServices implements Service<UserDto> {
     private UserDto activeUser;
 
     public UserDto getActiveUser() {
         return activeUser;
+    }
+
+    @Override
+    public Class<UserDto> getGenericType() {
+        return UserDto.class;
     }
 
     public List<UserDto> getAll() throws SQLException {

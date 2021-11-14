@@ -4,6 +4,9 @@
     -fx-border-radius: 5px;
     -fx-text-fill: #468c82;
     -fx-border-color: #468c82;
+    -fx-font-family: Hack;
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
 }
 
 .jfx-button:hover {
