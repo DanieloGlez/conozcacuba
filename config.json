@@ -1,0 +1,16 @@
+{
+  "hosts": {
+    "localhost": {
+      "server": "localhost",
+      "database": "tpp_db",
+      "user": "postgres",
+      "password": "postgres"
+    },
+    "remotehost": {
+      "server": "ec2-44-194-6-121.compute-1.amazonaws.com",
+      "database": "dho189ncehplp",
+      "user": "vxwdrwradnlahk",
+      "password": "5adc174d3fe736cfede769fad13ef3ddef00ff512a583d37784bb942035ea661"
+    }
+  }
+}

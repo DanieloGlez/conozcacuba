@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="container_anchorpane" prefHeight="250.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.LoginMenu">
+   <children>
+      <JFXButton fx:id="signup_jfxbutton" disable="true" layoutX="299.0" layoutY="140.0" onAction="#login" prefHeight="34.0" prefWidth="175.0" stylesheets="@../assets/css/global.css" text="Sign up" textFill="#468c82" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="14.0">
+         <font>
+            <Font name="Hack Regular" size="16.0" />
+         </font>
+      </JFXButton>
+      <JFXToggleButton fx:id="remotehost_jfxtogglebutton" layoutX="211.0" layoutY="101.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="175.0" size="7.5" text="Remote Host" />
+      <JFXButton fx:id="login_jfxbutton" contentDisplay="TEXT_ONLY" layoutX="14.0" layoutY="152.0" onAction="#login" prefWidth="175.0" stylesheets="@../assets/css/global.css" text="Login" textFill="#468c82" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="14.0">
+         <font>
+            <Font name="Hack Regular" size="16.0" />
+         </font>
+         <graphic>
+            <JFXSpinner minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="20.0" />
+         </graphic>
+      </JFXButton>
+      <JFXPasswordField fx:id="password_jfxpasswordfield" focusColor="#468c82" labelFloat="true" layoutX="211.0" layoutY="32.0" prefWidth="175.0" promptText="password" text="root" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="32.0">
+         <font>
+            <Font name="Hack Regular" size="13.0" />
+         </font>
+      </JFXPasswordField>
+      <JFXTextField fx:id="username_jfxtextfield" focusColor="#468c82" labelFloat="true" layoutX="14.0" layoutY="14.0" prefWidth="175.0" promptText="username" text="root" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="32.0">
+         <font>
+            <Font name="Hack Regular" size="13.0" />
+         </font>
+      </JFXTextField>
+      <Label fx:id="errormessage_label" layoutX="14.0" layoutY="95.0" prefHeight="60.0" prefWidth="175.0" textFill="RED" visible="false" wrapText="true" AnchorPane.leftAnchor="14.0">
+         <font>
+            <Font name="Hack Regular" size="13.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
