@@ -1,14 +1,14 @@
 package service.functionality;
 
 import dto.functionality.UserDto;
-import service.Service;
+import service.Services;
 import service.ServicesLocator;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UserServices implements Service<UserDto> {
+public class UserServices implements Services<UserDto> {
     private UserDto activeUser;
 
     public UserDto getActiveUser() {
@@ -16,11 +16,11 @@ public class UserServices implements Service<UserDto> {
     }
 
     @Override
-    public Class<UserDto> getGenericType() {
-        return UserDto.class;
+    public UserDto load(String id) throws SQLException {
+        return null;
     }
 
-    public List<UserDto> getAll() throws SQLException {
+    public List<UserDto> loadAll() throws SQLException {
         List<UserDto> users = new LinkedList<>();
 
         Connection connection = ServicesLocator.getConnection();
@@ -41,5 +41,25 @@ public class UserServices implements Service<UserDto> {
         }
 
         return users;
+    }
+
+    @Override
+    public void insert(UserDto dto) throws SQLException {
+
+    }
+
+    @Override
+    public void update(UserDto dto) throws SQLException {
+
+    }
+
+    @Override
+    public void delete(String id) throws SQLException {
+
+    }
+
+    @Override
+    public String getGenericType() {
+        return UserDto.class.getSimpleName();
     }
 }

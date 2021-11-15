@@ -85,7 +85,7 @@ public class LoginMenu implements Initializable {
                 List<UserDto> users = null;
 
                 try {
-                    users = ServicesLocator.getUserServices().getAll();
+                    users = ServicesLocator.getUserServices().loadAll();
                 } catch (SQLException e) {
                     UserInterfaceUtils.showTemporaryLabel(errormessage_label, "Unknown error", Color.RED, 5);
                 }
