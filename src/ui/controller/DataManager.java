@@ -1,5 +1,6 @@
 package ui.controller;
 
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
@@ -8,8 +9,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
+import service.ServicesLocator;
+import util.ConstantUtils;
 
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 public class DataManager implements Initializable {
@@ -34,7 +41,13 @@ public class DataManager implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initializeTablesJfxListView();
+        try {
+            initializeTablesJfxListView();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -52,43 +65,39 @@ public class DataManager implements Initializable {
 
     }
 
-    void initializeTablesJfxListView() {
+    void initializeTablesJfxListView() throws SQLException, ClassNotFoundException {
         fillTablesJfxListView();
         tables_jfxlistview.setOnMouseClicked(event -> {
             JFXListCell<?> jfxListCell = (JFXListCell<?>) event.getTarget();
             String tableName = jfxListCell.getText();
-            showContentInDataManagerJfxTreeTableView(tableName);
+            try {
+                showContentInDataManagerJfxTreeTableView(tableName);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         });
     }
 
-    void fillTablesJfxListView() {
-        tables_jfxlistview.getItems().addAll(
-                "CompanyService",
-                "CompanyTransport",
-                "ContractHotel",
-                "ContractService",
-                "ContractTransport",
-                "DailyActivity",
-                "FoodPlan",
-                "Hotel",
-                "HotelFranchise",
-                "Localization",
-                "ModalityCommercial",
-                "ModalityTransport",
-                "ModalityTransportHrKm",
-                "ModalityTransportKm",
-                "ModalityTransportRt",
-                "User"
-        );
+
+
+    void fillTablesJfxListView() throws SQLException, ClassNotFoundException {
+
+        tables_jfxlistview.getItems().addAll(ConstantUtils.getTableName());
+
     }
 
-    void showContentInDataManagerJfxTreeTableView(String tableName) {
+    void showContentInDataManagerJfxTreeTableView(String tableName) throws SQLException, ClassNotFoundException {
         String dtoClassName = tableName + "Dto";
 
         switch (dtoClassName) {
             case "UserDto":
                 // TODO implement a base case as example for the rest of cases
                 System.out.println("Showing " + tableName + " table");
+
+
+
                 break;
 
             default:
@@ -96,5 +105,8 @@ public class DataManager implements Initializable {
                 break;
         }
     }
+
+
+
 }
 

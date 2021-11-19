@@ -1,5 +1,6 @@
 package service;
 
+import service.functionality.ServicesCombo;
 import service.functionality.UserServices;
 import util.ConfigurationUtils;
 import util.DatabaseUtils;
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 
 public class ServicesLocator {
     private static UserServices userServices;
+    private static ServicesCombo servicesCombo;
 
     // Connection
     public static Connection getConnection() throws SQLException {
@@ -26,5 +28,12 @@ public class ServicesLocator {
             userServices = new UserServices();
 
         return userServices;
+    }
+
+
+    public static ServicesCombo getServicesCombo(){
+        if(servicesCombo==null)
+            servicesCombo=new ServicesCombo();
+        return servicesCombo;
     }
 }
