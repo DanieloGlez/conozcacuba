@@ -3,14 +3,16 @@ package service;
 import service.functionality.ServicesCombo;
 import service.functionality.UserServices;
 import util.ConfigurationUtils;
+import util.ConstantUtils;
 import util.DatabaseUtils;
 
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class ServicesLocator {
     private static UserServices userServices;
-    private static ServicesCombo servicesCombo;
+    private static DailyActivityServices dailyActivityServices;
 
     // Connection
     public static Connection getConnection() throws SQLException {
@@ -30,10 +32,19 @@ public class ServicesLocator {
         return userServices;
     }
 
+    public static DailyActivityServices getDailyActivityServices() {
+        if(dailyActivityServices == null)
+            dailyActivityServices = new DailyActivityServices();
 
-    public static ServicesCombo getServicesCombo(){
-        if(servicesCombo==null)
-            servicesCombo=new ServicesCombo();
-        return servicesCombo;
+        return dailyActivityServices;
     }
+
+    // Utils
+    /*public static Services<?> getServicesByName(String servicesName) {
+        Class dtoClass = ConstantUtils.getTableNames().get(servicesName);
+
+        for (Method method : dtoClass.getMethods()) {
+
+        }
+    }*/
 }
