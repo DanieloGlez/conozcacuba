@@ -3,6 +3,7 @@ package dto;
 import dto.nomenclators.VehicleBrandDto;
 
 import java.time.Year;
+import java.util.Date;
 
 public class VehicleDto {
     private String id;
@@ -10,16 +11,16 @@ public class VehicleDto {
     private int capacityWithoutBaggage;
     private int capacityWithBaggage;
     private int capacityTotal;
-    private Year productionYear;
+    private Date productionDate;
 
     // Constructors
-    public VehicleDto(String id, VehicleBrandDto brand, int capacityWithoutBaggage, int capacityWithBaggage, int capacityTotal, Year productionYear) {
+    public VehicleDto(String id, VehicleBrandDto brand, int capacityWithoutBaggage, int capacityWithBaggage, int capacityTotal, Date productionDate) {
         this.id = id;
         this.brand = brand;
         this.capacityWithoutBaggage = capacityWithoutBaggage;
         this.capacityWithBaggage = capacityWithBaggage;
         this.capacityTotal = capacityTotal;
-        this.productionYear = productionYear;
+        this.productionDate = productionDate;
     }
 
     // Getters & Setters
@@ -56,18 +57,18 @@ public class VehicleDto {
     }
 
     public int getCapacityTotal() {
-        return capacityTotal;
+        return getCapacityWithBaggage()+getCapacityWithoutBaggage();
     }
 
     public void setCapacityTotal(int capacityTotal) {
         this.capacityTotal = capacityTotal;
     }
 
-    public Year getProductionYear() {
-        return productionYear;
+    public Date getProductionDate() {
+        return productionDate;
     }
 
-    public void setProductionYear(Year productionYear) {
-        this.productionYear = productionYear;
+    public void setProductionDate(Date productionDate) {
+        this.productionDate = productionDate;
     }
 }

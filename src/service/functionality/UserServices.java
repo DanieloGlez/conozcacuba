@@ -16,7 +16,7 @@ public class UserServices implements Services<UserDto> {
     }
 
     @Override
-    public UserDto load(String id) throws SQLException {
+    public UserDto load(int id) throws SQLException {
         return null;
     }
 
@@ -54,7 +54,7 @@ public class UserServices implements Services<UserDto> {
     }
 
     @Override
-    public void delete(String id) throws SQLException {
+    public void delete(int id) throws SQLException {
 
     }
 

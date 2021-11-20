@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.modals.VehicleModal">
+   <children>
+      <VBox layoutX="207.0" layoutY="14.0" prefHeight="325.0" prefWidth="179.0" AnchorPane.leftAnchor="207.0" AnchorPane.rightAnchor="214.0">
+         <children>
+            <Label text="ID Vehicle">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="tf_vehicle_id" prefHeight="25.0" prefWidth="433.0" />
+            <Label fx:id="errormessage_label" text="Label" visible="false" />
+            <Label text="Capacity With Bagage">
+               <opaqueInsets>
+                  <Insets top="20.0" />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="tf_capacity_with_bagage" />
+            <Label text="Capacity Without Bagage">
+               <opaqueInsets>
+                  <Insets top="20.0" />
+               </opaqueInsets>
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Label>
+            <JFXTextField fx:id="tf_capacity_without_bagage" />
+            <Label text="Production Date">
+               <opaqueInsets>
+                  <Insets top="20.0" />
+               </opaqueInsets>
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Label>
+            <JFXDatePicker fx:id="dp_production_date" />
+            <Label text="Vehicle Brand">
+               <opaqueInsets>
+                  <Insets top="20.0" />
+               </opaqueInsets>
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Label>
+            <JFXComboBox fx:id="cb_vehicle_brand" prefHeight="25.0" prefWidth="188.0" />
+         </children>
+      </VBox>
+      <HBox layoutX="207.0" layoutY="339.0" prefHeight="32.0" prefWidth="179.0">
+         <children>
+            <JFXButton fx:id="btn_insert_vehicle" onAction="#insertVehicle" text="Insert" />
+            <JFXButton fx:id="btn_cancel" onAction="#cancelInsertion" text="Cancel">
+               <HBox.margin>
+                  <Insets left="80.0" />
+               </HBox.margin>
+            </JFXButton>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

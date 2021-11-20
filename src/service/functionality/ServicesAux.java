@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ServicesCombo implements Services<ComboBoxDto> {
+public class ServicesAux implements Services<ComboBoxDto> {
 
 
     //Este método ejecuta una función creada en el postgres
@@ -34,7 +34,7 @@ public class ServicesCombo implements Services<ComboBoxDto> {
     }
 
     @Override
-    public ComboBoxDto load(String id) throws SQLException {
+    public ComboBoxDto load(int id) throws SQLException {
         return null;
     }
 
@@ -55,7 +55,7 @@ public class ServicesCombo implements Services<ComboBoxDto> {
     }
 
     @Override
-    public void delete(String id) throws SQLException {
+    public void delete(int id) throws SQLException {
 
     }
 
