@@ -1,12 +1,14 @@
 package dto.functionality;
 
-public class UserDto {
+import dto.Dto;
+
+public class UserDto implements Dto {
     private String username;
     private String password;
-    private boolean isAdmin;
+    private Boolean isAdmin;
 
     // Constructors
-    public UserDto(String username, String password, boolean isAdmin) {
+    public UserDto(String username, String password, Boolean isAdmin) {
         this.username = username;
         this.password = password;
         this.isAdmin = isAdmin;
@@ -29,11 +31,11 @@ public class UserDto {
         this.password = password;
     }
 
-    public boolean isAdmin() {
+    public Boolean isAdmin() {
         return isAdmin;
     }
 
-    public void setAdmin(boolean admin) {
+    public void setAdmin(Boolean admin) {
         isAdmin = admin;
     }
 }

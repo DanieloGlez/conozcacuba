@@ -11,6 +11,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/ui/view/login_menu.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
+        System.out.println(true);
         primaryStage.setTitle("Touristic Packages Planning");
         primaryStage.setScene(scene);
         primaryStage.show();
