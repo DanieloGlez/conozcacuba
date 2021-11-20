@@ -1,6 +1,6 @@
 package service.nomenclators;
 
-import dto.nomenclators.HotelFranchiseDto;
+import dto.nomenclators.ProvinceDto;
 import dto.nomenclators.ServiceTypeDto;
 import service.Services;
 import service.ServicesLocator;
@@ -9,46 +9,46 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class HotelFranchiseServices implements Services<HotelFranchiseDto> {
+public class ProvinceServices implements Services<ProvinceDto> {
     @Override
-    public HotelFranchiseDto load(int id) throws SQLException {
+    public ProvinceDto load(int id) throws SQLException {
         return null;
     }
 
     @Override
-    public List<HotelFranchiseDto> loadAll() throws SQLException {
-        List<HotelFranchiseDto> hotelFranchiseDtos = new LinkedList<>();
+    public List<ProvinceDto> loadAll() throws SQLException {
+        List<ProvinceDto> provinceDtos = new LinkedList<>();
 
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
 
-        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_hotel_franchise_load()}");
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_province_load()}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
 
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
 
         while (resultSet.next()) {
-            hotelFranchiseDtos.add(new HotelFranchiseDto(
-                    resultSet.getInt("id_hotel_franchise"),
+            provinceDtos.add(new ProvinceDto(
+                    resultSet.getInt("id_province"),
                     resultSet.getString("name")
             ));
         }
 
-        return hotelFranchiseDtos;
+        return provinceDtos;
     }
 
     @Override
-    public void insert(HotelFranchiseDto dto) throws SQLException {
+    public void insert(ProvinceDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_hotel_franchise_insert(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_province_insert(?)}");
         callableStatement.setString("name", dto.getName());
         callableStatement.execute();
     }
 
     @Override
-    public void update(HotelFranchiseDto dto) throws SQLException {
+    public void update(ProvinceDto dto) throws SQLException {
 
     }
 
