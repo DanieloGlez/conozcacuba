@@ -12,8 +12,7 @@ public class VehicleServices implements Services<VehicleDto> {
     public VehicleDto load(int id) throws SQLException {
         return null;
     }
-
-
+    
     @Override
     public List<VehicleDto> loadAll() throws SQLException {
         List<VehicleDto> vehicles = new LinkedList<>();
@@ -39,7 +38,6 @@ public class VehicleServices implements Services<VehicleDto> {
         }
 
         return vehicles;
-
     }
 
     @Override

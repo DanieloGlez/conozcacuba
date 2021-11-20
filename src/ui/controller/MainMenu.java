@@ -67,7 +67,7 @@ public class MainMenu implements Initializable {
                         dynamiccontainer_anchorpane.getChildren().clear();
 
                         try {
-                            dynamiccontainer_anchorpane.getChildren().add(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/ui/view/data_manager.fxml"))));
+                            dynamiccontainer_anchorpane.getChildren().add(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/ui/view/datamanager/data_manager.fxml"))));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

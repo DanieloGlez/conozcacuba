@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.modals.VehicleModal">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.modalsController.VehicleModal">
    <children>
       <VBox layoutX="207.0" layoutY="14.0" prefHeight="325.0" prefWidth="179.0" AnchorPane.leftAnchor="207.0" AnchorPane.rightAnchor="214.0">
          <children>
