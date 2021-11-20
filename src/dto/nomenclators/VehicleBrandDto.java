@@ -2,7 +2,7 @@ package dto.nomenclators;
 
 public class VehicleBrandDto extends NomenclatorDto {
     // Constructors
-    public VehicleBrandDto(String id, String name) {
+    public VehicleBrandDto(int id, String name) {
         super(id, name);
     }
 }

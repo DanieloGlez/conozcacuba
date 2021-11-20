@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ServicesAux implements Services<ComboBoxDto> {
+public class ServicesCombo implements Services<ComboBoxDto> {
 
 
     //Este método ejecuta una función creada en el postgres

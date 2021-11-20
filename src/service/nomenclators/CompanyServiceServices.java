@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CompanyServiceServices implements Services<CompanyServiceDto> {
     @Override
-    public CompanyServiceDto load(String id) throws SQLException {
+    public CompanyServiceDto load(int id) throws SQLException {
         return null;
     }
 
@@ -30,7 +30,7 @@ public class CompanyServiceServices implements Services<CompanyServiceDto> {
 
         while (resultSet.next()) {
             companiesService.add(new CompanyServiceDto(
-                    resultSet.getString("id_company_service"),
+                    resultSet.getInt("id_company_service"),
                     resultSet.getString("name")
             ));
         }
@@ -49,7 +49,7 @@ public class CompanyServiceServices implements Services<CompanyServiceDto> {
     }
 
     @Override
-    public void delete(String id) throws SQLException {
+    public void delete(int id) throws SQLException {
 
     }
 

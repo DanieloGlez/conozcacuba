@@ -2,7 +2,7 @@ package dto.nomenclators;
 
 public class CompanyServiceDto extends NomenclatorDto {
     // Constructors
-    public CompanyServiceDto(String id, String name) {
+    public CompanyServiceDto(int id, String name) {
         super(id, name);
     }
 }

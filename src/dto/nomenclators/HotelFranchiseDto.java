@@ -2,7 +2,7 @@ package dto.nomenclators;
 
 public class HotelFranchiseDto extends NomenclatorDto {
     // Constructors
-    public HotelFranchiseDto(String id, String name) {
+    public HotelFranchiseDto(int id, String name) {
         super(id, name);
     }
 }

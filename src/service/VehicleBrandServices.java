@@ -1,6 +1,6 @@
 package service;
 
-import dto.VehicleBrandDto;
+import dto.nomenclators.VehicleBrandDto;
 
 import java.sql.*;
 import java.util.List;
@@ -23,7 +23,7 @@ public class VehicleBrandServices implements Services<VehicleBrandDto>{
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
 
-        VehicleBrandDto vehicleBrandDto=new VehicleBrandDto(String.valueOf(resultSet.getInt("id_vehicle_brand")), resultSet.getString("name"));
+        VehicleBrandDto vehicleBrandDto=new VehicleBrandDto(resultSet.getInt("id_vehicle_brand"), resultSet.getString("name"));
 
         return vehicleBrandDto;
     }

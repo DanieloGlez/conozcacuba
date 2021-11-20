@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
+import util.UserInterfaceUtils;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
@@ -117,7 +118,7 @@ public class VehicleModal implements Initializable {
                 try {
                     vehicles = ServicesLocator.getVehicleServices().loadAll();
                 } catch (SQLException e) {
-                    UserInterfaceUtils.showTemporaryLabel(errormessage_label, "Unknown error", Color.RED, 5);
+                    util.UserInterfaceUtils.showTemporaryLabel(errormessage_label, "Unknown error", Color.RED, 5);
                 }
 
                 // Search the input vehicle inside the vehicles list
@@ -143,14 +144,15 @@ public class VehicleModal implements Initializable {
                 VehicleDto vehicleDto = checkVehicleExistenceTask.get();
 
                 if(vehicleDto == null) {
-                    VehicleServices vehicleServices=new VehicleServices();
+                    VehicleServices vehicleServices=ServicesLocator.getVehicleServices();
                     vehicleServices.insert(vehicleDto);
-                } else {
+                } else
                     UserInterfaceUtils.showTemporaryLabel(errormessage_label, "Vehicle already exist", Color.RED, 5);
-                }
-            } catch (InterruptedException | ExecutionException | IOException | SQLException e) {
+
+            } catch (InterruptedException | ExecutionException | SQLException e) {
                 e.printStackTrace();
             }
+
 
 
         });

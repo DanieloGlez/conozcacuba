@@ -8,7 +8,7 @@ import java.util.List;
 
 public class HotelFranchiseServices implements Services<HotelFranchiseDto> {
     @Override
-    public HotelFranchiseDto load(String id) throws SQLException {
+    public HotelFranchiseDto load(int id) throws SQLException {
         return null;
     }
 
@@ -28,7 +28,7 @@ public class HotelFranchiseServices implements Services<HotelFranchiseDto> {
     }
 
     @Override
-    public void delete(String id) throws SQLException {
+    public void delete(int id) throws SQLException {
 
     }
 

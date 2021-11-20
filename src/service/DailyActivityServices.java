@@ -9,7 +9,7 @@ import java.util.List;
 
 public class DailyActivityServices implements Services<DailyActivityDto> {
     @Override
-    public DailyActivityDto load(String id) throws SQLException {
+    public DailyActivityDto load(int id) throws SQLException {
         return null;
     }
 
@@ -29,7 +29,7 @@ public class DailyActivityServices implements Services<DailyActivityDto> {
     }
 
     @Override
-    public void delete(String id) throws SQLException {
+    public void delete(int id) throws SQLException {
 
     }
 

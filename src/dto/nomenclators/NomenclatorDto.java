@@ -1,21 +1,21 @@
 package dto.nomenclators;
 
 public abstract class NomenclatorDto {
-    protected String id;
+    protected int id;
     protected String name;
 
     // Constructors
-    public NomenclatorDto(String id, String name) {
+    public NomenclatorDto(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
     // Getters & Setters
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -34,7 +34,7 @@ public abstract class NomenclatorDto {
 
         if (this.getClass() == obj.getClass()) {
             NomenclatorDto nomenclatorDto = (NomenclatorDto) obj;
-            areEquals = id.equals(nomenclatorDto.id) && name.equals(nomenclatorDto.name);
+            areEquals = id==nomenclatorDto.id && name.equals(nomenclatorDto.name);
         }
 
         return areEquals;

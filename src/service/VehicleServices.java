@@ -1,14 +1,11 @@
 package service;
 
-import com.sun.org.apache.xerces.internal.impl.dv.xs.YearDV;
-import dto.VehicleBrandDto;
 import dto.VehicleDto;
+import dto.nomenclators.VehicleBrandDto;
 
 import java.sql.*;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.time.Year;
 
 public class VehicleServices implements Services<VehicleDto> {
     @Override
@@ -20,7 +17,7 @@ public class VehicleServices implements Services<VehicleDto> {
     @Override
     public List<VehicleDto> loadAll() throws SQLException {
         List<VehicleDto> vehicles = new LinkedList<>();
-        VehicleBrandServices vehicleBrandServices = new VehicleBrandServices();
+        VehicleBrandServices vehicleBrandServices = ServicesLocator.getVehicleBrandServices();
 
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
@@ -35,7 +32,7 @@ public class VehicleServices implements Services<VehicleDto> {
             vehicles.add(new VehicleDto(
                     resultSet.getString("id_vehicle"),
                     vehicleBrandServices.load(resultSet.getInt("id_vehicle_brand"))
-                    , resultSet.getInt("capacity_without_baggage"),
+                    ,resultSet.getInt("capacity_without_baggage"),
                     resultSet.getInt("capacity_with_baggage"),
                     resultSet.getInt("capacity_total"),
                     resultSet.getDate("production_date")
@@ -59,7 +56,7 @@ public class VehicleServices implements Services<VehicleDto> {
         callableStatement.setInt("capacity_with_bagge",dto.getCapacityWithBaggage());
         callableStatement.setInt("capacity_total",dto.getCapacityTotal());
         callableStatement.setDate("production_date", (java.sql.Date) dto.getProductionDate());
-        callableStatement.setInt("id_vehicle_brand",Integer.parseInt(dto.getBrand().getIdBrand()));
+        callableStatement.setInt("id_vehicle_brand",dto.getBrand().getId());
         callableStatement.execute();
     }
 
