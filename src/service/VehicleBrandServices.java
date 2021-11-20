@@ -5,26 +5,20 @@ import dto.nomenclators.VehicleBrandDto;
 import java.sql.*;
 import java.util.List;
 
-public class VehicleBrandServices implements Services<VehicleBrandDto>{
-
-
+public class VehicleBrandServices implements Services<VehicleBrandDto> {
 
 
     @Override
-    public VehicleBrandDto load(int id) throws SQLException {
-
+    public VehicleBrandDto load(int id_vehicle_brand) throws SQLException {
+        VehicleBrandDto vehicleBrandDto;
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-
-        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_vehicle_brand_load_by_id(?)}");
-        callableStatement.registerOutParameter(1, Types.OTHER);
-        callableStatement.setInt("id_vehicle_brand",id);
-
+        CallableStatement callableStatement = connection.prepareCall("{?=call tpp.n_vehicle_brand_load_by_id(?)}");
+        callableStatement.registerOutParameter(1, Types.VARCHAR);
+        callableStatement.setInt(2, id_vehicle_brand);
         callableStatement.execute();
-        ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
 
-        VehicleBrandDto vehicleBrandDto=new VehicleBrandDto(resultSet.getInt("id_vehicle_brand"), resultSet.getString("name"));
-
+        vehicleBrandDto = new VehicleBrandDto(1, (String) callableStatement.getObject(1));
         return vehicleBrandDto;
     }
 

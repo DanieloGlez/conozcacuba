@@ -26,27 +26,28 @@ public class ServicesLocator {
 
     // Services
     public static UserServices getUserServices() {
-        if(userServices == null)
+        if (userServices == null)
             userServices = new UserServices();
 
         return userServices;
     }
-public static VehicleServices getVehicleServices() {
-        if(vehicleServices == null)
+
+    public static VehicleServices getVehicleServices() {
+        if (vehicleServices == null)
             vehicleServices = new VehicleServices();
 
         return vehicleServices;
     }
 
 
-    public static ServicesCombo getServicesCombo(){
-        if(servicesCombo==null)
-            servicesCombo=new ServicesCombo();
+    public static ServicesCombo getServicesCombo() {
+        if (servicesCombo == null)
+            servicesCombo = new ServicesCombo();
         return servicesCombo;
     }
 
     public static VehicleBrandServices getVehicleBrandServices() {
-        if(vehicleBrandServices == null)
+        if (vehicleBrandServices == null)
             vehicleBrandServices = new VehicleBrandServices();
 
         return vehicleBrandServices;

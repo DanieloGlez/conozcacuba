@@ -75,12 +75,7 @@ public class VehicleModal implements Initializable {
 
     }
 
-   /* @FXML
-    void initialize() {
-        assert btn_insert_vehicle != null : "fx:id=\"btn_insert_vehicle\" was not injected: check your FXML file 'vehicle_modal.fxml'.";
-        assert btn_cancel != null : "fx:id=\"btn_cancel\" was not injected: check your FXML file 'vehicle_modal.fxml'.";
 
-    }*/
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
