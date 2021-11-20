@@ -1,7 +1,7 @@
 package service;
 
 import service.functionality.UserServices;
-import service.nomenclators.ServiceTypeServices;
+import service.nomenclators.*;
 import util.ConfigurationUtils;
 import util.DatabaseUtils;
 
@@ -9,6 +9,15 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class ServicesLocator {
+    private static CompanyServiceServices companyServiceServices;
+    private static CompanyTransportServices companyTransportServices;
+    private static ContractTypeServices contractTypeServices;
+    private static FoodPlanServices foodPlanServices;
+    private static HotelFranchiseServices hotelFranchiseServices;
+    private static LocalizationServices localizationServices;
+    private static ModalityComertialServices modalityComertialServices;
+    private static ProvinceServices provinceServices;
+    private static RoomTypeServices roomTypeServices;
     private static UserServices userServices;
     private static VehicleServices vehicleServices;
     private static VehicleBrandServices vehicleBrandServices;
@@ -25,6 +34,68 @@ public class ServicesLocator {
     }
 
     // Services
+    public static CompanyServiceServices getCompanyServiceServices() {
+        if (companyServiceServices == null)
+            companyServiceServices = new CompanyServiceServices();
+
+        return companyServiceServices;
+    }
+
+    public static CompanyTransportServices getCompanyTransportServices() {
+        if (companyTransportServices == null)
+            companyTransportServices = new CompanyTransportServices();
+
+        return companyTransportServices;
+    }
+
+    public static ContractTypeServices getContractTypeServices() {
+        if (contractTypeServices == null)
+            contractTypeServices = new ContractTypeServices();
+
+        return contractTypeServices;
+    }
+    public static FoodPlanServices getFoodPlanServices() {
+        if (foodPlanServices == null)
+            foodPlanServices = new FoodPlanServices();
+
+        return foodPlanServices;
+    }
+
+    public static HotelFranchiseServices getHotelFranchiseServices() {
+        if (hotelFranchiseServices == null)
+            hotelFranchiseServices = new HotelFranchiseServices();
+
+        return hotelFranchiseServices;
+    }
+
+    public static LocalizationServices getLocalizationServices() {
+        if (localizationServices == null)
+            localizationServices = new LocalizationServices();
+
+        return localizationServices;
+    }
+
+    public static ModalityComertialServices getModalityComertialServices() {
+        if (modalityComertialServices == null)
+            modalityComertialServices = new ModalityComertialServices();
+
+        return modalityComertialServices;
+    }
+
+    public static ProvinceServices getProvinceServices() {
+        if (provinceServices == null)
+            provinceServices = new ProvinceServices();
+
+        return provinceServices;
+    }
+
+    public static RoomTypeServices getRoomTypeServices() {
+        if (roomTypeServices == null)
+            roomTypeServices = new RoomTypeServices();
+
+        return roomTypeServices;
+    }
+
     public static UserServices getUserServices() {
         if (userServices == null)
             userServices = new UserServices();
