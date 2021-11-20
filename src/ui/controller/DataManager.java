@@ -4,6 +4,7 @@ package ui.controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
+import dto.nomenclators.NomenclatorDto;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -122,6 +123,10 @@ public class DataManager implements Initializable {
 
     List<TableColumn> getColumnsFromClass(Class dtoClass) {
         List<TableColumn> tableColumns = new LinkedList<>();
+
+        // Avoid blank content in nomenclator table
+        if(dtoClass.getSuperclass().equals(NomenclatorDto.class))
+            dtoClass = dtoClass.getSuperclass();
 
         for (Field declaredField : dtoClass.getDeclaredFields()) {
             String declaredFieldName = declaredField.getName();
