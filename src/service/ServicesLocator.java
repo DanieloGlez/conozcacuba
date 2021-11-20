@@ -1,8 +1,7 @@
 package service;
 
-import service.functionality.ServicesCombo;
 import service.functionality.UserServices;
-import service.nomenclators.ServicesTypesService;
+import service.nomenclators.ServiceTypeServices;
 import util.ConfigurationUtils;
 import util.DatabaseUtils;
 
@@ -13,7 +12,7 @@ public class ServicesLocator {
     private static UserServices userServices;
     private static VehicleServices vehicleServices;
     private static VehicleBrandServices vehicleBrandServices;
-    private static ServicesTypesService servicesTypesService;
+    private static ServiceTypeServices serviceTypeServices;
 
     // Connection
     public static Connection getConnection() throws SQLException {
@@ -47,10 +46,10 @@ public class ServicesLocator {
         return vehicleBrandServices;
     }
 
-    public static ServicesTypesService getServicesTypesService() {
-        if (servicesTypesService == null)
-            servicesTypesService = new ServicesTypesService();
+    public static ServiceTypeServices getServiceTypeServices() {
+        if (serviceTypeServices == null)
+            serviceTypeServices = new ServiceTypeServices();
 
-        return servicesTypesService;
+        return serviceTypeServices;
     }
 }

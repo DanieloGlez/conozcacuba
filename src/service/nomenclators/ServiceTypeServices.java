@@ -1,7 +1,6 @@
 package service.nomenclators;
 
-import dto.nomenclators.CompanyServiceDto;
-import dto.nomenclators.ServicesTypeDto;
+import dto.nomenclators.ServiceTypeDto;
 import service.Services;
 import service.ServicesLocator;
 
@@ -9,15 +8,15 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ServicesTypesService implements Services<ServicesTypeDto> {
+public class ServiceTypeServices implements Services<ServiceTypeDto> {
     @Override
-    public ServicesTypeDto load(int id) throws SQLException {
+    public ServiceTypeDto load(int id) throws SQLException {
         return null;
     }
 
     @Override
-    public List<ServicesTypeDto> loadAll() throws SQLException {
-        List<ServicesTypeDto> servicesTypeDtos = new LinkedList<>();
+    public List<ServiceTypeDto> loadAll() throws SQLException {
+        List<ServiceTypeDto> serviceTypeDtos = new LinkedList<>();
 
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
@@ -29,22 +28,22 @@ public class ServicesTypesService implements Services<ServicesTypeDto> {
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
 
         while (resultSet.next()) {
-            servicesTypeDtos.add(new ServicesTypeDto(
+            serviceTypeDtos.add(new ServiceTypeDto(
                     resultSet.getInt("id_service_type"),
                     resultSet.getString("name")
             ));
         }
 
-        return servicesTypeDtos;
+        return serviceTypeDtos;
     }
 
     @Override
-    public void insert(ServicesTypeDto dto) throws SQLException {
+    public void insert(ServiceTypeDto dto) throws SQLException {
 
     }
 
     @Override
-    public void update(ServicesTypeDto dto) throws SQLException {
+    public void update(ServiceTypeDto dto) throws SQLException {
 
     }
 

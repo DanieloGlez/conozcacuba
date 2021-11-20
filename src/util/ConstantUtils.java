@@ -39,6 +39,7 @@ public class ConstantUtils {
             LocalizationDto.class,
             ModalityCommercialDto.class,
             RoomTypeDto.class,
+            ServiceTypeDto.class,
             VehicleBrandDto.class
     );
 
