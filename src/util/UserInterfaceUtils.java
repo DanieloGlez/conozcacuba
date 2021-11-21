@@ -40,7 +40,6 @@ public class UserInterfaceUtils {
         Scene scene = new Scene(fxmlLoader.load());
         Stage modalStage = new Stage();
 
-        System.out.println(true);
         modalStage.setTitle("Touristic Packages Planning");
         modalStage.setScene(scene);
         modalStage.show();

@@ -61,10 +61,14 @@ public class DataManager implements Initializable {
     }
 
     @FXML
-    void insert(ActionEvent event) throws IOException {
-        String tableName="vehicle";
-        String urlFXML="/ui/view/datamanager/"+tableName.toLowerCase()+"_datamanager_form.fxml";
-        UserInterfaceUtils.createModalView(urlFXML);
+    void insert(ActionEvent event) {
+        String selectedTableName = tables_jfxlistview.getSelectionModel().getSelectedItem().toLowerCase();
+        System.out.println(selectedTableName);
+        try {
+            UserInterfaceUtils.createModalView("/ui/view/datamanager/" + selectedTableName + "_datamanager_form.fxml");
+        } catch (IOException e) {
+            System.out.println(selectedTableName + "is not a datamanager form fxml file");
+        }
     }
 
     @FXML

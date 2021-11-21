@@ -1,6 +1,5 @@
 package service;
 
-import dto.ContractDto;
 import dto.ContractServiceDto;
 
 import java.sql.*;

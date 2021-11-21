@@ -26,7 +26,6 @@ public class ConstantUtils {
             SeasonDto.class,
             TouristicPackageDto.class,
             VehicleDto.class,
-            VehicleHiredDto.class,
 
             // Functionality
             UserDto.class,
