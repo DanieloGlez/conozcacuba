@@ -1,4 +1,4 @@
-package dto.functionality;
+package dto.fun;
 
 public class ComboBoxDto{
     private String tableName;

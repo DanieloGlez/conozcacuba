@@ -1,6 +1,6 @@
-package service.nomenclators;
+package service.nom;
 
-import dto.nomenclators.HotelFranchiseDto;
+import dto.nom.HotelFranchiseDto;
 import service.Services;
 import service.ServicesLocator;
 

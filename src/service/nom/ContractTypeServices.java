@@ -1,52 +1,52 @@
-package service.nomenclators;
+package service.nom;
 
-import dto.nomenclators.FoodPlanDto;
+import dto.nom.ContractTypeDto;
 import service.Services;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FoodPlanServices implements Services<FoodPlanDto> {
+public class ContractTypeServices implements Services <ContractTypeDto> {
     @Override
-    public FoodPlanDto load(int id) throws SQLException {
+    public ContractTypeDto load(int id) throws SQLException {
         return null;
     }
 
     @Override
-    public List<FoodPlanDto> loadAll() throws SQLException {
-        List<FoodPlanDto> foodPlanDtos = new LinkedList<>();
+    public List<ContractTypeDto> loadAll() throws SQLException {
+        List<ContractTypeDto> contractTypeDtos = new LinkedList<>();
 
         Connection connection = service.ServicesLocator.getConnection();
         connection.setAutoCommit(false);
 
-        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_food_plan_load()}");
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_contract_type_load()}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
 
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
 
         while (resultSet.next()) {
-            foodPlanDtos.add(new FoodPlanDto(
-                    resultSet.getInt("id_food_plan"),
+            contractTypeDtos.add(new ContractTypeDto(
+                    resultSet.getInt("id_contract_type"),
                     resultSet.getString("name")
             ));
         }
 
-        return foodPlanDtos;
+        return contractTypeDtos;
     }
 
     @Override
-    public void insert(FoodPlanDto dto) throws SQLException {
+    public void insert(ContractTypeDto dto) throws SQLException {
         Connection connection = service.ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_food_plan_insert(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_contract_type_insert(?)}");
         callableStatement.setString("name", dto.getName());
         callableStatement.execute();
     }
 
     @Override
-    public void update(FoodPlanDto dto) throws SQLException {
+    public void update(ContractTypeDto dto) throws SQLException {
 
     }
 

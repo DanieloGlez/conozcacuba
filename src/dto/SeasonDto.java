@@ -11,10 +11,10 @@ public class SeasonDto {
     private String description;
 
     //References
-    private List<RoomPlanDto> roomPlans;
+    private List<RoomFoodPlanDto> roomPlans;
 
     // Constructors
-    public SeasonDto(String id, String name, Date startDate, Date finishDate, String description, List<RoomPlanDto> roomPlans) {
+    public SeasonDto(String id, String name, Date startDate, Date finishDate, String description, List<RoomFoodPlanDto> roomPlans) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
@@ -64,11 +64,11 @@ public class SeasonDto {
         this.description = description;
     }
 
-    public List<RoomPlanDto> getRoomPlans() {
+    public List<RoomFoodPlanDto> getRoomPlans() {
         return roomPlans;
     }
 
-    public void setRoomPlans(List<RoomPlanDto> roomPlans) {
+    public void setRoomPlans(List<RoomFoodPlanDto> roomPlans) {
         this.roomPlans = roomPlans;
     }
 }

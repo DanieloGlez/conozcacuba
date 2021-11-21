@@ -1,6 +1,6 @@
-package service.nomenclators;
+package service.nom;
 
-import dto.nomenclators.CompanyServiceDto;
+import dto.nom.CompanyServiceDto;
 import service.Services;
 
 import java.sql.*;

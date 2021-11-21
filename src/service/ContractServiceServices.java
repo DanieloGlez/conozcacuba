@@ -1,7 +1,6 @@
 package service;
 
 import dto.ContractServiceDto;
-import dto.functionality.UserDto;
 
 import java.sql.*;
 import java.util.LinkedList;

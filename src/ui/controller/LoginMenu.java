@@ -2,7 +2,7 @@ package ui.controller;
 
 import com.jfoenix.controls.*;
 import com.jfoenix.validation.RequiredFieldValidator;
-import dto.functionality.UserDto;
+import dto.fun.UserDto;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -1,6 +1,6 @@
 package dto;
 
-import dto.nomenclators.CompanyTransportDto;
+import dto.nom.CompanyTransportDto;
 
 import java.util.Date;
 import java.util.List;

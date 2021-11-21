@@ -1,8 +1,8 @@
 package util;
 
 import dto.*;
-import dto.functionality.*;
-import dto.nomenclators.*;
+import dto.fun.*;
+import dto.nom.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,7 +22,7 @@ public class ConstantUtils {
             ModalityTransportHrKmDto.class,
             ModalityTransportKmDto.class,
             ModalityTransportRtDto.class,
-            RoomPlanDto.class,
+            RoomFoodPlanDto.class,
             SeasonDto.class,
             TouristicPackageDto.class,
             VehicleDto.class,

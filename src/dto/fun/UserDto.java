@@ -1,4 +1,4 @@
-package dto.functionality;
+package dto.fun;
 
 import dto.Dto;
 

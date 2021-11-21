@@ -1,4 +1,4 @@
-package dto.nomenclators;
+package dto.nom;
 
 public class VehicleBrandDto extends NomenclatorDto {
     // Constructors

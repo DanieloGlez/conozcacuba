@@ -1,15 +1,15 @@
 package dto;
 
-import dto.nomenclators.FoodPlanDto;
-import dto.nomenclators.RoomTypeDto;
+import dto.nom.FoodPlanDto;
+import dto.nom.RoomTypeDto;
 
-public class RoomPlanDto {
+public class RoomFoodPlanDto {
     private RoomTypeDto roomType;
     private FoodPlanDto foodPlan;
     private float price;
 
     // Constructors
-    public RoomPlanDto(RoomTypeDto roomType, FoodPlanDto foodPlan, float price) {
+    public RoomFoodPlanDto(RoomTypeDto roomType, FoodPlanDto foodPlan, float price) {
         this.roomType = roomType;
         this.foodPlan = foodPlan;
         this.price = price;

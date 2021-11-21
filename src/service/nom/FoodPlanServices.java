@@ -1,52 +1,52 @@
-package service.nomenclators;
+package service.nom;
 
-import dto.nomenclators.CompanyTransportDto;
+import dto.nom.FoodPlanDto;
 import service.Services;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CompanyTransportServices implements Services<CompanyTransportDto> {
+public class FoodPlanServices implements Services<FoodPlanDto> {
     @Override
-    public CompanyTransportDto load(int id) throws SQLException {
+    public FoodPlanDto load(int id) throws SQLException {
         return null;
     }
 
     @Override
-    public List<CompanyTransportDto> loadAll() throws SQLException {
-        List<CompanyTransportDto> companyTransportDtos = new LinkedList<>();
+    public List<FoodPlanDto> loadAll() throws SQLException {
+        List<FoodPlanDto> foodPlanDtos = new LinkedList<>();
 
         Connection connection = service.ServicesLocator.getConnection();
         connection.setAutoCommit(false);
 
-        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_company_transport_load()}");
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_food_plan_load()}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
 
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
 
         while (resultSet.next()) {
-            companyTransportDtos.add(new CompanyTransportDto(
-                    resultSet.getInt("id_company_transport"),
+            foodPlanDtos.add(new FoodPlanDto(
+                    resultSet.getInt("id_food_plan"),
                     resultSet.getString("name")
             ));
         }
 
-        return companyTransportDtos;
+        return foodPlanDtos;
     }
 
     @Override
-    public void insert(CompanyTransportDto dto) throws SQLException {
+    public void insert(FoodPlanDto dto) throws SQLException {
         Connection connection = service.ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_company_transport_insert(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_food_plan_insert(?)}");
         callableStatement.setString("name", dto.getName());
         callableStatement.execute();
     }
 
     @Override
-    public void update(CompanyTransportDto dto) throws SQLException {
+    public void update(FoodPlanDto dto) throws SQLException {
 
     }
 

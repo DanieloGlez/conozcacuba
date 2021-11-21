@@ -1,7 +1,6 @@
 package service;
 
 import dto.VehicleDto;
-import dto.nomenclators.VehicleBrandDto;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -48,7 +47,7 @@ public class VehicleServices implements Services<VehicleDto> {
         callableStatement.setInt(2, dto.getCapacityWithoutBaggage());
         callableStatement.setInt(3, dto.getCapacityWithBaggage());
         callableStatement.setInt(4, dto.getCapacityTotal());
-        callableStatement.setDate(5, (Date) dto.toDate());
+        callableStatement.setDate(5, dto.toDate());
         callableStatement.setInt(6, dto.getBrand().getId());
         callableStatement.execute();
     }

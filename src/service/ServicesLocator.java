@@ -1,7 +1,7 @@
 package service;
 
-import service.functionality.UserServices;
-import service.nomenclators.*;
+import service.fun.UserServices;
+import service.nom.*;
 import util.ConfigurationUtils;
 import util.DatabaseUtils;
 

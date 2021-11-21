@@ -1,6 +1,6 @@
-package service.nomenclators;
+package service.nom;
 
-import dto.nomenclators.ModalityCommercialDto;
+import dto.nom.ProvinceDto;
 import service.Services;
 import service.ServicesLocator;
 
@@ -8,46 +8,46 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ModalityComertialServices implements Services<ModalityCommercialDto> {
+public class ProvinceServices implements Services<ProvinceDto> {
     @Override
-    public ModalityCommercialDto load(int id) throws SQLException {
+    public ProvinceDto load(int id) throws SQLException {
         return null;
     }
 
     @Override
-    public List<ModalityCommercialDto> loadAll() throws SQLException {
-        List<ModalityCommercialDto> modalityCommercialDtos = new LinkedList<>();
+    public List<ProvinceDto> loadAll() throws SQLException {
+        List<ProvinceDto> provinceDtos = new LinkedList<>();
 
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
 
-        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_modality_hotel_comertial_load()}");
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_province_load()}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
 
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
 
         while (resultSet.next()) {
-            modalityCommercialDtos.add(new ModalityCommercialDto(
-                    resultSet.getInt("id_modality_hotel_comertial"),
+            provinceDtos.add(new ProvinceDto(
+                    resultSet.getInt("id_province"),
                     resultSet.getString("name")
             ));
         }
 
-        return modalityCommercialDtos;
+        return provinceDtos;
     }
 
     @Override
-    public void insert(ModalityCommercialDto dto) throws SQLException {
+    public void insert(ProvinceDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_modality_hotel_comertial_insert(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_province_insert(?)}");
         callableStatement.setString("name", dto.getName());
         callableStatement.execute();
     }
 
     @Override
-    public void update(ModalityCommercialDto dto) throws SQLException {
+    public void update(ProvinceDto dto) throws SQLException {
 
     }
 

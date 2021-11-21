@@ -1,4 +1,4 @@
-package dto.nomenclators;
+package dto.nom;
 
 public class RoomTypeDto extends NomenclatorDto {
     // Constructors

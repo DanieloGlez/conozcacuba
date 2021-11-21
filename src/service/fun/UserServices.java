@@ -1,6 +1,6 @@
-package service.functionality;
+package service.fun;
 
-import dto.functionality.UserDto;
+import dto.fun.UserDto;
 import service.Services;
 
 import java.sql.*;

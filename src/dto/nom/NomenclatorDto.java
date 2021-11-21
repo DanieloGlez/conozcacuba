@@ -1,4 +1,4 @@
-package dto.nomenclators;
+package dto.nom;
 
 public abstract class NomenclatorDto {
     protected int id;

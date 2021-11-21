@@ -1,6 +1,6 @@
 package dto;
 
-import dto.nomenclators.*;
+import dto.nom.*;
 
 import java.util.List;
 

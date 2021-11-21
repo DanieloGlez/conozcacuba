@@ -1,6 +1,6 @@
-package service.functionality;
+package service.fun;
 
-import dto.functionality.ComboBoxDto;
+import dto.fun.ComboBoxDto;
 import service.Services;
 
 import java.sql.CallableStatement;
