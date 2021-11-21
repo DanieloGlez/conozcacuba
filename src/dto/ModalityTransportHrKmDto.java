@@ -5,14 +5,18 @@ public class ModalityTransportHrKmDto extends ModalityTransportDto {
     private float costHr;
     private float costKmExtras;
     private float costHrExtras;
+    private int idContract;
+    private String idVehicle;
 
     // Constructors
-    public ModalityTransportHrKmDto(String id, float costTraveledKm, float costHr, float costKmExtras, float costHrExtras) {
+    public ModalityTransportHrKmDto(String id, float costTraveledKm, float costHr, float costKmExtras, float costHrExtras, int idContract, String idVehicle) {
         super(id);
         this.costTraveledKm = costTraveledKm;
         this.costHr = costHr;
         this.costKmExtras = costKmExtras;
         this.costHrExtras = costHrExtras;
+        this.idContract = idContract;
+        this.idVehicle = idVehicle;
     }
 
     // Getter & Setter
@@ -46,5 +50,21 @@ public class ModalityTransportHrKmDto extends ModalityTransportDto {
 
     public void setCostHrExtras(float costHrExtras) {
         this.costHrExtras = costHrExtras;
+    }
+
+    public int getIdContract() {
+        return idContract;
+    }
+
+    public void setIdContract(int idContract) {
+        this.idContract = idContract;
+    }
+
+    public String getIdVehicle() {
+        return idVehicle;
+    }
+
+    public void setIdVehicle(String idVehicle) {
+        this.idVehicle = idVehicle;
     }
 }

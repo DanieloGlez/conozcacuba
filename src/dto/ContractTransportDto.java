@@ -1,19 +1,17 @@
 package dto;
 
-import dto.nomenclators.CompanyTransportDto;
+import dto.nom.CompanyTransportDto;
 
 import java.util.Date;
 import java.util.List;
 
 public class ContractTransportDto extends ContractDto {
     private CompanyTransportDto transportCompany;
-    private List<VehicleHiredDto> hiredVehicles;
 
     // Constructors
-    public ContractTransportDto(String id, Date startDate, Date finishDate, Date conciliationDate, String description, CompanyTransportDto transportCompany, List<VehicleHiredDto> hiredVehicles) {
-        super(id, startDate, finishDate, conciliationDate, description);
+    public ContractTransportDto(String id, String idContractType, Date startDate, Date finishDate, Date conciliationDate, String description, CompanyTransportDto transportCompany) {
+        super(id, idContractType, startDate, finishDate, conciliationDate, description);
         this.transportCompany = transportCompany;
-        this.hiredVehicles = hiredVehicles;
     }
 
     // Getters & Setters
@@ -23,13 +21,5 @@ public class ContractTransportDto extends ContractDto {
 
     public void setTransportCompany(CompanyTransportDto transportCompany) {
         this.transportCompany = transportCompany;
-    }
-
-    public List<VehicleHiredDto> getHiredVehicles() {
-        return hiredVehicles;
-    }
-
-    public void setHiredVehicles(List<VehicleHiredDto> hiredVehicles) {
-        this.hiredVehicles = hiredVehicles;
     }
 }

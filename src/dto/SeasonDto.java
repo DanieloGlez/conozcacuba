@@ -10,17 +10,13 @@ public class SeasonDto {
     private Date finishDate;
     private String description;
 
-    //References
-    private List<RoomPlanDto> roomPlans;
-
     // Constructors
-    public SeasonDto(String id, String name, Date startDate, Date finishDate, String description, List<RoomPlanDto> roomPlans) {
+    public SeasonDto(String id, String name, Date startDate, Date finishDate, String description) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
         this.finishDate = finishDate;
         this.description = description;
-        this.roomPlans = roomPlans;
     }
 
     // Getters & Setters
@@ -62,13 +58,5 @@ public class SeasonDto {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<RoomPlanDto> getRoomPlans() {
-        return roomPlans;
-    }
-
-    public void setRoomPlans(List<RoomPlanDto> roomPlans) {
-        this.roomPlans = roomPlans;
     }
 }

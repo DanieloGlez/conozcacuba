@@ -1,6 +1,6 @@
 package service;
 
-import dto.nomenclators.VehicleBrandDto;
+import dto.nom.VehicleBrandDto;
 
 import java.sql.*;
 import java.util.LinkedList;

@@ -4,14 +4,16 @@ import java.util.Date;
 
 public abstract class ContractDto {
     protected String id;
+    protected String idContractType;
     protected Date startDate;
     protected Date finishDate;
     protected Date conciliationDate;
     protected String description;
 
     // Constructors
-    public ContractDto(String id, Date startDate, Date finishDate, Date conciliationDate, String description) {
+    public ContractDto(String id, String idContractType,Date startDate, Date finishDate, Date conciliationDate, String description) {
         this.id = id;
+        this.idContractType = idContractType;
         this.startDate = startDate;
         this.finishDate = finishDate;
         this.conciliationDate = conciliationDate;

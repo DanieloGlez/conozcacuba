@@ -1,7 +1,6 @@
 package service;
 
 import dto.VehicleDto;
-import dto.nomenclators.VehicleBrandDto;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -26,7 +25,7 @@ public class VehicleServices implements Services<VehicleDto> {
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
 
-        while (resultSet.next()) {
+        /*while (resultSet.next()) {
             vehicles.add(new VehicleDto(
                     resultSet.getString("id_vehicle"),
                     ServicesLocator.getVehicleBrandServices().load(resultSet.getInt("id_vehicle_brand")),
@@ -34,7 +33,7 @@ public class VehicleServices implements Services<VehicleDto> {
                     resultSet.getInt("capacity_with_baggage"),
                     resultSet.getDate("production_date").toLocalDate()
             ));
-        }
+        }*/
 
         return vehicles;
     }
@@ -48,7 +47,7 @@ public class VehicleServices implements Services<VehicleDto> {
         callableStatement.setInt(2, dto.getCapacityWithoutBaggage());
         callableStatement.setInt(3, dto.getCapacityWithBaggage());
         callableStatement.setInt(4, dto.getCapacityTotal());
-        callableStatement.setDate(5, (Date) dto.toDate());
+        callableStatement.setDate(5, dto.toDate());
         callableStatement.setInt(6, dto.getBrand().getId());
         callableStatement.execute();
     }

@@ -1,12 +1,8 @@
 package dto;
 
-import dto.nomenclators.VehicleBrandDto;
+import dto.nom.VehicleBrandDto;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.Month;
-import java.time.Year;
-import java.util.Date;
 
 public class VehicleDto {
     private String id;
@@ -60,7 +56,7 @@ public class VehicleDto {
     }
 
     public int getCapacityTotal() {
-        return getCapacityWithBaggage()+getCapacityWithoutBaggage();
+        return capacityTotal;
     }
 
     public void setCapacityTotal(int capacityTotal) {
