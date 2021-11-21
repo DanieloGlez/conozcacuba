@@ -25,7 +25,7 @@ public class VehicleServices implements Services<VehicleDto> {
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
 
-        while (resultSet.next()) {
+        /*while (resultSet.next()) {
             vehicles.add(new VehicleDto(
                     resultSet.getString("id_vehicle"),
                     ServicesLocator.getVehicleBrandServices().load(resultSet.getInt("id_vehicle_brand")),
@@ -33,7 +33,7 @@ public class VehicleServices implements Services<VehicleDto> {
                     resultSet.getInt("capacity_with_baggage"),
                     resultSet.getDate("production_date").toLocalDate()
             ));
-        }
+        }*/
 
         return vehicles;
     }

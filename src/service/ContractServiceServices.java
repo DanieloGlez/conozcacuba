@@ -1,5 +1,6 @@
 package service;
 
+import dto.ContractDto;
 import dto.ContractServiceDto;
 
 import java.sql.*;
@@ -15,7 +16,35 @@ public class ContractServiceServices implements Services<ContractServiceDto>{
 
     @Override
     public List<ContractServiceDto> loadAll() throws SQLException {
-        return null;
+        List<ContractServiceDto> contractServiceDtos = new LinkedList<>();
+
+        Connection connection = ServicesLocator.getConnection();
+        connection.setAutoCommit(false);
+
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.contract_service_load()}");
+        callableStatement.registerOutParameter(1, Types.REF_CURSOR);
+
+        callableStatement.execute();
+        ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
+/*
+        while (resultSet.next()) {
+            contractServiceDtos.add(new ContractServiceDto(
+                    resultSet.getString("id_contract"),
+                    resultSet.getString("id_contract_type"),
+                    resultSet.getDate("start_date"),
+                    resultSet.getDate("finish_date"),
+                    resultSet.getDate("conciliation_date"),
+                    resultSet.getString("description"),
+                    resultSet.getString("id_service_type"),
+                    resultSet.getString("id_province"),
+                    resultSet.getString("id_company"),
+                    resultSet.getDouble("pax_cost"),
+                    resultSet.getString("id_daily_activity")
+            ) {
+            });
+        }*/
+
+        return contractServiceDtos;
     }
 
     @Override

@@ -56,7 +56,7 @@ public class VehicleDto {
     }
 
     public int getCapacityTotal() {
-        return getCapacityWithBaggage()+getCapacityWithoutBaggage();
+        return capacityTotal;
     }
 
     public void setCapacityTotal(int capacityTotal) {

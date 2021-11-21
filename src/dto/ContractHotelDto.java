@@ -8,8 +8,8 @@ public class ContractHotelDto extends ContractDto {
     private List<SeasonDto> seasons;
 
     // Constructors
-    public ContractHotelDto(String id, Date startDate, Date finishDate, Date conciliationDate, String description, HotelDto hotel, List<SeasonDto> seasons) {
-        super(id, startDate, finishDate, conciliationDate, description);
+    public ContractHotelDto(String id, String idContractType,Date startDate, Date finishDate, Date conciliationDate, String description, HotelDto hotel, List<SeasonDto> seasons) {
+        super(id, idContractType, startDate, finishDate, conciliationDate, description);
         this.hotel = hotel;
         this.seasons = seasons;
     }
