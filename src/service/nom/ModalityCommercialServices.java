@@ -1,7 +1,9 @@
 package service.nom;
 
 import dto.nom.CompanyServiceDto;
+import dto.nom.DailyActivityDto;
 import dto.nom.ModalityCommercialDto;
+import service.Relation;
 import service.Services;
 import service.ServicesLocator;
 
@@ -9,7 +11,7 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ModalityCommercialServices implements Services<ModalityCommercialDto> {
+public class ModalityCommercialServices implements Services<ModalityCommercialDto>, Relation<ModalityCommercialDto> {
     @Override
     public ModalityCommercialDto load(int id_modality_comertial) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
@@ -75,5 +77,24 @@ public class ModalityCommercialServices implements Services<ModalityCommercialDt
     @Override
     public String getGenericType() {
         return null;
+    }
+
+    @Override
+    public List<ModalityCommercialDto> loadRelated(int id) throws SQLException {
+        LinkedList<ModalityCommercialDto> modalityCommercialDtos=new LinkedList<>();
+        Connection connection = ServicesLocator.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement callableStatement = connection.prepareCall("{?=call tpp.r_hotel_modality_hotel_comertial_get_by_id(?)}");
+        callableStatement.registerOutParameter(1,Types.REF_CURSOR);
+        callableStatement.setInt(2,id);
+        ResultSet resultSet= (ResultSet) callableStatement.getObject(1);
+
+        while (resultSet.next()){
+            modalityCommercialDtos.add(
+                    new ModalityCommercialDto(resultSet.getInt(1),
+                            resultSet.getString(2))
+            );
+        }
+        return modalityCommercialDtos;
     }
 }

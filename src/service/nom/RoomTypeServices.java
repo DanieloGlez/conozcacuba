@@ -1,7 +1,9 @@
 package service.nom;
 
 import dto.nom.CompanyServiceDto;
+import dto.nom.FoodPlanDto;
 import dto.nom.RoomTypeDto;
+import service.Relation;
 import service.Services;
 import service.ServicesLocator;
 
@@ -9,7 +11,7 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RoomTypeServices implements Services<RoomTypeDto> {
+public class RoomTypeServices implements Services<RoomTypeDto>, Relation<RoomTypeDto> {
     @Override
     public RoomTypeDto load(int id_room_type) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
@@ -75,5 +77,24 @@ public class RoomTypeServices implements Services<RoomTypeDto> {
     @Override
     public String getGenericType() {
         return null;
+    }
+
+    @Override
+    public List<RoomTypeDto> loadRelated(int id) throws SQLException {
+        LinkedList<RoomTypeDto> roomTypeDtos=new LinkedList<>();
+        Connection connection = ServicesLocator.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement callableStatement = connection.prepareCall("{?=call tpp.r_hotel_room_type_get_by_id(?)}");
+        callableStatement.registerOutParameter(1,Types.REF_CURSOR);
+        callableStatement.setInt(2,id);
+        ResultSet resultSet= (ResultSet) callableStatement.getObject(1);
+
+        while (resultSet.next()){
+            roomTypeDtos.add(
+                    new RoomTypeDto(resultSet.getInt(1),
+                            resultSet.getString(2))
+            );
+        }
+        return roomTypeDtos;
     }
 }
