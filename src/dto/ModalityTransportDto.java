@@ -1,19 +1,19 @@
 package dto;
 
 public abstract class ModalityTransportDto {
-    private String id;
+    private int id;
 
     // Constructors
-    public ModalityTransportDto(String id) {
+    public ModalityTransportDto(int id) {
         this.id = id;
     }
 
     // Getter & Setter
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 }

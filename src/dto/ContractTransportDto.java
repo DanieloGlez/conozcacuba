@@ -1,6 +1,7 @@
 package dto;
 
 import dto.nom.CompanyTransportDto;
+import dto.nom.ContractTypeDto;
 
 import java.util.Date;
 import java.util.List;
@@ -9,8 +10,8 @@ public class ContractTransportDto extends ContractDto {
     private CompanyTransportDto transportCompany;
 
     // Constructors
-    public ContractTransportDto(String id, String idContractType, Date startDate, Date finishDate, Date conciliationDate, String description, CompanyTransportDto transportCompany) {
-        super(id, idContractType, startDate, finishDate, conciliationDate, description);
+    public ContractTransportDto(int id, ContractTypeDto contractTypeDto, Date startDate, Date finishDate, Date conciliationDate, String description, CompanyTransportDto transportCompany) {
+        super(id, contractTypeDto, startDate, finishDate, conciliationDate, description);
         this.transportCompany = transportCompany;
     }
 

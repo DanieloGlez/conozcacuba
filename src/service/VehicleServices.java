@@ -28,7 +28,7 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
 
-        /*while (resultSet.next()) {
+        while (resultSet.next()) {
             vehicles.add(new VehicleDto(
                     resultSet.getString("id_vehicle"),
                     ServicesLocator.getVehicleBrandServices().load(resultSet.getInt("id_vehicle_brand")),
@@ -36,7 +36,7 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
                     resultSet.getInt("capacity_with_baggage"),
                     resultSet.getDate("production_date").toLocalDate()
             ));
-        }*/
+        }
 
         return vehicles;
     }
@@ -75,7 +75,7 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
         LinkedList<VehicleDto> vehicleDtoLinkedList=new LinkedList<>();
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-        CallableStatement callableStatement = connection.prepareCall("{?=call tpp.r_contract_transport_vehicle_get_by_id(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.r_contract_transport_vehicle_get_by_id(?)}");
         callableStatement.registerOutParameter(1,Types.REF_CURSOR);
         callableStatement.setInt(2,id);
         ResultSet resultSet= (ResultSet) callableStatement.getObject(1);

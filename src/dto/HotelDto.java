@@ -5,7 +5,7 @@ import dto.nom.*;
 import java.util.List;
 
 public class HotelDto {
-    private String id;
+    private int id;
     private String name;
     private String address;
     private String category;
@@ -23,7 +23,7 @@ public class HotelDto {
     private LocalizationDto localization;
 
     // Constructors
-    public HotelDto(String id, String name, String address, String category, String telephoneNumber, String fax, String email, float distToCity, float distToAirport, int roomsAmount, int floorsAmount, HotelFranchiseDto hotelFranchise, ProvinceDto province, LocalizationDto localization, List<RoomTypeDto> roomTypes, List<FoodPlanDto> foodPlans, List<ModalityCommercialDto> commercialModalities) {
+    public HotelDto(int id, String name, String address, String category, String telephoneNumber, String fax, String email, float distToCity, float distToAirport, int roomsAmount, int floorsAmount, HotelFranchiseDto hotelFranchise, ProvinceDto province, LocalizationDto localization, List<RoomTypeDto> roomTypes, List<FoodPlanDto> foodPlans, List<ModalityCommercialDto> commercialModalities) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -41,11 +41,11 @@ public class HotelDto {
     }
 
     // Getters & Setters
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

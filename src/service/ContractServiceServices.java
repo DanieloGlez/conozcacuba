@@ -28,17 +28,16 @@ public class ContractServiceServices implements Services<ContractServiceDto>{
 /*
         while (resultSet.next()) {
             contractServiceDtos.add(new ContractServiceDto(
-                    resultSet.getString("id_contract"),
-                    resultSet.getString("id_contract_type"),
+                    resultSet.getInt("id_contract"),
+                    resultSet.getInt("id_contract_type"),
                     resultSet.getDate("start_date"),
                     resultSet.getDate("finish_date"),
                     resultSet.getDate("conciliation_date"),
                     resultSet.getString("description"),
                     resultSet.getString("id_service_type"),
                     resultSet.getString("id_province"),
-                    resultSet.getString("id_company"),
-                    resultSet.getDouble("pax_cost"),
-                    resultSet.getString("id_daily_activity")
+                    resultSet.getFloat("pax_cost"),
+                    resultSet.get("id_daily_activity")
             ) {
             });
         }*/

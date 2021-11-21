@@ -1,36 +1,48 @@
 package dto;
 
+import dto.nom.ContractTypeDto;
+
 import java.util.Date;
 
-public abstract class ContractDto {
-    protected String id;
-    protected String idContractType;
+public class ContractDto {
+    protected int id;
+    protected ContractTypeDto contractTypeDto;
     protected Date startDate;
     protected Date finishDate;
     protected Date conciliationDate;
     protected String description;
 
     // Constructors
-    public ContractDto(String id, String idContractType,Date startDate, Date finishDate, Date conciliationDate, String description) {
+    public ContractDto(int id, ContractTypeDto contractTypeDto,Date startDate, Date finishDate, Date conciliationDate, String description) {
         this.id = id;
-        this.idContractType = idContractType;
+        this.contractTypeDto = contractTypeDto;
         this.startDate = startDate;
         this.finishDate = finishDate;
         this.conciliationDate = conciliationDate;
         this.description = description;
     }
 
+    public ContractDto(){};
+
     // Getters & Setters
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
     public Date getStartDate() {
         return startDate;
+    }
+
+    public ContractTypeDto getContractTypeDto() {
+        return contractTypeDto;
+    }
+
+    public void setContractTypeDto(ContractTypeDto contractTypeDto) {
+        this.contractTypeDto = contractTypeDto;
     }
 
     public void setStartDate(Date startDate) {

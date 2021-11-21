@@ -1,5 +1,8 @@
 package dto;
 
+import dto.nom.ContractTypeDto;
+import dto.nom.DailyActivityDto;
+
 import java.util.Date;
 import java.util.List;
 
@@ -12,8 +15,8 @@ public class ContractServiceDto extends ContractDto {
     private List<DailyActivityDto> dailyActivities;
 
     // Constructors
-    public ContractServiceDto(String id,String idContractType, Date startDate, Date finishDate, Date conciliationDate, String description, String idServiceType, String idProvince, float paxCost, List<DailyActivityDto> dailyActivities) {
-        super(id, idContractType, startDate, finishDate, conciliationDate, description);
+    public ContractServiceDto(int id, ContractTypeDto contractTypeDto, Date startDate, Date finishDate, Date conciliationDate, String description, String idServiceType, String idProvince, float paxCost, List<DailyActivityDto> dailyActivities) {
+        super(id, contractTypeDto, startDate, finishDate, conciliationDate, description);
         this.idServiceType = idServiceType;
         this.idProvince = idProvince;
         this.paxCost = paxCost;

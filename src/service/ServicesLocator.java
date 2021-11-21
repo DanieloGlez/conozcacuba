@@ -11,11 +11,15 @@ import java.sql.SQLException;
 public class ServicesLocator {
     private static CompanyServiceServices companyServiceServices;
     private static CompanyTransportServices companyTransportServices;
+    private static ContractTransportServices contractTransportServices;
+    private static ContractServices contractServices;
+    private static SeasonServices seasonServices;
+    private static DailyActivityServices dailyActivityServices;
     private static ContractTypeServices contractTypeServices;
     private static FoodPlanServices foodPlanServices;
     private static HotelFranchiseServices hotelFranchiseServices;
     private static LocalizationServices localizationServices;
-    private static ModalityComertialServices modalityComertialServices;
+    private static ModalityCommercialServices modalityCommercialServices;
     private static ProvinceServices provinceServices;
     private static RoomTypeServices roomTypeServices;
     private static UserServices userServices;
@@ -48,6 +52,34 @@ public class ServicesLocator {
         return companyTransportServices;
     }
 
+    public static ContractServices getContractServices() {
+        if (contractServices == null)
+            contractServices = new ContractServices();
+
+        return contractServices;
+    }
+
+    public static ContractTransportServices getContractTransportServices() {
+        if (contractTransportServices == null)
+            contractTransportServices = new ContractTransportServices();
+
+        return contractTransportServices;
+    }
+
+    public static SeasonServices getSeasonServices() {
+        if (seasonServices == null)
+            seasonServices = new SeasonServices();
+
+        return seasonServices;
+    }
+
+    public static DailyActivityServices getDailyActivityServices() {
+        if (dailyActivityServices == null)
+            dailyActivityServices = new DailyActivityServices();
+
+        return dailyActivityServices;
+    }
+
     public static ContractTypeServices getContractTypeServices() {
         if (contractTypeServices == null)
             contractTypeServices = new ContractTypeServices();
@@ -75,11 +107,11 @@ public class ServicesLocator {
         return localizationServices;
     }
 
-    public static ModalityComertialServices getModalityComertialServices() {
-        if (modalityComertialServices == null)
-            modalityComertialServices = new ModalityComertialServices();
+    public static ModalityCommercialServices getModalityCommercialServices() {
+        if (modalityCommercialServices == null)
+            modalityCommercialServices = new ModalityCommercialServices();
 
-        return modalityComertialServices;
+        return modalityCommercialServices;
     }
 
     public static ProvinceServices getProvinceServices() {

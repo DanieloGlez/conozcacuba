@@ -1,5 +1,7 @@
 package dto;
 
+import dto.nom.ContractTypeDto;
+
 import java.util.Date;
 import java.util.List;
 
@@ -8,8 +10,8 @@ public class ContractHotelDto extends ContractDto {
     private List<SeasonDto> seasons;
 
     // Constructors
-    public ContractHotelDto(String id, String idContractType,Date startDate, Date finishDate, Date conciliationDate, String description, HotelDto hotel, List<SeasonDto> seasons) {
-        super(id, idContractType, startDate, finishDate, conciliationDate, description);
+    public ContractHotelDto(int id, ContractTypeDto contractTypeDto, Date startDate, Date finishDate, Date conciliationDate, String description, HotelDto hotel, List<SeasonDto> seasons) {
+        super(id, contractTypeDto, startDate, finishDate, conciliationDate, description);
         this.hotel = hotel;
         this.seasons = seasons;
     }

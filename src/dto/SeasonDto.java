@@ -4,14 +4,14 @@ import java.util.Date;
 import java.util.List;
 
 public class SeasonDto {
-    private String id;
+    private int id;
     private String name;
     private Date startDate;
     private Date finishDate;
     private String description;
 
     // Constructors
-    public SeasonDto(String id, String name, Date startDate, Date finishDate, String description) {
+    public SeasonDto(int id, String name, Date startDate, Date finishDate, String description) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
@@ -20,11 +20,11 @@ public class SeasonDto {
     }
 
     // Getters & Setters
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

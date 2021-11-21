@@ -3,7 +3,7 @@ package dto;
 import java.util.List;
 
 public class TouristicPackageDto {
-    private String id;
+    private int id;
     private String promotionalName;
     private int daysAmount;
     private int nightsAmount;
@@ -20,7 +20,7 @@ public class TouristicPackageDto {
     // Constructors
 
 
-    public TouristicPackageDto(String id, String promotionalName, int daysAmount, int nightsAmount, int paxAmount, float costHotel, float costTransport, float costTransportHA, float costTotal, float price, List<ContractDto> contracts) {
+    public TouristicPackageDto(int id, String promotionalName, int daysAmount, int nightsAmount, int paxAmount, float costHotel, float costTransport, float costTransportHA, float costTotal, float price, List<ContractDto> contracts) {
         this.id = id;
         this.promotionalName = promotionalName;
         this.daysAmount = daysAmount;
@@ -35,11 +35,11 @@ public class TouristicPackageDto {
     }
 
     // Getters & Setters
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
