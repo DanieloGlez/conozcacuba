@@ -1,7 +1,6 @@
 package service.nomenclators;
 
 import dto.nomenclators.ProvinceDto;
-import dto.nomenclators.ServiceTypeDto;
 import service.Services;
 import service.ServicesLocator;
 

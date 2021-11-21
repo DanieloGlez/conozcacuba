@@ -33,4 +33,16 @@ public class UserInterfaceUtils {
         stage.setScene(scene);
         stage.centerOnScreen();
     }
+
+
+    public static void createModalView(String fxmlURL) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/ui/view/datamanager/"+fxmlURL));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage primaryStage = new Stage();
+
+        System.out.println(true);
+        primaryStage.setTitle("Touristic Packages Planning");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
 }

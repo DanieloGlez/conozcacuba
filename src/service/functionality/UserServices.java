@@ -2,7 +2,6 @@ package service.functionality;
 
 import dto.functionality.UserDto;
 import service.Services;
-import service.ServicesLocator;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -23,7 +22,7 @@ public class UserServices implements Services<UserDto> {
     public List<UserDto> loadAll() throws SQLException {
         List<UserDto> users = new LinkedList<>();
 
-        Connection connection = ServicesLocator.getConnection();
+        Connection connection = service.ServicesLocator.getConnection();
         connection.setAutoCommit(false);
 
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.f_user_load()}");

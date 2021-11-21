@@ -2,7 +2,6 @@ package ui.controller;
 
 import com.jfoenix.controls.*;
 import com.jfoenix.validation.RequiredFieldValidator;
-import com.sun.org.apache.xerces.internal.impl.xs.SchemaGrammar;
 import dto.functionality.UserDto;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;

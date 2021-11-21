@@ -1,9 +1,7 @@
 package service.nomenclators;
 
-import dto.functionality.UserDto;
 import dto.nomenclators.CompanyServiceDto;
 import service.Services;
-import service.ServicesLocator;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -19,7 +17,7 @@ public class CompanyServiceServices implements Services<CompanyServiceDto> {
     public List<CompanyServiceDto> loadAll() throws SQLException {
         List<CompanyServiceDto> companiesService = new LinkedList<>();
 
-        Connection connection = ServicesLocator.getConnection();
+        Connection connection = service.ServicesLocator.getConnection();
         connection.setAutoCommit(false);
 
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_company_service_load()}");

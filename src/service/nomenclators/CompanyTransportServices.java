@@ -1,9 +1,7 @@
 package service.nomenclators;
 
 import dto.nomenclators.CompanyTransportDto;
-import dto.nomenclators.ServiceTypeDto;
 import service.Services;
-import service.ServicesLocator;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -19,7 +17,7 @@ public class CompanyTransportServices implements Services<CompanyTransportDto> {
     public List<CompanyTransportDto> loadAll() throws SQLException {
         List<CompanyTransportDto> companyTransportDtos = new LinkedList<>();
 
-        Connection connection = ServicesLocator.getConnection();
+        Connection connection = service.ServicesLocator.getConnection();
         connection.setAutoCommit(false);
 
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_company_transport_load()}");
@@ -40,7 +38,7 @@ public class CompanyTransportServices implements Services<CompanyTransportDto> {
 
     @Override
     public void insert(CompanyTransportDto dto) throws SQLException {
-        Connection connection = ServicesLocator.getConnection();
+        Connection connection = service.ServicesLocator.getConnection();
         connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_company_transport_insert(?)}");
         callableStatement.setString("name", dto.getName());

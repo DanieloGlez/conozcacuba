@@ -2,6 +2,9 @@ package dto;
 
 import dto.nomenclators.VehicleBrandDto;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.Month;
 import java.time.Year;
 import java.util.Date;
 
@@ -11,15 +14,15 @@ public class VehicleDto {
     private int capacityWithoutBaggage;
     private int capacityWithBaggage;
     private int capacityTotal;
-    private Date productionDate;
+    private LocalDate productionDate;
 
     // Constructors
-    public VehicleDto(String id, VehicleBrandDto brand, int capacityWithoutBaggage, int capacityWithBaggage, int capacityTotal, Date productionDate) {
+    public VehicleDto(String id, VehicleBrandDto brand, int capacityWithoutBaggage, int capacityWithBaggage, LocalDate productionDate) {
         this.id = id;
         this.brand = brand;
         this.capacityWithoutBaggage = capacityWithoutBaggage;
         this.capacityWithBaggage = capacityWithBaggage;
-        this.capacityTotal = capacityTotal;
+        this.capacityTotal = capacityWithBaggage+capacityWithoutBaggage;
         this.productionDate = productionDate;
     }
 
@@ -64,11 +67,16 @@ public class VehicleDto {
         this.capacityTotal = capacityTotal;
     }
 
-    public Date getProductionDate() {
+    public LocalDate getProductionDate() {
         return productionDate;
     }
 
-    public void setProductionDate(Date productionDate) {
+    public void setProductionDate(LocalDate productionDate) {
         this.productionDate = productionDate;
+    }
+
+    public java.sql.Date toDate(){
+        java.sql.Date dateBD=java.sql.Date.valueOf(this.getProductionDate());
+        return dateBD;
     }
 }

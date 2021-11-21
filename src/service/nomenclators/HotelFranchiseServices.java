@@ -1,7 +1,6 @@
 package service.nomenclators;
 
 import dto.nomenclators.HotelFranchiseDto;
-import dto.nomenclators.ServiceTypeDto;
 import service.Services;
 import service.ServicesLocator;
 
@@ -19,7 +18,7 @@ public class HotelFranchiseServices implements Services<HotelFranchiseDto> {
     public List<HotelFranchiseDto> loadAll() throws SQLException {
         List<HotelFranchiseDto> hotelFranchiseDtos = new LinkedList<>();
 
-        Connection connection = ServicesLocator.getConnection();
+        Connection connection = service.ServicesLocator.getConnection();
         connection.setAutoCommit(false);
 
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_hotel_franchise_load()}");

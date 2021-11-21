@@ -1,7 +1,6 @@
 package service.nomenclators;
 
 import dto.nomenclators.LocalizationDto;
-import dto.nomenclators.ServiceTypeDto;
 import service.Services;
 import service.ServicesLocator;
 

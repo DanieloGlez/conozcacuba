@@ -1,9 +1,7 @@
 package service.nomenclators;
 
 import dto.nomenclators.FoodPlanDto;
-import dto.nomenclators.ServiceTypeDto;
 import service.Services;
-import service.ServicesLocator;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -19,7 +17,7 @@ public class FoodPlanServices implements Services<FoodPlanDto> {
     public List<FoodPlanDto> loadAll() throws SQLException {
         List<FoodPlanDto> foodPlanDtos = new LinkedList<>();
 
-        Connection connection = ServicesLocator.getConnection();
+        Connection connection = service.ServicesLocator.getConnection();
         connection.setAutoCommit(false);
 
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_food_plan_load()}");
@@ -40,7 +38,7 @@ public class FoodPlanServices implements Services<FoodPlanDto> {
 
     @Override
     public void insert(FoodPlanDto dto) throws SQLException {
-        Connection connection = ServicesLocator.getConnection();
+        Connection connection = service.ServicesLocator.getConnection();
         connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_food_plan_insert(?)}");
         callableStatement.setString("name", dto.getName());

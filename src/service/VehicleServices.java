@@ -12,7 +12,7 @@ public class VehicleServices implements Services<VehicleDto> {
     public VehicleDto load(int id) throws SQLException {
         return null;
     }
-    
+
     @Override
     public List<VehicleDto> loadAll() throws SQLException {
         List<VehicleDto> vehicles = new LinkedList<>();
@@ -32,8 +32,7 @@ public class VehicleServices implements Services<VehicleDto> {
                     ServicesLocator.getVehicleBrandServices().load(resultSet.getInt("id_vehicle_brand")),
                     resultSet.getInt("capacity_without_baggage"),
                     resultSet.getInt("capacity_with_baggage"),
-                    resultSet.getInt("capacity_total"),
-                    resultSet.getDate("production_date")
+                    resultSet.getDate("production_date").toLocalDate()
             ));
         }
 
@@ -44,14 +43,13 @@ public class VehicleServices implements Services<VehicleDto> {
     public void insert(VehicleDto dto) throws SQLException {
 
         Connection connection = ServicesLocator.getConnection();
-        connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{call tpp.vehicle_insert(?,?,?,?,?,?)}");
-        callableStatement.setString("id_vehicle", dto.getId());
-        callableStatement.setInt("capacity_without_baggage", dto.getCapacityWithoutBaggage());
-        callableStatement.setInt("capacity_with_bagge", dto.getCapacityWithBaggage());
-        callableStatement.setInt("capacity_total", dto.getCapacityTotal());
-        callableStatement.setDate("production_date", (java.sql.Date) dto.getProductionDate());
-        callableStatement.setInt("id_vehicle_brand", dto.getBrand().getId());
+        callableStatement.setString(1, dto.getId());
+        callableStatement.setInt(2, dto.getCapacityWithoutBaggage());
+        callableStatement.setInt(3, dto.getCapacityWithBaggage());
+        callableStatement.setInt(4, dto.getCapacityTotal());
+        callableStatement.setDate(5, (Date) dto.toDate());
+        callableStatement.setInt(6, dto.getBrand().getId());
         callableStatement.execute();
     }
 

@@ -6,31 +6,27 @@ import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
 import dto.nomenclators.NomenclatorDto;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import service.Services;
 import service.ServicesLocator;
+import ui.Main;
 import util.ConstantUtils;
+import util.UserInterfaceUtils;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class DataManager implements Initializable {
 
@@ -53,6 +49,7 @@ public class DataManager implements Initializable {
     private JFXListView<String> tables_jfxlistview;
 
     Services currentlyInUseServices;
+    private String tableName;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -69,8 +66,9 @@ public class DataManager implements Initializable {
     }
 
     @FXML
-    void insert(ActionEvent event) {
-        
+    void insert(ActionEvent event) throws IOException {
+        String urlFXML="/ui/view/datamanager/"+tableName.toLowerCase()+"_datamanager_form.fxml";
+        UserInterfaceUtils.createModalView(urlFXML);
     }
 
     @FXML
@@ -82,7 +80,7 @@ public class DataManager implements Initializable {
         fillTablesJfxListView();
         tables_jfxlistview.setOnMouseClicked(event -> {
             JFXListCell<?> jfxListCell = (JFXListCell<?>) event.getTarget();
-            String tableName = jfxListCell.getText();
+            tableName = jfxListCell.getText();
 
             try {
                 showContentInDataManagerTableView(tableName);
