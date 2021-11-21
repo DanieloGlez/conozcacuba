@@ -1,7 +1,9 @@
 package service.nom;
 
+import dto.nom.CompanyServiceDto;
 import dto.nom.CompanyTransportDto;
 import service.Services;
+import service.ServicesLocator;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -9,8 +11,23 @@ import java.util.List;
 
 public class CompanyTransportServices implements Services<CompanyTransportDto> {
     @Override
-    public CompanyTransportDto load(int id) throws SQLException {
-        return null;
+    public CompanyTransportDto load(int id_company_transport) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        connection.setAutoCommit(false);
+
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_company_transport_load_by_id(?)}");
+        callableStatement.registerOutParameter(1, Types.REF_CURSOR);
+        callableStatement.setInt(2, id_company_transport);
+
+        callableStatement.execute();
+
+        ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
+        resultSet.next();
+
+        return new CompanyTransportDto(
+                resultSet.getInt("id_company_transport"),
+                resultSet.getString("name")
+        );
     }
 
     @Override
@@ -47,11 +64,20 @@ public class CompanyTransportServices implements Services<CompanyTransportDto> {
 
     @Override
     public void update(CompanyTransportDto dto) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_company_transport_update(?)}");
+        callableStatement.setInt(1, dto.getId());
+        callableStatement.setString(2, dto.getName());
+        callableStatement.execute();
 
     }
 
     @Override
-    public void delete(int id) throws SQLException {
+    public void delete(int id_company_transport) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_company_transport_delete(?)}");
+        callableStatement.setInt(1, id_company_transport);
+        callableStatement.execute();
 
     }
 

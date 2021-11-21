@@ -1,5 +1,6 @@
 package service.nom;
 
+import dto.nom.CompanyServiceDto;
 import dto.nom.ProvinceDto;
 import service.Services;
 import service.ServicesLocator;
@@ -10,8 +11,23 @@ import java.util.List;
 
 public class ProvinceServices implements Services<ProvinceDto> {
     @Override
-    public ProvinceDto load(int id) throws SQLException {
-        return null;
+    public ProvinceDto load(int id_province) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        connection.setAutoCommit(false);
+
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_province_load_by_id(?)}");
+        callableStatement.registerOutParameter(1, Types.REF_CURSOR);
+        callableStatement.setInt(2, id_province);
+
+        callableStatement.execute();
+
+        ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
+        resultSet.next();
+
+        return new ProvinceDto(
+                resultSet.getInt("id_province"),
+                resultSet.getString("name")
+        );
     }
 
     @Override

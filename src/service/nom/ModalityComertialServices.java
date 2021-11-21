@@ -1,5 +1,6 @@
 package service.nom;
 
+import dto.nom.CompanyServiceDto;
 import dto.nom.ModalityCommercialDto;
 import service.Services;
 import service.ServicesLocator;
@@ -10,8 +11,23 @@ import java.util.List;
 
 public class ModalityComertialServices implements Services<ModalityCommercialDto> {
     @Override
-    public ModalityCommercialDto load(int id) throws SQLException {
-        return null;
+    public ModalityCommercialDto load(int id_modality_comertial) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        connection.setAutoCommit(false);
+
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_modality_hotel_load_by_id(?)}");
+        callableStatement.registerOutParameter(1, Types.REF_CURSOR);
+        callableStatement.setInt(2, id_modality_comertial);
+
+        callableStatement.execute();
+
+        ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
+        resultSet.next();
+
+        return new ModalityCommercialDto(
+                resultSet.getInt("id_modality_comertial"),
+                resultSet.getString("name")
+        );
     }
 
     @Override

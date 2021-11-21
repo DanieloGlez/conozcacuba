@@ -1,5 +1,6 @@
 package service.nom;
 
+import dto.nom.CompanyServiceDto;
 import dto.nom.RoomTypeDto;
 import service.Services;
 import service.ServicesLocator;
@@ -10,8 +11,23 @@ import java.util.List;
 
 public class RoomTypeServices implements Services<RoomTypeDto> {
     @Override
-    public RoomTypeDto load(int id) throws SQLException {
-        return null;
+    public RoomTypeDto load(int id_room_type) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        connection.setAutoCommit(false);
+
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_room_type_load_by_id(?)}");
+        callableStatement.registerOutParameter(1, Types.REF_CURSOR);
+        callableStatement.setInt(2, id_room_type);
+
+        callableStatement.execute();
+
+        ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
+        resultSet.next();
+
+        return new RoomTypeDto(
+                resultSet.getInt("id_room_type"),
+                resultSet.getString("name")
+        );
     }
 
     @Override

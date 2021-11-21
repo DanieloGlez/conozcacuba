@@ -1,7 +1,9 @@
 package service.nom;
 
 import dto.nom.FoodPlanDto;
+import dto.nom.VehicleBrandDto;
 import service.Services;
+import service.ServicesLocator;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -9,8 +11,23 @@ import java.util.List;
 
 public class FoodPlanServices implements Services<FoodPlanDto> {
     @Override
-    public FoodPlanDto load(int id) throws SQLException {
-        return null;
+    public FoodPlanDto load(int id_food_plan) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        connection.setAutoCommit(false);
+
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_food_plan_load_by_id(?)}");
+        callableStatement.registerOutParameter(1, Types.REF_CURSOR);
+        callableStatement.setInt(2, id_food_plan);
+
+        callableStatement.execute();
+
+        ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
+        resultSet.next();
+
+        return new FoodPlanDto(
+                resultSet.getInt("id_food_plan"),
+                resultSet.getString("name")
+        );
     }
 
     @Override
