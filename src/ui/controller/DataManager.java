@@ -49,7 +49,6 @@ public class DataManager implements Initializable {
     private JFXListView<String> tables_jfxlistview;
 
     Services currentlyInUseServices;
-    private String tableName;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -67,6 +66,7 @@ public class DataManager implements Initializable {
 
     @FXML
     void insert(ActionEvent event) throws IOException {
+        String tableName="vehicle";
         String urlFXML="/ui/view/datamanager/"+tableName.toLowerCase()+"_datamanager_form.fxml";
         UserInterfaceUtils.createModalView(urlFXML);
     }
@@ -80,7 +80,7 @@ public class DataManager implements Initializable {
         fillTablesJfxListView();
         tables_jfxlistview.setOnMouseClicked(event -> {
             JFXListCell<?> jfxListCell = (JFXListCell<?>) event.getTarget();
-            tableName = jfxListCell.getText();
+            String tableName = jfxListCell.getText();
 
             try {
                 showContentInDataManagerTableView(tableName);

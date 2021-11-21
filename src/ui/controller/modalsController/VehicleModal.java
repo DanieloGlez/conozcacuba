@@ -14,8 +14,10 @@ import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import ui.Main;
 import util.UserInterfaceUtils;
 import dto.nomenclators.*;
@@ -74,14 +76,14 @@ public class VehicleModal implements Initializable {
 
     @FXML
     void cancelInsertion(ActionEvent event) throws IOException {
-
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
 
     }
 
     @FXML
     void insertVehicle(ActionEvent event) throws SQLException {
-
-
 
         ServicesLocator.getVehicleServices().insert(new VehicleDto(
                 tf_vehicle_id.getText(),
@@ -89,6 +91,7 @@ public class VehicleModal implements Initializable {
                 Integer.parseInt(tf_capacity_without_bagage.getText()),
                 Integer.parseInt(tf_capacity_with_bagage.getText()),
                 dp_production_date.getValue()));
+
     }
 
 

@@ -36,7 +36,7 @@ public class UserInterfaceUtils {
 
 
     public static void createModalView(String fxmlURL) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/ui/view/datamanager/"+fxmlURL));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxmlURL));
         Scene scene = new Scene(fxmlLoader.load());
         Stage modalStage = new Stage();
 
