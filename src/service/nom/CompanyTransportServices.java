@@ -56,9 +56,8 @@ public class CompanyTransportServices implements Services<CompanyTransportDto> {
     @Override
     public void insert(CompanyTransportDto dto) throws SQLException {
         Connection connection = service.ServicesLocator.getConnection();
-        connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_company_transport_insert(?)}");
-        callableStatement.setString("name", dto.getName());
+        callableStatement.setString(1, dto.getName());
         callableStatement.execute();
     }
 

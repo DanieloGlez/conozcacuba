@@ -56,9 +56,8 @@ public class ContractTypeServices implements Services <ContractTypeDto> {
     @Override
     public void insert(ContractTypeDto dto) throws SQLException {
         Connection connection = service.ServicesLocator.getConnection();
-        connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_contract_type_insert(?)}");
-        callableStatement.setString("name", dto.getName());
+        callableStatement.setString(1, dto.getName());
         callableStatement.execute();
     }
 

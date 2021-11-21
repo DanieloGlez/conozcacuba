@@ -37,7 +37,7 @@ public class CompanyServiceServices implements Services<CompanyServiceDto> {
         Connection connection = service.ServicesLocator.getConnection();
         connection.setAutoCommit(false);
 
-        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_company_service_load()}");
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_company_service_load}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
 
         callableStatement.execute();
@@ -57,7 +57,7 @@ public class CompanyServiceServices implements Services<CompanyServiceDto> {
     public void insert(CompanyServiceDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_company_service_insert(?)}");
-        callableStatement.setString("name", dto.getName());
+        callableStatement.setString(1, dto.getName());
         callableStatement.execute();
 
     }
