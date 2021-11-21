@@ -27,7 +27,7 @@ public class HotelFranchiseModal implements Initializable {
     }
 
     @FXML
-    void insertModality(ActionEvent event) {
+    void insertHotelFranchise(ActionEvent event) {
 
     }
     @Override

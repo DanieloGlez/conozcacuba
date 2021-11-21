@@ -25,7 +25,7 @@ public class DailyActivityModal implements Initializable {
     }
 
     @FXML
-    void insertModality(ActionEvent event) {
+    void insertDailyActivity(ActionEvent event) {
 
     }
 

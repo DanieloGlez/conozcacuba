@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.modalsController.HotelModal">
    <children>
-      <GridPane hgap="10.0" layoutX="100.0" layoutY="108.0" vgap="5.0">
+      <GridPane hgap="10.0" layoutX="100.0" layoutY="108.0" vgap="5.0" AnchorPane.leftAnchor="85.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -61,13 +64,26 @@
                   <Font size="14.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="tf_email" promptText="eMail" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <JFXTextField fx:id="tf_email" promptText="eMail" GridPane.rowIndex="2">
                <font>
                   <Font size="14.0" />
                </font>
             </JFXTextField>
-            <JFXComboBox fx:id="cb_categories" prefHeight="25.0" prefWidth="110.0" promptText="Category" GridPane.rowIndex="2" />
+            <JFXComboBox fx:id="cb_categories" prefHeight="25.0" prefWidth="110.0" promptText="Category" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <JFXComboBox fx:id="cb_localizations" prefHeight="25.0" prefWidth="97.0" promptText="Localization" GridPane.rowIndex="3" />
+            <JFXComboBox fx:id="cb_hotelFranchises" prefHeight="25.0" prefWidth="128.0" promptText="Hotel Franchise" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <JFXComboBox fx:id="cb_provinces" prefHeight="25.0" prefWidth="111.0" promptText="Province" GridPane.columnIndex="2" GridPane.rowIndex="2" />
          </children>
       </GridPane>
+      <HBox alignment="CENTER" layoutX="183.0" layoutY="272.0" prefHeight="45.0" prefWidth="246.0">
+         <children>
+            <JFXButton fx:id="jfxbtn_insert" onAction="#insertHotel" text="Insert" />
+            <JFXButton fx:id="jfxbtn_cancel" alignment="CENTER" onAction="#cancelIserntion" text="Cancel">
+               <HBox.margin>
+                  <Insets left="58.0" />
+               </HBox.margin>
+            </JFXButton>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

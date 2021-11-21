@@ -25,7 +25,7 @@ public class RoomTypeModal implements Initializable {
     }
 
     @FXML
-    void insertModality(ActionEvent event) {
+    void insertRoomType(ActionEvent event) {
 
     }
     @Override

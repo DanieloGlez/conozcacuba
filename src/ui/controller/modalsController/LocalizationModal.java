@@ -27,7 +27,7 @@ public class LocalizationModal implements Initializable {
     }
 
     @FXML
-    void insertModality(ActionEvent event) {
+    void insertLocalization(ActionEvent event) {
 
     }
 

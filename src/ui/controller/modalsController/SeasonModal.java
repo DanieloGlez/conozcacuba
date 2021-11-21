@@ -37,7 +37,7 @@ public class SeasonModal implements Initializable {
     }
 
     @FXML
-    void insertModality(ActionEvent event) {
+    void insertSeason(ActionEvent event) {
 
     }
 

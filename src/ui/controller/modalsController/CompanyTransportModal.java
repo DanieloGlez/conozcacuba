@@ -26,7 +26,7 @@ public class CompanyTransportModal implements Initializable {
     }
 
     @FXML
-    void insertModality(ActionEvent event) {
+    void insertCompanyTransport(ActionEvent event) {
 
     }
     @Override

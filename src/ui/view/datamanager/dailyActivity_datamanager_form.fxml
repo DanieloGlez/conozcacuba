@@ -16,7 +16,7 @@
       </VBox>
       <HBox alignment="CENTER" layoutX="221.0" layoutY="178.0" prefHeight="45.0" prefWidth="159.0">
          <children>
-            <JFXButton fx:id="jfxbtn_insert" onAction="#insertModality" text="Insert" />
+            <JFXButton fx:id="jfxbtn_insert" onAction="#insertDailyActivity" text="Insert" />
             <JFXButton fx:id="jfxbtn_cancel" alignment="CENTER" onAction="#cancelIserntion" text="Cancel">
                <HBox.margin>
                   <Insets left="58.0" />

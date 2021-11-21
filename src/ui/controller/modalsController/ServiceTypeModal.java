@@ -25,7 +25,7 @@ public class ServiceTypeModal implements Initializable {
     }
 
     @FXML
-    void insertModality(ActionEvent event) {
+    void insertType(ActionEvent event) {
 
     }
 

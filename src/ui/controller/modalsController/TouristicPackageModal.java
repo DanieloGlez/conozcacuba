@@ -43,7 +43,7 @@ public class TouristicPackageModal implements Initializable {
     }
 
     @FXML
-    void insertModality(ActionEvent event) {
+    void insertTouristcPackage(ActionEvent event) {
 
     }
 
