@@ -3,49 +3,34 @@ package dto;
 import java.util.Date;
 
 public class DailyActivityDto {
-    private String id;
-    private Date date;
-    private String description;
-    private float cost;
+    private int id;
+    private String name;
 
     // Constructors
-    public DailyActivityDto(String id, Date date, String description, float cost) {
+    public DailyActivityDto(int id, Date date, String name) {
         this.id = id;
-        this.date = date;
-        this.description = description;
-        this.cost = cost;
+        this.name = name;
     }
 
     // Getters & Setters
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+
+
+    public String getName() {
+        return name;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
-    public float getCost() {
-        return cost;
-    }
-
-    public void setCost(float cost) {
-        this.cost = cost;
-    }
 }
