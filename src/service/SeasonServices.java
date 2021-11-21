@@ -2,12 +2,13 @@ package service;
 
 import dto.ContractDto;
 import dto.SeasonDto;
+import dto.nom.RoomTypeDto;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SeasonServices implements Services<SeasonDto>{
+public class SeasonServices implements Services<SeasonDto>, Relation<SeasonDto>{
     @Override
     public SeasonDto load(int id) throws SQLException {
         return null;
@@ -65,5 +66,30 @@ public class SeasonServices implements Services<SeasonDto>{
     @Override
     public String getGenericType() {
         return null;
+    }
+
+    @Override
+    public List<SeasonDto> loadRelated(int id) throws SQLException {
+        LinkedList<SeasonDto> seasonDtoLinkedList=new LinkedList<>();
+        Connection connection = ServicesLocator.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement callableStatement = connection.prepareCall("{?=call tpp.r_season_contract_hotel_get_by_id(?)}");
+        callableStatement.registerOutParameter(1,Types.REF_CURSOR);
+        callableStatement.setInt(2,id);
+        ResultSet resultSet= (ResultSet) callableStatement.getObject(1);
+
+        while (resultSet.next()){
+            seasonDtoLinkedList.add(
+                    new SeasonDto(
+                            resultSet.getInt("id_season"),
+                            resultSet.getString("name"),
+                            resultSet.getDate("start_date"),
+                            resultSet.getDate("finish_date"),
+                            resultSet.getString("description")
+
+                            )
+            );
+        }
+        return seasonDtoLinkedList;
     }
 }

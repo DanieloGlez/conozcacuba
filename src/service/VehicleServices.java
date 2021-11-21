@@ -82,13 +82,13 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
 
         while (resultSet.next()){
             String name=ServicesLocator.getVehicleBrandServices().load(resultSet.getInt(2)).getName();
-            LocalDate localDate=resultSet.getDate(5).toLocalDate();
+            LocalDate localDate=resultSet.getDate("production_date").toLocalDate();
             vehicleDtoLinkedList.add(
                     new VehicleDto(
-                            resultSet.getString(1),
-                            new VehicleBrandDto(resultSet.getInt(2),name),
-                            resultSet.getInt(3),
-                            resultSet.getInt(4),
+                            resultSet.getString("id_vehicle"),
+                            new VehicleBrandDto(resultSet.getInt("id_vehicle_brand"),name),
+                            resultSet.getInt("capacity_without_baggage"),
+                            resultSet.getInt("capacity_with_baggage"),
                             localDate
 
             ));
