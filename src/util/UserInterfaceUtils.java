@@ -38,11 +38,11 @@ public class UserInterfaceUtils {
     public static void createModalView(String fxmlURL) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/ui/view/datamanager/"+fxmlURL));
         Scene scene = new Scene(fxmlLoader.load());
-        Stage primaryStage = new Stage();
+        Stage modalStage = new Stage();
 
         System.out.println(true);
-        primaryStage.setTitle("Touristic Packages Planning");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        modalStage.setTitle("Touristic Packages Planning");
+        modalStage.setScene(scene);
+        modalStage.show();
     }
 }
