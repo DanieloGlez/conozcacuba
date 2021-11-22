@@ -8,7 +8,6 @@ public class ModalityTransportKmDto extends ModalityTransportDto {
     private VehicleDto vehicleDto;
 
     // Constructors
-
     public ModalityTransportKmDto(int id, float costKm, float costKmRoundTrip, float costHrWait, ContractTransportDto contractTransportDto, VehicleDto vehicleDto) {
         super(id);
         this.costKm = costKm;

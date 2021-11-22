@@ -31,13 +31,10 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
     @Override
     public List<ModalityTransportKmDto> loadAll() throws SQLException {
         List<ModalityTransportKmDto> modalityTransportKmDtos = new LinkedList<>();
-
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-
         CallableStatement callableStatement = connection.prepareCall("{ ? = call tpp.modality_transport_km_load()}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
-
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         int idTypeContract;
@@ -67,7 +64,6 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
         callableStatement.setFloat("cost_hr_wait", dto.getCostHrWait());
         callableStatement.setInt("id_contract", dto.getContractTransportDto().getId());
         callableStatement.setInt("id_vehicle", dto.getVehicleDto().getId());
-
         callableStatement.execute();
     }
 
@@ -80,10 +76,7 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
         callableStatement.setFloat("cost_hr_wait", dto.getCostHrWait());
         callableStatement.setInt("id_contract", dto.getContractTransportDto().getId());
         callableStatement.setInt("id_vehicle", dto.getVehicleDto().getId());
-
         callableStatement.execute();
-
-
     }
 
     @Override

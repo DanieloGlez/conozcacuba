@@ -31,13 +31,10 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
     @Override
     public List<ModalityTransportRtDto> loadAll() throws SQLException {
         List<ModalityTransportRtDto> modalityTransportRtDtos = new LinkedList<>();
-
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.modality_transport_rt_load()}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
-
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
 
@@ -66,7 +63,6 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
         callableStatement.setFloat("cost_round_trip", dto.getCostRoundTrip());
         callableStatement.setInt("id_contract", dto.getContractTransportDto().getId());
         callableStatement.setInt("id_vehicle", dto.getVehicleDto().getId());
-
         callableStatement.execute();
     }
 
@@ -79,10 +75,7 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
         callableStatement.setFloat("cost_round_trip", dto.getCostRoundTrip());
         callableStatement.setInt("id_contract", dto.getContractTransportDto().getId());
         callableStatement.setInt("id_vehicle", dto.getVehicleDto().getId());
-
         callableStatement.execute();
-
-
     }
 
     @Override

@@ -18,7 +18,6 @@ public class ModalityTransportRtDto extends ModalityTransportDto {
     }
 
     // Getter & Setter
-
     public String getRtDescription() {
         return rtDescription;
     }

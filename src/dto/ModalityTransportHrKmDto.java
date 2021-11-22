@@ -9,7 +9,6 @@ public class ModalityTransportHrKmDto extends ModalityTransportDto {
     private VehicleDto vehicleDto;
 
     // Constructors
-
     public ModalityTransportHrKmDto(int id, float costTraveledKm, float costHr, float costKmExtras, float costHrExtras, ContractTransportDto contractTransportDto, VehicleDto vehicleDto) {
         super(id);
         this.costTraveledKm = costTraveledKm;
@@ -21,7 +20,6 @@ public class ModalityTransportHrKmDto extends ModalityTransportDto {
     }
 
     // Getters and Setters
-
     public float getCostTraveledKm() {
         return costTraveledKm;
     }
