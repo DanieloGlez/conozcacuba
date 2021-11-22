@@ -4,7 +4,7 @@ import dto.nom.*;
 
 import java.util.List;
 
-public class HotelDto {
+public class HotelDto implements Dto {
     private int id;
     private String name;
     private String address;
@@ -21,9 +21,12 @@ public class HotelDto {
     private HotelFranchiseDto hotelFranchise;
     private ProvinceDto province;
     private LocalizationDto localization;
+    private List<RoomTypeDto> roomTypes;
+    private List<FoodPlanDto> foodPlans;
+    private List<ModalityCommercialDto> commercialModalities;
 
     // Constructors
-    public HotelDto(int id, String name, String address, String category, String telephoneNumber, String fax, String email, float distToCity, float distToAirport, int roomsAmount, int floorsAmount, HotelFranchiseDto hotelFranchise, ProvinceDto province, LocalizationDto localization) {
+    public HotelDto(int id, String name, String address, String category, String telephoneNumber, String fax, String email, float distToCity, float distToAirport, int roomsAmount, int floorsAmount, HotelFranchiseDto hotelFranchise, ProvinceDto province, LocalizationDto localization, List<RoomTypeDto> roomTypes, List<FoodPlanDto> foodPlans, List<ModalityCommercialDto> commercialModalities) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -38,6 +41,9 @@ public class HotelDto {
         this.hotelFranchise = hotelFranchise;
         this.province = province;
         this.localization = localization;
+        this.roomTypes = roomTypes;
+        this.foodPlans = foodPlans;
+        this.commercialModalities = commercialModalities;
     }
 
     // Getters & Setters
@@ -151,5 +157,29 @@ public class HotelDto {
 
     public void setLocalization(LocalizationDto localization) {
         this.localization = localization;
+    }
+
+    public List<RoomTypeDto> getRoomTypes() {
+        return roomTypes;
+    }
+
+    public void setRoomTypes(List<RoomTypeDto> roomTypes) {
+        this.roomTypes = roomTypes;
+    }
+
+    public List<FoodPlanDto> getFoodPlans() {
+        return foodPlans;
+    }
+
+    public void setFoodPlans(List<FoodPlanDto> foodPlans) {
+        this.foodPlans = foodPlans;
+    }
+
+    public List<ModalityCommercialDto> getCommercialModalities() {
+        return commercialModalities;
+    }
+
+    public void setCommercialModalities(List<ModalityCommercialDto> commercialModalities) {
+        this.commercialModalities = commercialModalities;
     }
 }
