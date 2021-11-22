@@ -65,6 +65,7 @@ public class MainMenu implements Initializable {
                     case "datamanager_jfxbutton":
                         dynamiccontainer_anchorpane.setVisible(true);
                         dynamiccontainer_anchorpane.getChildren().clear();
+                        drawer_jfxdrawer.close();
 
                         try {
                             dynamiccontainer_anchorpane.getChildren().add(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/ui/view/datamanager/data_manager.fxml"))));
