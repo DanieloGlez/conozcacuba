@@ -5,7 +5,8 @@ import dto.nom.VehicleBrandDto;
 import java.time.LocalDate;
 
 public class VehicleDto {
-    private String id;
+    private int id;
+    private String chapa;
     private VehicleBrandDto brand;
     private int capacityWithoutBaggage;
     private int capacityWithBaggage;
@@ -13,8 +14,9 @@ public class VehicleDto {
     private LocalDate productionDate;
 
     // Constructors
-    public VehicleDto(String id, VehicleBrandDto brand, int capacityWithoutBaggage, int capacityWithBaggage, LocalDate productionDate) {
+    public VehicleDto(int id, String chapa, VehicleBrandDto brand, int capacityWithoutBaggage, int capacityWithBaggage, LocalDate productionDate) {
         this.id = id;
+        this.chapa = chapa;
         this.brand = brand;
         this.capacityWithoutBaggage = capacityWithoutBaggage;
         this.capacityWithBaggage = capacityWithBaggage;
@@ -23,12 +25,20 @@ public class VehicleDto {
     }
 
     // Getters & Setters
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    public String getChapa() {
+        return chapa;
+    }
+
+    public void setChapa(String chapa) {
+        this.chapa = chapa;
     }
 
     public VehicleBrandDto getBrand() {

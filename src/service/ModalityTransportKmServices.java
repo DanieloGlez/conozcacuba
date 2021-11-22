@@ -51,7 +51,7 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
         callableStatement.setFloat("cost_km_round_trip", dto.getCostKmRoundTrip());
         callableStatement.setFloat("cost_hr_wait", dto.getCostHrWait());
         callableStatement.setInt("id_contract", dto.getContractDto().getId());
-        callableStatement.setString("id_vehicle", dto.getVehicleDto().getId());
+        callableStatement.setInt("id_vehicle", dto.getVehicleDto().getId());
 
         callableStatement.execute();
     }

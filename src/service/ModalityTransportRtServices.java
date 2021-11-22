@@ -50,7 +50,7 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
         callableStatement.setFloat("cost_rt", dto.getCostRt());
         callableStatement.setFloat("cost_round_trip", dto.getCostRoundTrip());
         callableStatement.setInt("id_contract", dto.getContractDto().getId());
-        callableStatement.setString("id_vehicle", dto.getVehicleDto().getId());
+        callableStatement.setInt("id_vehicle", dto.getVehicleDto().getId());
 
         callableStatement.execute();
     }

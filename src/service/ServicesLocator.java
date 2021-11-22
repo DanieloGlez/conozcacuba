@@ -1,5 +1,6 @@
 package service;
 
+import dto.ModalityTransportHrKmDto;
 import service.fun.UserServices;
 import service.nom.*;
 import util.ConfigurationUtils;
@@ -12,7 +13,11 @@ public class ServicesLocator {
     private static CompanyServiceServices companyServiceServices;
     private static CompanyTransportServices companyTransportServices;
     private static ContractTransportServices contractTransportServices;
+    private static HotelServices hotelServices;
     private static ContractServices contractServices;
+    private static ModalityTransportKmServices modalityTransportKmServices;
+    private static ModalityTransportRtServices modalityTransportRtServices;
+    private static ModalityTransportHrKmServices modalityTransportHrKmServices;
     private static SeasonServices seasonServices;
     private static DailyActivityServices dailyActivityServices;
     private static ContractTypeServices contractTypeServices;
@@ -57,6 +62,34 @@ public class ServicesLocator {
             contractServices = new ContractServices();
 
         return contractServices;
+    }
+    public static HotelServices getHotelServices() {
+        if (hotelServices == null)
+            hotelServices = new HotelServices();
+
+        return hotelServices;
+    }
+
+
+    public static ModalityTransportHrKmServices getModalityTransportHrKmServices(){
+        if (modalityTransportHrKmServices == null)
+            modalityTransportHrKmServices = new ModalityTransportHrKmServices();
+
+        return modalityTransportHrKmServices;
+    }
+
+    public static ModalityTransportRtServices getModalityTransportRtServices(){
+        if (modalityTransportRtServices == null)
+            modalityTransportRtServices = new ModalityTransportRtServices();
+
+        return modalityTransportRtServices;
+    }
+
+    public static ModalityTransportKmServices getModalityTransportKmServices(){
+        if (modalityTransportKmServices == null)
+            modalityTransportKmServices = new ModalityTransportKmServices();
+
+        return modalityTransportKmServices;
     }
 
     public static ContractTransportServices getContractTransportServices() {
