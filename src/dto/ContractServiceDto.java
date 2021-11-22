@@ -4,7 +4,7 @@ import dto.nom.ContractTypeDto;
 import dto.nom.DailyActivityDto;
 import dto.nom.ProvinceDto;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 public class ContractServiceDto extends ContractDto {

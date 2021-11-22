@@ -38,4 +38,9 @@ public class UserDto implements Dto {
     public void setAdmin(Boolean admin) {
         isAdmin = admin;
     }
+
+    @Override
+    public int getId() {
+        return 0;
+    }
 }

@@ -1,6 +1,6 @@
 package dto;
 
-public class ModalityTransportKmDto extends ModalityTransportDto {
+public class ModalityTransportKmDto extends ModalityTransportDto implements Dto {
     private float costKm;
     private float costKmRoundTrip;
     private float costHrWait;

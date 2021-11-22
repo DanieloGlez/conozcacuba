@@ -4,7 +4,7 @@ import dto.nom.VehicleBrandDto;
 
 import java.time.LocalDate;
 
-public class VehicleDto {
+public class VehicleDto implements Dto {
     private int id;
     private String registration;
     private VehicleBrandDto brand;

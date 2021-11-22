@@ -1,6 +1,8 @@
 package dto.nom;
 
-public abstract class NomenclatorDto {
+import dto.Dto;
+
+public class NomenclatorDto implements Dto {
     protected int id;
     protected String name;
 

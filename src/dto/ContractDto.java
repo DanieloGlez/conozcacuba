@@ -2,14 +2,14 @@ package dto;
 
 import dto.nom.ContractTypeDto;
 
-import java.util.Date;
+import java.sql.Date;
 
-public class ContractDto {
+public class ContractDto implements Dto {
     protected int id;
     protected ContractTypeDto contractTypeDto;
-    protected java.sql.Date startDate;
-    protected java.sql.Date finishDate;
-    protected java.sql.Date conciliationDate;
+    protected Date startDate;
+    protected Date finishDate;
+    protected Date conciliationDate;
     protected String description;
 
     // Constructors
@@ -22,7 +22,7 @@ public class ContractDto {
         this.description = description;
     }
 
-    public ContractDto(){};
+    public ContractDto(){}
 
     // Getters & Setters
     public int getId() {

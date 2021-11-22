@@ -1,7 +1,6 @@
-package ui.controller.modalsController;
+package ui.controller.datamanager;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,21 +9,9 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ModalityTransportKm implements Initializable {
+public class DailyActivityModal implements Initializable {
     @FXML
-    private JFXTextField tf_costKm;
-
-    @FXML
-    private JFXTextField tf_costKmRoundTrip;
-
-    @FXML
-    private JFXTextField tf_costHrWait;
-
-    @FXML
-    private JFXComboBox<?> cb_contract;
-
-    @FXML
-    private JFXComboBox<?> cb_vehicle;
+    private JFXTextField tf_activityName;
 
     @FXML
     private JFXButton jfxbtn_insert;
@@ -38,9 +25,10 @@ public class ModalityTransportKm implements Initializable {
     }
 
     @FXML
-    void insertModality(ActionEvent event) {
+    void insertDailyActivity(ActionEvent event) {
 
     }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 

@@ -76,9 +76,10 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
         LinkedList<VehicleDto> vehicleDtoLinkedList=new LinkedList<>();
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.r_contract_transport_vehicle_get_by_id(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.r_contract_transport_vehicle_load_by_id(?)}");
         callableStatement.registerOutParameter(1,Types.REF_CURSOR);
         callableStatement.setInt(2,id);
+        callableStatement.execute();
         ResultSet resultSet= (ResultSet) callableStatement.getObject(1);
 
         while (resultSet.next()){

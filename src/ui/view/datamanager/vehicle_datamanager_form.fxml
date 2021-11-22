@@ -11,16 +11,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.modalsController.VehicleModal">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../../asset/css/global.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.datamanager.VehicleModal">
    <children>
       <VBox layoutX="207.0" layoutY="14.0" prefHeight="325.0" prefWidth="179.0" AnchorPane.leftAnchor="207.0" AnchorPane.rightAnchor="214.0">
          <children>
-            <JFXTextField fx:id="tf_vehicle_id" prefHeight="25.0" prefWidth="433.0" promptText="ID Vehicle">
+            <JFXTextField fx:id="chapavehicle_jfxtextfield" prefHeight="25.0" prefWidth="433.0" promptText="ID Vehicle" text="Chapa">
                <font>
                   <Font size="14.0" />
                </font></JFXTextField>
             <Label fx:id="errormessage_label" text="Label" visible="false" />
-            <JFXTextField fx:id="tf_capacity_with_bagage" promptText="Capacity With Bagage">
+            <JFXTextField fx:id="capacitywithbaggage_jfxtextfield" promptText="Capacity With Baggage">
                <font>
                   <Font size="14.0" />
                </font>
@@ -30,7 +30,7 @@
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin></JFXTextField>
-            <JFXTextField fx:id="tf_capacity_without_bagage" promptText="Capacity Without Baggage">
+            <JFXTextField fx:id="capacitywithoutbaggage_jfxtextfield" promptText="Capacity Without Baggage">
                <font>
                   <Font size="14.0" />
                </font>
@@ -40,22 +40,22 @@
                <VBox.margin>
                   <Insets top="24.0" />
                </VBox.margin></JFXTextField>
-            <JFXDatePicker fx:id="dp_production_date" promptText="Production Date">
+            <JFXDatePicker fx:id="productiondate_jfxdatepicker" promptText="Production Date">
                <VBox.margin>
                   <Insets top="24.0" />
                </VBox.margin></JFXDatePicker>
-            <JFXComboBox fx:id="cb_vehicle_brand" prefHeight="25.0" prefWidth="188.0" promptText="Vehicle Brand">
+            <JFXComboBox fx:id="vehiclebrand_jfxcombobox" prefHeight="25.0" prefWidth="188.0" promptText="Vehicle Brand">
                <VBox.margin>
                   <Insets top="24.0" />
                </VBox.margin></JFXComboBox>
          </children>
       </VBox>
-      <HBox layoutX="207.0" layoutY="339.0" prefHeight="32.0" prefWidth="179.0">
+      <HBox alignment="CENTER" layoutX="111.0" layoutY="167.0" prefHeight="45.0" prefWidth="159.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
          <children>
-            <JFXButton fx:id="btn_insert_vehicle" onAction="#insertVehicle" styleClass="jfx-button" text="Insert" />
-            <JFXButton fx:id="btn_cancel" onAction="#cancelInsertion" styleClass="jfx-button" text="Cancel">
+            <JFXButton fx:id="insert_jfxbutton" onAction="#insert" text="Insert" />
+            <JFXButton fx:id="update_jfxbutton" alignment="CENTER" onAction="#update" text="Update">
                <HBox.margin>
-                  <Insets left="80.0" />
+                  <Insets left="58.0" />
                </HBox.margin>
             </JFXButton>
          </children>

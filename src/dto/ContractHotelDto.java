@@ -2,7 +2,7 @@ package dto;
 
 import dto.nom.ContractTypeDto;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 public class ContractHotelDto extends ContractDto {

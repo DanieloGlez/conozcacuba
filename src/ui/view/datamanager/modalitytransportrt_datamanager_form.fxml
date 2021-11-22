@@ -8,39 +8,39 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.modalsController.ModalityTransportRtModal">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../../asset/css/global.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.datamanager.ModalityTransportRtModal">
    <children>
       <VBox layoutX="214.0" layoutY="23.0" prefHeight="243.0" prefWidth="173.0">
          <children>
-            <JFXTextField fx:id="tf_rt_description" promptText="Rt Description" />
-            <JFXTextField fx:id="tf_cost_rt" promptText="Cost Rt">
+            <JFXTextField fx:id="routedescription_jfxtextfield" promptText="Rt Description" />
+            <JFXTextField fx:id="costroute_jfxtextfield" promptText="Cost Rt">
                <VBox.margin>
                   <Insets top="30.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField fx:id="tf_cost_round_trip" text="Cost Round Trip">
+            <JFXTextField fx:id="costroundtrip_jfxtextfield" text="Cost Round Trip">
                <VBox.margin>
                   <Insets top="30.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXComboBox fx:id="cb_contracts" prefHeight="25.0" prefWidth="181.0" promptText="Contracts">
+            <JFXComboBox fx:id="contract_jfxcombobox" prefHeight="25.0" prefWidth="181.0" promptText="Contract">
                <VBox.margin>
                   <Insets top="24.0" />
                </VBox.margin>
             </JFXComboBox>
-            <JFXComboBox fx:id="cb_vehicles" prefHeight="25.0" prefWidth="172.0" promptText="Vehicles">
+            <JFXComboBox fx:id="vehicle_jfxcombobox" prefHeight="25.0" prefWidth="172.0" promptText="Vehicle">
                <VBox.margin>
                   <Insets top="24.0" />
                </VBox.margin>
             </JFXComboBox>
          </children>
       </VBox>
-      <HBox alignment="CENTER" layoutX="214.0" layoutY="278.0" prefHeight="41.0" prefWidth="173.0">
+      <HBox alignment="CENTER" layoutX="111.0" layoutY="167.0" prefHeight="45.0" prefWidth="159.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
          <children>
-            <JFXButton fx:id="jfxbtn_insert" onAction="#insertModality" text="Insert" />
-            <JFXButton fx:id="jfxbtn_cancel" onAction="#cancelIserntion" text="Cancel">
+            <JFXButton fx:id="insert_jfxbutton" onAction="#insert" text="Insert" />
+            <JFXButton fx:id="update_jfxbutton" alignment="CENTER" onAction="#update" text="Update">
                <HBox.margin>
-                  <Insets left="68.0" />
+                  <Insets left="58.0" />
                </HBox.margin>
             </JFXButton>
          </children>

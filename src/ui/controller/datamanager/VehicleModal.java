@@ -1,4 +1,4 @@
-package ui.controller.modalsController;
+package ui.controller.datamanager;
 
 
 import com.jfoenix.controls.JFXButton;
@@ -31,50 +31,26 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import service.*;
 
-public class VehicleModal implements Initializable {
-
-
+public class VehicleModal extends DataManagerFormController {
     @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
-
-    @FXML
-    private JFXTextField tf_vehicle_id;
-
-    @FXML
-    private JFXTextField tf_capacity_with_bagage;
-
-    @FXML
-    private JFXTextField tf_capacity_without_bagage;
-
-    @FXML
-    private JFXDatePicker dp_production_date;
+    private JFXTextField chapavehicle_jfxtextfield;
 
     @FXML
     private Label errormessage_label;
 
+    @FXML
+    private JFXTextField capacitywithbaggage_jfxtextfield;
 
     @FXML
-    private JFXComboBox<String> cb_vehicle_brand;
+    private JFXTextField capacitywithoutbaggage_jfxtextfield;
 
     @FXML
-    private JFXButton btn_insert_vehicle;
+    private JFXDatePicker productiondate_jfxdatepicker;
 
     @FXML
-    private JFXButton btn_cancel;
+    private JFXComboBox<?> vehiclebrand_jfxcombobox;
 
-
-    @FXML
-    void cancelInsertion(ActionEvent event) throws IOException {
-        Node source = (Node) event.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
-
-    }
-
-    @FXML
+    /*@FXML
     void insertVehicle(ActionEvent event) throws SQLException {
 
         ServicesLocator.getVehicleServices().insert(new VehicleDto(
@@ -186,7 +162,21 @@ public class VehicleModal implements Initializable {
 
         new Thread(checkVehicleExistenceTask).start();
     }
+*/
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
 
+    }
+
+    @Override
+    public void insert(ActionEvent event) {
+
+    }
+
+    @Override
+    public void update(ActionEvent event) {
+
+    }
 }
 

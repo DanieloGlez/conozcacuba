@@ -3,7 +3,7 @@ package dto;
 import java.util.Date;
 import java.util.List;
 
-public class SeasonDto {
+public class SeasonDto implements Dto {
     private int id;
     private String name;
     private Date startDate;

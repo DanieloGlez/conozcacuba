@@ -42,7 +42,8 @@ public class ContractTransportServices implements Services<ContractTransportDto>
                     contract.getFinishDate(),
                     contract.getConciliationDate(),
                     contract.getDescription(),
-                    ServicesLocator.getCompanyTransportServices().load(resultSet.getInt("id_company_transport"))
+                    ServicesLocator.getCompanyTransportServices().load(resultSet.getInt("id_company_transport")),
+                    ServicesLocator.getVehicleServices().loadRelated(id)
             ) {
             });
         }

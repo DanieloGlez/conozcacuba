@@ -43,7 +43,10 @@ public class HotelServices implements Services<HotelDto> {
                     resultSet.getInt("floors_amount"),
                     ServicesLocator.getHotelFranchiseServices().load(resultSet.getInt("id_hotel_franchise")),
                     ServicesLocator.getProvinceServices().load(resultSet.getInt("id_province")),
-                    ServicesLocator.getLocalizationServices().load(resultSet.getInt("id_localization"))
+                    ServicesLocator.getLocalizationServices().load(resultSet.getInt("id_localization")),
+                    ServicesLocator.getRoomTypeServices().loadRelated(resultSet.getInt("id_hotel")),
+                    ServicesLocator.getFoodPlanServices().loadRelated(resultSet.getInt("id_hotel")),
+                    ServicesLocator.getModalityCommercialServices().loadRelated(resultSet.getInt("id_hotel"))
             ) {
             });
         }

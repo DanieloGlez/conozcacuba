@@ -19,6 +19,7 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
         resultSet.next();
 
         return new ModalityTransportRtDto(
+                resultSet.getInt("id_modality_transport_rt"),
                 resultSet.getString("rtDescription"),
                 resultSet.getFloat("ostRt"),
                 resultSet.getFloat("costRoundTrip"),

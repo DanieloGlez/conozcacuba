@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="250.0" prefWidth="600.0" stylesheets="@../../asset/css/global.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.datamanager.ContractModal">
+   <children>
+      <VBox layoutX="241.0" layoutY="134.0" prefWidth="100.0" spacing="35.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+         <children>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <JFXDatePicker fx:id="startdate_jfxdatepicker" promptText="Start Date" />
+                  <JFXDatePicker fx:id="finishdate_jfxdate" promptText="Finish Date" GridPane.columnIndex="1" />
+                  <JFXDatePicker fx:id="conciliationdate_jfxdate" promptText="Conciliation Date" GridPane.columnIndex="2" />
+               </children>
+            </GridPane>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="66.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="33.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <JFXTextField fx:id="description_jfxtextarea" labelFloat="true" promptText="Description" />
+                  <JFXComboBox fx:id="contracttype_jfxcombobox" labelFloat="true" promptText="Contract Type" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+         </children>
+      </VBox>
+       <HBox alignment="CENTER" layoutX="111.0" layoutY="167.0" prefHeight="45.0" prefWidth="159.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
+           <children>
+               <JFXButton fx:id="insert_jfxbutton" onAction="#insert" text="Insert" />
+               <JFXButton fx:id="cancel_jfxbutton" alignment="CENTER" onAction="#update" text="Update">
+                   <HBox.margin>
+                       <Insets left="58.0" />
+                   </HBox.margin>
+               </JFXButton>
+           </children>
+       </HBox>
+   </children>
+</AnchorPane>

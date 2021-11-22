@@ -19,6 +19,7 @@ public class ModalityTransportHrKmServices implements Services<ModalityTransport
         resultSet.next();
 
         return new ModalityTransportHrKmDto(
+                resultSet.getInt("id_modality_transport_hr_km"),
                 resultSet.getFloat("costTraveledKm"),
                 resultSet.getFloat("costHr"),
                 resultSet.getFloat("costKmExtras"),
