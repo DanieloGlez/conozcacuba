@@ -7,13 +7,13 @@ import java.util.Date;
 public class ContractDto {
     protected int id;
     protected ContractTypeDto contractTypeDto;
-    protected Date startDate;
-    protected Date finishDate;
-    protected Date conciliationDate;
+    protected java.sql.Date startDate;
+    protected java.sql.Date finishDate;
+    protected java.sql.Date conciliationDate;
     protected String description;
 
     // Constructors
-    public ContractDto(int id, ContractTypeDto contractTypeDto,Date startDate, Date finishDate, Date conciliationDate, String description) {
+    public ContractDto(int id, ContractTypeDto contractTypeDto,java.sql.Date startDate, java.sql.Date finishDate, java.sql.Date conciliationDate, String description) {
         this.id = id;
         this.contractTypeDto = contractTypeDto;
         this.startDate = startDate;
@@ -45,23 +45,23 @@ public class ContractDto {
         this.contractTypeDto = contractTypeDto;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(java.sql.Date startDate) {
         this.startDate = startDate;
     }
 
-    public Date getFinishDate() {
+    public java.sql.Date getFinishDate() {
         return finishDate;
     }
 
-    public void setFinishDate(Date finishDate) {
+    public void setFinishDate(java.sql.Date finishDate) {
         this.finishDate = finishDate;
     }
 
-    public Date getConciliationDate() {
+    public java.sql.Date getConciliationDate() {
         return conciliationDate;
     }
 
-    public void setConciliationDate(Date conciliationDate) {
+    public void setConciliationDate(java.sql.Date conciliationDate) {
         this.conciliationDate = conciliationDate;
     }
 
