@@ -66,11 +66,20 @@ public class RoomTypeServices implements Services<RoomTypeDto>, Relation<RoomTyp
 
     @Override
     public void update(RoomTypeDto dto) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_room_type_update(?)}");
+        callableStatement.setInt(1, dto.getId());
+        callableStatement.setString(2, dto.getName());
+        callableStatement.execute();
 
     }
 
     @Override
     public void delete(int id) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_room_type_delete(?)}");
+        callableStatement.setInt(1, id);
+        callableStatement.execute();
 
     }
 

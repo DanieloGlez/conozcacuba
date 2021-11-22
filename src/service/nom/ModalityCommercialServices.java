@@ -66,11 +66,20 @@ public class ModalityCommercialServices implements Services<ModalityCommercialDt
 
     @Override
     public void update(ModalityCommercialDto dto) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_modality_hotel_comertial_update(?)}");
+        callableStatement.setInt(1, dto.getId());
+        callableStatement.setString(2, dto.getName());
+        callableStatement.execute();
 
     }
 
     @Override
-    public void delete(int id) throws SQLException {
+    public void delete(int id_modality_hotel_comertial) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_modality_hotel_comertial_delete(?)}");
+        callableStatement.setInt(1, id_modality_hotel_comertial);
+        callableStatement.execute();
 
     }
 

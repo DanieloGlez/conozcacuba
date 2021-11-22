@@ -1,5 +1,6 @@
 package service.nom;
 
+import dto.nom.CompanyTransportDto;
 import dto.nom.DailyActivityDto;
 import service.Relation;
 import service.Services;
@@ -11,8 +12,23 @@ import java.util.List;
 
 public class DailyActivityServices implements Services<DailyActivityDto>, Relation<DailyActivityDto> {
     @Override
-    public DailyActivityDto load(int id) throws SQLException {
-        return null;
+    public DailyActivityDto load(int id_daily_activity) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        connection.setAutoCommit(false);
+
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_daily_activity_load_by_id(?)}");
+        callableStatement.registerOutParameter(1, Types.REF_CURSOR);
+        callableStatement.setInt(2, id_daily_activity);
+
+        callableStatement.execute();
+
+        ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
+        resultSet.next();
+
+        return new DailyActivityDto(
+                resultSet.getInt("id_daily_activity"),
+                resultSet.getString("name")
+        );
     }
 
     @Override
@@ -50,11 +66,20 @@ public class DailyActivityServices implements Services<DailyActivityDto>, Relati
 
     @Override
     public void update(DailyActivityDto dto) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_daily_activity_update(?)}");
+        callableStatement.setInt(1, dto.getId());
+        callableStatement.setString(2, dto.getName());
+        callableStatement.execute();
 
     }
 
     @Override
-    public void delete(int id) throws SQLException {
+    public void delete(int id_daily_activity) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_daily_activity_delete(?)}");
+        callableStatement.setInt(1, id_daily_activity);
+        callableStatement.execute();
 
     }
 
