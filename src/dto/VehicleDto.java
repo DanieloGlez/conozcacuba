@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public class VehicleDto {
     private int id;
-    private String chapa;
+    private String registration;
     private VehicleBrandDto brand;
     private int capacityWithoutBaggage;
     private int capacityWithBaggage;
@@ -14,9 +14,9 @@ public class VehicleDto {
     private LocalDate productionDate;
 
     // Constructors
-    public VehicleDto(int id, String chapa, VehicleBrandDto brand, int capacityWithoutBaggage, int capacityWithBaggage, LocalDate productionDate) {
+    public VehicleDto(int id, String registration, VehicleBrandDto brand, int capacityWithoutBaggage, int capacityWithBaggage, LocalDate productionDate) {
         this.id = id;
-        this.chapa = chapa;
+        this.registration = registration;
         this.brand = brand;
         this.capacityWithoutBaggage = capacityWithoutBaggage;
         this.capacityWithBaggage = capacityWithBaggage;
@@ -33,12 +33,12 @@ public class VehicleDto {
         this.id = id;
     }
 
-    public String getChapa() {
-        return chapa;
+    public String getRegistration() {
+        return registration;
     }
 
-    public void setChapa(String chapa) {
-        this.chapa = chapa;
+    public void setRegistration(String registration) {
+        this.registration = registration;
     }
 
     public VehicleBrandDto getBrand() {

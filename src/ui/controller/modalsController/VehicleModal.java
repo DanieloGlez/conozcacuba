@@ -156,7 +156,7 @@ public class VehicleModal implements Initializable {
                     while (iterator.hasNext() && !found) {
                         VehicleDto currentVehicle = iterator.next();
 
-                        if (currentVehicle.getChapa().equals(tf_vehicle_id.getText())) {
+                        if (currentVehicle.getRegistration().equals(tf_vehicle_id.getText())) {
                             vehicleDto = currentVehicle;
                             found = true;
                         }

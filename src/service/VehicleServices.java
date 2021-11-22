@@ -1,7 +1,6 @@
 package service;
 
 import dto.VehicleDto;
-import dto.nom.ServiceTypeDto;
 import dto.nom.VehicleBrandDto;
 
 import java.sql.*;
@@ -48,7 +47,7 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.vehicle_insert(?,?,?,?,?,?)}");
         callableStatement.setInt(1, dto.getId());
-        callableStatement.setString(2, dto.getChapa());
+        callableStatement.setString(2, dto.getRegistration());
         callableStatement.setInt(3, dto.getCapacityWithoutBaggage());
         callableStatement.setInt(4, dto.getCapacityWithBaggage());
         callableStatement.setInt(5, dto.getCapacityTotal());
