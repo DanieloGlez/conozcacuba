@@ -10,7 +10,7 @@ public class ContractHotelDto extends ContractDto {
     private List<SeasonDto> seasons;
 
     // Constructors
-    public ContractHotelDto(int id, ContractTypeDto contractTypeDto, Date startDate, Date finishDate, Date conciliationDate, String description, HotelDto hotel, List<SeasonDto> seasons) {
+    public ContractHotelDto(int id, ContractTypeDto contractTypeDto, java.sql.Date startDate, java.sql.Date finishDate, java.sql.Date conciliationDate, String description, HotelDto hotel, List<SeasonDto> seasons) {
         super(id, contractTypeDto, startDate, finishDate, conciliationDate, description);
         this.hotel = hotel;
         this.seasons = seasons;

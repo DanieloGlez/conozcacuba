@@ -14,7 +14,8 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
     @Override
     public ContractDto load(int id) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_contract_load_by_id(?)}");
+        connection.setAutoCommit(false);
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.contract_load_by_id(?)}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
         callableStatement.setInt(2, id);
         callableStatement.execute();
@@ -63,7 +64,6 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
     @Override
     public void insert(ContractDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_insert(?,?,?,?,?)}");
         callableStatement.setInt("id_contract_type", dto.getContractTypeDto().getId());
         callableStatement.setDate("start_date", (Date) dto.getStartDate());
@@ -75,12 +75,25 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
 
     @Override
     public void update(ContractDto dto) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_update(?,?,?,?,?)}");
+        callableStatement.setInt("id_contract_type", dto.getContractTypeDto().getId());
+        callableStatement.setDate("start_date", (Date) dto.getStartDate());
+        callableStatement.setDate("finish_date", (Date) dto.getFinishDate());
+        callableStatement.setDate("conciliation0_date", (Date) dto.getConciliationDate());
+        callableStatement.setString("description", dto.getDescription());
+        callableStatement.execute();
+
+
 
     }
 
     @Override
     public void delete(int id) throws SQLException {
-
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_delete(?)}");
+        callableStatement.setInt("id_contract_type", id);
+        callableStatement.execute();
     }
 
     @Override

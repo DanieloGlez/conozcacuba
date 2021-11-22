@@ -4,6 +4,7 @@ package ui.controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
+import dto.ContractServiceDto;
 import dto.nom.NomenclatorDto;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -90,6 +91,13 @@ public class DataManager implements Initializable {
                 System.out.println("get" + tableName + "Services() hasn't been implemented yet in ServicesLocator class");
             }
         });
+
+        /*LinkedList<ContractServiceDto> p = (LinkedList<ContractServiceDto>) ServicesLocator.getContractServiceServices().loadAll();
+        Iterator<ContractServiceDto> i = p.iterator();
+        while (i.hasNext())
+            System.out.println(i.next().getId());*/
+
+
     }
 
     void fillTablesJfxListView() {
@@ -123,7 +131,7 @@ public class DataManager implements Initializable {
         List<TableColumn> tableColumns = new LinkedList<>();
 
         // Avoid blank content in nomenclator table
-        if(dtoClass.getSuperclass().equals(NomenclatorDto.class))
+        if (dtoClass.getSuperclass().equals(NomenclatorDto.class))
             dtoClass = dtoClass.getSuperclass();
 
         for (Field declaredField : dtoClass.getDeclaredFields()) {

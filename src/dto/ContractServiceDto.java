@@ -7,36 +7,27 @@ import java.util.Date;
 import java.util.List;
 
 public class ContractServiceDto extends ContractDto {
-    private String idServiceType;
-    private String idProvince;
+    private int idProvince;
     private float paxCost;
 
     // References
     private List<DailyActivityDto> dailyActivities;
 
     // Constructors
-    public ContractServiceDto(int id, ContractTypeDto contractTypeDto, Date startDate, Date finishDate, Date conciliationDate, String description, String idServiceType, String idProvince, float paxCost, List<DailyActivityDto> dailyActivities) {
+    public ContractServiceDto(int id, ContractTypeDto contractTypeDto, java.sql.Date startDate, java.sql.Date finishDate, java.sql.Date conciliationDate, String description, int idProvince, float paxCost, List<DailyActivityDto> dailyActivities) {
         super(id, contractTypeDto, startDate, finishDate, conciliationDate, description);
-        this.idServiceType = idServiceType;
         this.idProvince = idProvince;
         this.paxCost = paxCost;
         this.dailyActivities = dailyActivities;
     }
 
     // Getters & Setters
-    public String getIdServiceType() {
-        return idServiceType;
-    }
 
-    public void setIdServiceType(String idServiceType) {
-        this.idServiceType = idServiceType;
-    }
-
-    public String getIdProvince() {
+    public int getIdProvince() {
         return idProvince;
     }
 
-    public void setIdProvince(String idProvince) {
+    public void setIdProvince(int idProvince) {
         this.idProvince = idProvince;
     }
 
