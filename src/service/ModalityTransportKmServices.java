@@ -10,7 +10,21 @@ import java.util.List;
 public class ModalityTransportKmServices implements Services<ModalityTransportKmDto>{
     @Override
     public ModalityTransportKmDto load(int id) throws SQLException {
-        return null;
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.modality_transport_km_load_by_id(?)}");
+        callableStatement.registerOutParameter(1, Types.REF_CURSOR);
+        callableStatement.setInt(2, id);
+        callableStatement.execute();
+        ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
+        resultSet.next();
+
+        return new ModalityTransportKmDto(
+                resultSet.getFloat("costKm"),
+                resultSet.getFloat("costKmRoundTrip"),
+                resultSet.getFloat("costHrWait"),
+                ServicesLocator.getContractServices().load( resultSet.getInt("id_contract")),
+                ServicesLocator.getVehicleServices().load( resultSet.getInt("id_vehicle"))
+        );
     }
 
     @Override
@@ -58,6 +72,16 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
 
     @Override
     public void update(ModalityTransportKmDto dto) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_km_update(?,?,?,?,?)}");
+        callableStatement.setFloat("cost_km", dto.getCostKm());
+        callableStatement.setFloat("cost_km_round_trip", dto.getCostKmRoundTrip());
+        callableStatement.setFloat("cost_hr_wait", dto.getCostHrWait());
+        callableStatement.setInt("id_contract", dto.getContractDto().getId());
+        callableStatement.setInt("id_vehicle", dto.getVehicleDto().getId());
+
+        callableStatement.execute();
+
 
     }
 
