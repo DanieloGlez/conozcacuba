@@ -58,9 +58,8 @@ public class ModalityCommercialServices implements Services<ModalityCommercialDt
     @Override
     public void insert(ModalityCommercialDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_modality_hotel_comertial_insert(?)}");
-        callableStatement.setString("name", dto.getName());
+        callableStatement.setString(1, dto.getName());
         callableStatement.execute();
     }
 

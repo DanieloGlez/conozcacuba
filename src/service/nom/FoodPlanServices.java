@@ -58,9 +58,8 @@ public class FoodPlanServices implements Services<FoodPlanDto>, Relation<FoodPla
     @Override
     public void insert(FoodPlanDto dto) throws SQLException {
         Connection connection = service.ServicesLocator.getConnection();
-        connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_food_plan_insert(?)}");
-        callableStatement.setString("name", dto.getName());
+        callableStatement.setString(1, dto.getName());
         callableStatement.execute();
     }
 

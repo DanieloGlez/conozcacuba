@@ -58,9 +58,8 @@ public class RoomTypeServices implements Services<RoomTypeDto>, Relation<RoomTyp
     @Override
     public void insert(RoomTypeDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_room_type_insert(?)}");
-        callableStatement.setString("name", dto.getName());
+        callableStatement.setString(1, dto.getName());
         callableStatement.execute();
     }
 

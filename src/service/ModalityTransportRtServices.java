@@ -23,7 +23,7 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
                 resultSet.getString("rtDescription"),
                 resultSet.getFloat("ostRt"),
                 resultSet.getFloat("costRoundTrip"),
-                ServicesLocator.getContractServices().load( resultSet.getInt("id_contract")),
+                ServicesLocator.getContractTransportServices().load( resultSet.getInt("id_contract")),
                 ServicesLocator.getVehicleServices().load( resultSet.getInt("id_vehicle"))
         );
     }
@@ -31,13 +31,10 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
     @Override
     public List<ModalityTransportRtDto> loadAll() throws SQLException {
         List<ModalityTransportRtDto> modalityTransportRtDtos = new LinkedList<>();
-
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.modality_transport_rt_load()}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
-
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
 
@@ -47,7 +44,7 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
                     resultSet.getString("rt_description"),
                     resultSet.getFloat("cost_rt"),
                     resultSet.getFloat("cost_round_trip"),
-                    ServicesLocator.getContractServices().load(resultSet.getInt("id_contract")),
+                    ServicesLocator.getContractTransportServices().load(resultSet.getInt("id_contract")),
                     ServicesLocator.getVehicleServices().load(resultSet.getInt("id_vehicle"))
             ) {
             });
@@ -64,9 +61,8 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
         callableStatement.setString("rt_description", dto.getRtDescription());
         callableStatement.setFloat("cost_rt", dto.getCostRt());
         callableStatement.setFloat("cost_round_trip", dto.getCostRoundTrip());
-        callableStatement.setInt("id_contract", dto.getContractDto().getId());
+        callableStatement.setInt("id_contract", dto.getContractTransportDto().getId());
         callableStatement.setInt("id_vehicle", dto.getVehicleDto().getId());
-
         callableStatement.execute();
     }
 
@@ -77,12 +73,9 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
         callableStatement.setString("rt_description", dto.getRtDescription());
         callableStatement.setFloat("cost_rt", dto.getCostRt());
         callableStatement.setFloat("cost_round_trip", dto.getCostRoundTrip());
-        callableStatement.setInt("id_contract", dto.getContractDto().getId());
+        callableStatement.setInt("id_contract", dto.getContractTransportDto().getId());
         callableStatement.setInt("id_vehicle", dto.getVehicleDto().getId());
-
         callableStatement.execute();
-
-
     }
 
     @Override
