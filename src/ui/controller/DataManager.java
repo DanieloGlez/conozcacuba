@@ -94,7 +94,6 @@ public class DataManager implements Initializable {
             }
         });
 
-        ServicesLocator.getLocalizationServices().insert(new LocalizationDto(0,"XDXDXDXXX"));
 
 
     }
