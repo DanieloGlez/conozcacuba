@@ -11,7 +11,7 @@ public class ContractTransportDto extends ContractDto {
 
     // Constructors
     public ContractTransportDto(int id, java.sql.Date startDate, java.sql.Date finishDate, java.sql.Date conciliationDate, String description, ContractTypeDto contractTypeDto, CompanyTransportDto transportCompany) {
-        super(id, startDate, finishDate, conciliationDate, description, contractTypeDto);
+        super(id, contractTypeDto,startDate, finishDate, conciliationDate, description);
         this.transportCompany = transportCompany;
     }
 

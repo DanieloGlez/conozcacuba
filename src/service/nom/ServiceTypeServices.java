@@ -92,7 +92,7 @@ public class ServiceTypeServices implements Services<ServiceTypeDto>, Relation<S
         LinkedList<ServiceTypeDto> servicesTypesDto=new LinkedList<>();
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-        CallableStatement callableStatement = connection.prepareCall("{?=call tpp.r_contract_service_n_service_type_get_by_id(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{?=call tpp.r_contract_service_n_service_type_load_by_id(?)}");
         callableStatement.registerOutParameter(1,Types.REF_CURSOR);
         callableStatement.setInt(2,id);
         ResultSet resultSet= (ResultSet) callableStatement.getObject(1);

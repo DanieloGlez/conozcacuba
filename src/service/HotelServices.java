@@ -2,6 +2,9 @@ package service;
 
 import dto.ContractDto;
 import dto.HotelDto;
+import dto.nom.FoodPlanDto;
+import dto.nom.ModalityCommercialDto;
+import dto.nom.RoomTypeDto;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -43,7 +46,11 @@ public class HotelServices implements Services<HotelDto> {
                     resultSet.getInt("floors_amount"),
                     ServicesLocator.getHotelFranchiseServices().load(resultSet.getInt("id_hotel_franchise")),
                     ServicesLocator.getProvinceServices().load(resultSet.getInt("id_province")),
-                    ServicesLocator.getLocalizationServices().load(resultSet.getInt("id_localization"))
+                    ServicesLocator.getLocalizationServices().load(resultSet.getInt("id_localization")),
+                    ServicesLocator.getRoomTypeServices().loadRelated(resultSet.getInt("id_hotel")),
+                    ServicesLocator.getFoodPlanServices().loadRelated(resultSet.getInt("id_hotel")),
+                    ServicesLocator.getModalityCommercialServices().loadRelated(resultSet.getInt("id_hotel"))
+
             ) {
             });
         }
@@ -57,18 +64,18 @@ public class HotelServices implements Services<HotelDto> {
         connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{call tpp.hotel_insert(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
         callableStatement.setString("name", dto.getName());
-                callableStatement.setString("address", dto.getAddress());
-                callableStatement.setString("category", dto.getCategory());
-                callableStatement.setString("telephone_number", dto.getTelephoneNumber());
-                callableStatement.setString("fax", dto.getFax());
-                callableStatement.setString("emial", dto.getEmail());
-                callableStatement.setFloat("dist_to_city", dto.getDistToCity());
-                callableStatement.setFloat("dist_to_airport", dto.getDistToAirport());
-                callableStatement.setInt("rooms_amount", dto.getRoomsAmount());
-                callableStatement.setInt("floors_amount", dto.getFloorsAmount());
-                callableStatement.setInt("id_hotel_franchise", dto.getHotelFranchise().getId());
-                callableStatement.setInt("id_province", dto.getProvince().getId());
-                callableStatement.setInt("id_localization", dto.getLocalization().getId());
+        callableStatement.setString("address", dto.getAddress());
+        callableStatement.setString("category", dto.getCategory());
+        callableStatement.setString("telephone_number", dto.getTelephoneNumber());
+        callableStatement.setString("fax", dto.getFax());
+        callableStatement.setString("emial", dto.getEmail());
+        callableStatement.setFloat("dist_to_city", dto.getDistToCity());
+        callableStatement.setFloat("dist_to_airport", dto.getDistToAirport());
+        callableStatement.setInt("rooms_amount", dto.getRoomsAmount());
+        callableStatement.setInt("floors_amount", dto.getFloorsAmount());
+        callableStatement.setInt("id_hotel_franchise", dto.getHotelFranchise().getId());
+        callableStatement.setInt("id_province", dto.getProvince().getId());
+        callableStatement.setInt("id_localization", dto.getLocalization().getId());
         callableStatement.execute();
     }
 

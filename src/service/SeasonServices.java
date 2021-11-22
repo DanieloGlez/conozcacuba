@@ -73,7 +73,7 @@ public class SeasonServices implements Services<SeasonDto>, Relation<SeasonDto>{
         LinkedList<SeasonDto> seasonDtoLinkedList=new LinkedList<>();
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-        CallableStatement callableStatement = connection.prepareCall("{?=call tpp.r_season_contract_hotel_get_by_id(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{?=call tpp.r_season_contract_hotel_load_by_id(?)}");
         callableStatement.registerOutParameter(1,Types.REF_CURSOR);
         callableStatement.setInt(2,id);
         ResultSet resultSet= (ResultSet) callableStatement.getObject(1);
