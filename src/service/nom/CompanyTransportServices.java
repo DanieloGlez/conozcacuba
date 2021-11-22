@@ -64,7 +64,7 @@ public class CompanyTransportServices implements Services<CompanyTransportDto> {
     @Override
     public void update(CompanyTransportDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_company_transport_update(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_company_transport_update(?,?)}");
         callableStatement.setInt(1, dto.getId());
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();

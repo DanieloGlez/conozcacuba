@@ -66,8 +66,10 @@ public class DailyActivityServices implements Services<DailyActivityDto>, Relati
     @Override
     public void update(DailyActivityDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_daily_activity_update(?)}");
-        callableStatement.setString(1, dto.getName());
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_daily_activity_update(?,?)}");
+        callableStatement.setInt(1, dto.getId());
+        callableStatement.setString(2, dto.getName());
+
         callableStatement.execute();
 
     }

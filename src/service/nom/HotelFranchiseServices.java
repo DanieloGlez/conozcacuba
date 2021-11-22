@@ -65,7 +65,7 @@ public class HotelFranchiseServices implements Services<HotelFranchiseDto> {
     @Override
     public void update(HotelFranchiseDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_hotel_franchise_update(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_hotel_franchise_update(?,?)}");
         callableStatement.setInt(1, dto.getId());
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
