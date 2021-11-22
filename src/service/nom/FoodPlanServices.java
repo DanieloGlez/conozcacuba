@@ -67,8 +67,7 @@ public class FoodPlanServices implements Services<FoodPlanDto>, Relation<FoodPla
     public void update(FoodPlanDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_food_plan_update(?)}");
-        callableStatement.setInt(1, dto.getId());
-        callableStatement.setString(2, dto.getName());
+        callableStatement.setString(1, dto.getName());
         callableStatement.execute();
 
 
