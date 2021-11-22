@@ -5,7 +5,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
 import dto.ContractServiceDto;
-import dto.nom.NomenclatorDto;
+import dto.nom.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,6 +15,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import service.Services;
 import service.ServicesLocator;
+import service.nom.DailyActivityServices;
+import service.nom.FoodPlanServices;
 import util.ConstantUtils;
 import util.UserInterfaceUtils;
 
@@ -92,10 +94,7 @@ public class DataManager implements Initializable {
             }
         });
 
-        /*LinkedList<ContractServiceDto> p = (LinkedList<ContractServiceDto>) ServicesLocator.getContractServiceServices().loadAll();
-        Iterator<ContractServiceDto> i = p.iterator();
-        while (i.hasNext())
-            System.out.println(i.next().getId());*/
+        ServicesLocator.getLocalizationServices().insert(new LocalizationDto(0,"XDXDXDXXX"));
 
 
     }

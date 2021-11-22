@@ -22,7 +22,7 @@ public class HotelServices implements Services<HotelDto> {
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
 
-        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.hotel_load()}");
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.hotel_load}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
 
         callableStatement.execute();

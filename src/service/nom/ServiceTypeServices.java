@@ -57,9 +57,8 @@ public class ServiceTypeServices implements Services<ServiceTypeDto>, Relation<S
     @Override
     public void insert(ServiceTypeDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_service_type_insert(?)}");
-        callableStatement.setString("name", dto.getName());
+        callableStatement.setString(1, dto.getName());
         callableStatement.execute();
     }
 
