@@ -93,7 +93,7 @@ public class FoodPlanServices implements Services<FoodPlanDto>, Relation<FoodPla
         LinkedList<FoodPlanDto> foodPlanDtoLinkedList=new LinkedList<>();
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-        CallableStatement callableStatement = connection.prepareCall("{?=call tpp.r_hotel'-'food_plan_load_by_id(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{?=call tpp.r_hotel_food_plan_load_by_id(?)}");
         callableStatement.registerOutParameter(1,Types.REF_CURSOR);
         callableStatement.setInt(2,id);
         callableStatement.execute();

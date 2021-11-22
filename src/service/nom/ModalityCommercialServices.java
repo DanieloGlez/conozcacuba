@@ -92,7 +92,7 @@ public class ModalityCommercialServices implements Services<ModalityCommercialDt
         LinkedList<ModalityCommercialDto> modalityCommercialDtos=new LinkedList<>();
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-        CallableStatement callableStatement = connection.prepareCall("{?=call tpp.r_hotel'-'modality_hotel_comertial_load_by_id(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{?=call tpp.r_hotel_modality_hotel_comertial_load_by_id(?)}");
         callableStatement.registerOutParameter(1,Types.REF_CURSOR);
         callableStatement.setInt(2,id);
         callableStatement.execute();
