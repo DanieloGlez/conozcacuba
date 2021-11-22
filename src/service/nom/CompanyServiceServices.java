@@ -93,7 +93,7 @@ public class CompanyServiceServices implements Services<CompanyServiceDto>, Rela
         LinkedList<CompanyServiceDto> companyServiceDtoLinkedList=new LinkedList<>();
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-        CallableStatement callableStatement = connection.prepareCall("{?=call tpp.r_contract_service_n_company_service_get_by_id(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{?=call tpp.r_contract_service_n_company_service_load_by_id(?)}");
         callableStatement.registerOutParameter(1,Types.REF_CURSOR);
         callableStatement.setInt(2,id);
         ResultSet resultSet= (ResultSet) callableStatement.getObject(1);
