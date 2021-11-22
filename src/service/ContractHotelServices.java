@@ -30,8 +30,8 @@ public class ContractHotelServices implements Services<ContractHotelDto>{
 
 
             ContractDto contractDto=ServicesLocator.getContractServices().load(resultSet.getInt("id_contract"));
-            HotelDto hotelDto=ServicesLocator.getHotelServices().load(resultSet.getInt("id_hotel"));
-            LinkedList<SeasonDto> seasonDtos= (LinkedList<SeasonDto>) ServicesLocator.getSeasonServices().loadAll();
+            HotelDto hotelDto=ServicesLocator.getHotelServices().load(resultSet.getInt(2));
+            LinkedList<SeasonDto> seasonDtos= (LinkedList<SeasonDto>) ServicesLocator.getSeasonServices().loadRelated(resultSet.getInt("id_contract"));
 
 
             contractHotelDtos.add(new ContractHotelDto(

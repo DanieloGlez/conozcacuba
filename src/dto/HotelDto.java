@@ -182,4 +182,8 @@ public class HotelDto implements Dto {
     public void setCommercialModalities(List<ModalityCommercialDto> commercialModalities) {
         this.commercialModalities = commercialModalities;
     }
+
+    public String toString(){
+        return this.getName();
+    }
 }

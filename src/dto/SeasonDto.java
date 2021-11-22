@@ -59,4 +59,8 @@ public class SeasonDto implements Dto {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String toString(){
+        return this.getName();
+    }
 }

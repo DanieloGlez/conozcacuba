@@ -12,7 +12,38 @@ public class HotelServices implements Services<HotelDto> {
 
     @Override
     public HotelDto load(int id) throws SQLException {
-        return null;
+        Connection connection = ServicesLocator.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.hotel_load_by_id(?)}");
+        callableStatement.registerOutParameter(1, Types.REF_CURSOR);
+        callableStatement.setInt(2, id);
+        callableStatement.execute();
+        ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
+        resultSet.next();
+
+
+        return new HotelDto(
+                resultSet.getInt("id_hotel"),
+                resultSet.getString("name"),
+                resultSet.getString("address"),
+                resultSet.getString("category"),
+                resultSet.getString("telephone_number"),
+                resultSet.getString("fax"),
+                resultSet.getString("email"),
+                resultSet.getFloat("dist_to_city"),
+                resultSet.getFloat("dist_to_airport"),
+                resultSet.getInt("rooms_amount"),
+                resultSet.getInt("floors_amount"),
+                ServicesLocator.getHotelFranchiseServices().load(resultSet.getInt("id_hotel_franchise")),
+                ServicesLocator.getProvinceServices().load(resultSet.getInt("id_province")),
+                ServicesLocator.getLocalizationServices().load(resultSet.getInt("id_localization")),
+                ServicesLocator.getRoomTypeServices().loadRelated(resultSet.getInt("id_hotel")),
+                ServicesLocator.getFoodPlanServices().loadRelated(resultSet.getInt("id_hotel")),
+                ServicesLocator.getModalityCommercialServices().loadRelated(resultSet.getInt("id_hotel"))
+
+
+
+        );
     }
 
     @Override

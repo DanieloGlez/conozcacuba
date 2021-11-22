@@ -76,6 +76,7 @@ public class SeasonServices implements Services<SeasonDto>, Relation<SeasonDto>{
         CallableStatement callableStatement = connection.prepareCall("{?=call tpp.r_season_contract_hotel_load_by_id(?)}");
         callableStatement.registerOutParameter(1,Types.REF_CURSOR);
         callableStatement.setInt(2,id);
+        callableStatement.execute();
         ResultSet resultSet= (ResultSet) callableStatement.getObject(1);
 
         while (resultSet.next()){
