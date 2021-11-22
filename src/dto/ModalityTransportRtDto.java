@@ -4,16 +4,16 @@ public class ModalityTransportRtDto extends ModalityTransportDto {
     private String rtDescription;
     private float costRt;
     private float costRoundTrip;
-    private ContractDto contractDto;
+    private ContractTransportDto contractTransportDto;
     private VehicleDto vehicleDto;
 
     // Constructors
-    public ModalityTransportRtDto(int id, String rtDescription, float costRt, float costRoundTrip, ContractDto contractDto, VehicleDto vehicleDto) {
+    public ModalityTransportRtDto(int id, String rtDescription, float costRt, float costRoundTrip, ContractTransportDto contractTransportDto, VehicleDto vehicleDto) {
         super(id);
         this.rtDescription = rtDescription;
         this.costRt = costRt;
         this.costRoundTrip = costRoundTrip;
-        this.contractDto = contractDto;
+        this.contractTransportDto = contractTransportDto;
         this.vehicleDto = vehicleDto;
     }
 
@@ -42,12 +42,12 @@ public class ModalityTransportRtDto extends ModalityTransportDto {
         this.costRoundTrip = costRoundTrip;
     }
 
-    public ContractDto getContractDto() {
-        return contractDto;
+    public ContractTransportDto getContractTransportDto() {
+        return contractTransportDto;
     }
 
-    public void setContractDto(ContractDto contractDto) {
-        this.contractDto = contractDto;
+    public void setContractTransportDto(ContractTransportDto contractTransportDto) {
+        this.contractTransportDto = contractTransportDto;
     }
 
     public VehicleDto getVehicleDto() {
