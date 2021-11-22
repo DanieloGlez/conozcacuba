@@ -4,6 +4,7 @@ import dto.ContractDto;
 import dto.ContractServiceDto;
 import dto.nom.ContractTypeDto;
 import dto.nom.DailyActivityDto;
+import dto.nom.ProvinceDto;
 
 import java.sql.*;
 import java.util.Iterator;
@@ -32,11 +33,9 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
 
         while (resultSet.next()) {
 
-            LinkedList<DailyActivityDto> dailyActivityDtoLinkedList = (LinkedList<DailyActivityDto>)ServicesLocator.getDailyActivityServices().loadAll(); //(LinkedList<DailyActivityDto>) ServicesLocator.getDailyActivityServices().loadRelated(resultSet.getInt("id_contract"));
-
-            System.out.println(resultSet.getInt("id_contract"));
-            ContractDto contractDto=ServicesLocator.getContractServices().load(resultSet.getInt("id_contract"));
-
+            LinkedList<DailyActivityDto> dailyActivityDtoLinkedList = (LinkedList<DailyActivityDto>) ServicesLocator.getDailyActivityServices().loadAll(); //(LinkedList<DailyActivityDto>) ServicesLocator.getDailyActivityServices().loadRelated(resultSet.getInt("id_contract"));
+            ContractDto contractDto = ServicesLocator.getContractServices().load(resultSet.getInt("id_contract"));
+            ProvinceDto provinceDto=ServicesLocator.getProvinceServices().load(resultSet.getInt(3));
 
             contractServiceDtos.add(new ContractServiceDto(
                     contractDto.getId(),
@@ -45,7 +44,7 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
                     contractDto.getFinishDate(),
                     contractDto.getConciliationDate(),
                     contractDto.getDescription(),
-                    resultSet.getInt(3),
+                    provinceDto,
                     resultSet.getFloat(1),
                     dailyActivityDtoLinkedList
 
@@ -65,8 +64,8 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_service_insert(?,?,?)}");
         callableStatement.setDouble(1, dto.getPaxCost());
-        callableStatement.setInt(2,dto.getId());
-        callableStatement.setInt(3,dto.getIdProvince());
+        callableStatement.setInt(2, dto.getId());
+        callableStatement.setInt(3, dto.getIdProvince().getId());
         callableStatement.execute();
     }
 
@@ -99,8 +98,8 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_service_insert(?,?,?)}");
         callableStatement.setDouble(1, dto.getPaxCost());
-        callableStatement.setInt(2,dto.getIdProvince());
-        callableStatement.setInt(3,dto.getId());
+        callableStatement.setInt(2, dto.getIdProvince().getId());
+        callableStatement.setInt(3, dto.getId());
         callableStatement.execute();
 
     }
@@ -109,7 +108,7 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
     public void delete(int id) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_service_delete(?)}");
-        callableStatement.setInt(1,id);
+        callableStatement.setInt(1, id);
         callableStatement.execute();
 
     }

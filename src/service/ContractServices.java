@@ -39,17 +39,18 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
 
-        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.contract_load()}");
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.contract_load}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
 
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
-        int idTypeContract;
+
 
         while (resultSet.next()) {
+
             contractDtos.add(new ContractDto(
-                    idTypeContract = resultSet.getInt("id_contract"),
-                    ServicesLocator.getContractTypeServices().load(idTypeContract),
+                    resultSet.getInt("id_contract"),
+                    ServicesLocator.getContractTypeServices().load(resultSet.getInt("id_contract_type")),
                     resultSet.getDate("start_date"),
                     resultSet.getDate("finish_date"),
                     resultSet.getDate("conciliation_date"),

@@ -35,7 +35,7 @@ public class VehicleBrandServices implements Services<VehicleBrandDto> {
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
 
-        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_vehicle_brand_load()}");
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_vehicle_brand_load}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
         callableStatement.execute();
         ResultSet resultSet=(ResultSet) callableStatement.getObject(1);

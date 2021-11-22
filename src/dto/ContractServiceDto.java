@@ -2,19 +2,20 @@ package dto;
 
 import dto.nom.ContractTypeDto;
 import dto.nom.DailyActivityDto;
+import dto.nom.ProvinceDto;
 
 import java.util.Date;
 import java.util.List;
 
 public class ContractServiceDto extends ContractDto {
-    private int idProvince;
+    private ProvinceDto idProvince;
     private float paxCost;
 
     // References
     private List<DailyActivityDto> dailyActivities;
 
     // Constructors
-    public ContractServiceDto(int id, ContractTypeDto contractTypeDto, java.sql.Date startDate, java.sql.Date finishDate, java.sql.Date conciliationDate, String description, int idProvince, float paxCost, List<DailyActivityDto> dailyActivities) {
+    public ContractServiceDto(int id, ContractTypeDto contractTypeDto, java.sql.Date startDate, java.sql.Date finishDate, java.sql.Date conciliationDate, String description, ProvinceDto idProvince, float paxCost, List<DailyActivityDto> dailyActivities) {
         super(id, contractTypeDto, startDate, finishDate, conciliationDate, description);
         this.idProvince = idProvince;
         this.paxCost = paxCost;
@@ -23,11 +24,11 @@ public class ContractServiceDto extends ContractDto {
 
     // Getters & Setters
 
-    public int getIdProvince() {
+    public ProvinceDto getIdProvince() {
         return idProvince;
     }
 
-    public void setIdProvince(int idProvince) {
+    public void setIdProvince(ProvinceDto idProvince) {
         this.idProvince = idProvince;
     }
 

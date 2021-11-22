@@ -29,7 +29,7 @@ public class SeasonServices implements Services<SeasonDto>, Relation<SeasonDto>{
 
         while (resultSet.next()) {
             seasonDtos.add(new SeasonDto(
-                    resultSet.getInt("id_contract"),
+                    resultSet.getInt("id_season"),
                     resultSet.getString("name"),
                     resultSet.getDate("start_date"),
                     resultSet.getDate("finish_date"),

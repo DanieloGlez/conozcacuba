@@ -32,6 +32,7 @@ public class ServicesLocator {
     private static VehicleBrandServices vehicleBrandServices;
     private static ServiceTypeServices serviceTypeServices;
     private static ContractServiceServices contractServiceServices;
+    private static ContractHotelServices contractHotelServices;
 
     // Connection
     public static Connection getConnection() throws SQLException {
@@ -195,5 +196,11 @@ public class ServicesLocator {
         if (contractServiceServices==null)
             contractServiceServices=new ContractServiceServices();
         return contractServiceServices;
+    }
+
+    public static ContractHotelServices getContractHotelServices() {
+        if (contractHotelServices==null)
+            contractHotelServices=new ContractHotelServices();
+        return contractHotelServices;
     }
 }
