@@ -19,10 +19,11 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
         resultSet.next();
 
         return new ModalityTransportRtDto(
+                resultSet.getInt("id_modality_transport_rt"),
                 resultSet.getString("rtDescription"),
                 resultSet.getFloat("ostRt"),
                 resultSet.getFloat("costRoundTrip"),
-                ServicesLocator.getContractServices().load( resultSet.getInt("id_contract")),
+                ServicesLocator.getContractTransportServices().load( resultSet.getInt("id_contract")),
                 ServicesLocator.getVehicleServices().load( resultSet.getInt("id_vehicle"))
         );
     }
@@ -46,7 +47,7 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
                     resultSet.getString("rt_description"),
                     resultSet.getFloat("cost_rt"),
                     resultSet.getFloat("cost_round_trip"),
-                    ServicesLocator.getContractServices().load(resultSet.getInt("id_contract")),
+                    ServicesLocator.getContractTransportServices().load(resultSet.getInt("id_contract")),
                     ServicesLocator.getVehicleServices().load(resultSet.getInt("id_vehicle"))
             ) {
             });
@@ -63,7 +64,7 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
         callableStatement.setString("rt_description", dto.getRtDescription());
         callableStatement.setFloat("cost_rt", dto.getCostRt());
         callableStatement.setFloat("cost_round_trip", dto.getCostRoundTrip());
-        callableStatement.setInt("id_contract", dto.getContractDto().getId());
+        callableStatement.setInt("id_contract", dto.getContractTransportDto().getId());
         callableStatement.setInt("id_vehicle", dto.getVehicleDto().getId());
 
         callableStatement.execute();
@@ -76,7 +77,7 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
         callableStatement.setString("rt_description", dto.getRtDescription());
         callableStatement.setFloat("cost_rt", dto.getCostRt());
         callableStatement.setFloat("cost_round_trip", dto.getCostRoundTrip());
-        callableStatement.setInt("id_contract", dto.getContractDto().getId());
+        callableStatement.setInt("id_contract", dto.getContractTransportDto().getId());
         callableStatement.setInt("id_vehicle", dto.getVehicleDto().getId());
 
         callableStatement.execute();

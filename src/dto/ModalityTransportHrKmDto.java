@@ -5,21 +5,23 @@ public class ModalityTransportHrKmDto extends ModalityTransportDto {
     private float costHr;
     private float costKmExtras;
     private float costHrExtras;
-    private ContractDto contractDto;
+    private ContractTransportDto contractTransportDto;
     private VehicleDto vehicleDto;
 
     // Constructors
-    public ModalityTransportHrKmDto(int id, float costTraveledKm, float costHr, float costKmExtras, float costHrExtras, ContractDto contractDto, VehicleDto vehicleDto) {
+
+    public ModalityTransportHrKmDto(int id, float costTraveledKm, float costHr, float costKmExtras, float costHrExtras, ContractTransportDto contractTransportDto, VehicleDto vehicleDto) {
         super(id);
         this.costTraveledKm = costTraveledKm;
         this.costHr = costHr;
         this.costKmExtras = costKmExtras;
         this.costHrExtras = costHrExtras;
-        this.contractDto = contractDto;
+        this.contractTransportDto = contractTransportDto;
         this.vehicleDto = vehicleDto;
     }
 
-    // Getter & Setter
+    // Getters and Setters
+
     public float getCostTraveledKm() {
         return costTraveledKm;
     }
@@ -52,12 +54,12 @@ public class ModalityTransportHrKmDto extends ModalityTransportDto {
         this.costHrExtras = costHrExtras;
     }
 
-    public ContractDto getContractDto() {
-        return contractDto;
+    public ContractTransportDto getContractTransportDto() {
+        return contractTransportDto;
     }
 
-    public void setContractDto(ContractDto contractDto) {
-        this.contractDto = contractDto;
+    public void setContractTransportDto(ContractTransportDto contractTransportDto) {
+        this.contractTransportDto = contractTransportDto;
     }
 
     public VehicleDto getVehicleDto() {

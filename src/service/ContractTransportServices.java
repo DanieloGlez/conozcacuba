@@ -37,11 +37,11 @@ public class ContractTransportServices implements Services<ContractTransportDto>
             contract = ServicesLocator.getContractServices().load(id);
             contractTransportDtos.add(new ContractTransportDto(
                     id,
-                    ServicesLocator.getContractTypeServices().load(id),
                     contract.getStartDate(),
                     contract.getFinishDate(),
                     contract.getConciliationDate(),
                     contract.getDescription(),
+                    ServicesLocator.getContractTypeServices().load(id),
                     ServicesLocator.getCompanyTransportServices().load(resultSet.getInt("id_company_transport"))
             ) {
             });
