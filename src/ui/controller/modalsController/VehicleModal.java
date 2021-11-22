@@ -78,6 +78,7 @@ public class VehicleModal implements Initializable {
     void insertVehicle(ActionEvent event) throws SQLException {
 
         ServicesLocator.getVehicleServices().insert(new VehicleDto(
+                0,
                 tf_vehicle_id.getText(),
                 findBrand(),
                 Integer.parseInt(tf_capacity_without_bagage.getText()),
@@ -155,7 +156,7 @@ public class VehicleModal implements Initializable {
                     while (iterator.hasNext() && !found) {
                         VehicleDto currentVehicle = iterator.next();
 
-                        if (currentVehicle.getId().equals(tf_vehicle_id.getText())) {
+                        if (currentVehicle.getChapa().equals(tf_vehicle_id.getText())) {
                             vehicleDto = currentVehicle;
                             found = true;
                         }
