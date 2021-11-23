@@ -82,8 +82,8 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_service_insert(?,?,?)}");
         callableStatement.setDouble(1, dto.getPaxCost());
-        callableStatement.setInt(2, dto.getId());
-        callableStatement.setInt(3, dto.getIdProvince().getId());
+        callableStatement.setInt(2, dto.getIdProvince().getId());
+        callableStatement.setInt(3, id);
         callableStatement.execute();
     }
 
