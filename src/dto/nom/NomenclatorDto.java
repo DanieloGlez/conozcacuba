@@ -34,9 +34,11 @@ public class NomenclatorDto implements Dto {
     public boolean equals(Object obj) {
         boolean areEquals = false;
 
-        if (this.getClass() == obj.getClass()) {
-            NomenclatorDto nomenclatorDto = (NomenclatorDto) obj;
-            areEquals = id==nomenclatorDto.id && name.equals(nomenclatorDto.name);
+        if(obj != null) {
+            if (this.getClass().equals(obj.getClass())) {
+                NomenclatorDto nomenclatorDto = (NomenclatorDto) obj;
+                areEquals = id == nomenclatorDto.id && name.equals(nomenclatorDto.name);
+            }
         }
 
         return areEquals;

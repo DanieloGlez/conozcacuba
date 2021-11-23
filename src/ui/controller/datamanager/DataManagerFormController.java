@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ResourceBundle;
 
 public abstract class DataManagerFormController implements Initializable {
@@ -20,7 +21,7 @@ public abstract class DataManagerFormController implements Initializable {
     @FXML
     protected JFXButton update_jfxbutton;
 
-    public abstract void insert(ActionEvent event) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, SQLException, InstantiationException;
+    public abstract void insert(ActionEvent event) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, SQLException, InstantiationException, ParseException;
     public abstract void update(ActionEvent event) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, SQLException;
     public void setDto(Dto dto) {
         this.dto = dto;
