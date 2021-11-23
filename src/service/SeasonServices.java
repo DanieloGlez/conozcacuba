@@ -83,7 +83,6 @@ public class SeasonServices implements Services<SeasonDto>, Relation<SeasonDto>{
         return null;
     }
 
-    @Override
     public List<SeasonDto> loadRelated(int id) throws SQLException {
         LinkedList<SeasonDto> seasonDtoLinkedList=new LinkedList<>();
         Connection connection = ServicesLocator.getConnection();
@@ -93,11 +92,12 @@ public class SeasonServices implements Services<SeasonDto>, Relation<SeasonDto>{
         callableStatement.setInt(2,id);
         callableStatement.execute();
         ResultSet resultSet= (ResultSet) callableStatement.getObject(1);
-        resultSet.next();
-        int idSeason = resultSet.getInt("id_season");
-        SeasonDto seasonDto  = load(idSeason);
+        int idSeason;
+        SeasonDto seasonDto;
 
         while (resultSet.next()){
+            idSeason = resultSet.getInt("id_season");
+            seasonDto = load(idSeason);
             seasonDtoLinkedList.add(
                     new SeasonDto(
                             idSeason,
