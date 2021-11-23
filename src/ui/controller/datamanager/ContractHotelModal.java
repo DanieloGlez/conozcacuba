@@ -3,9 +3,11 @@ package ui.controller.datamanager;
 import com.jfoenix.controls.JFXComboBox;
 import dto.ContractDto;
 import dto.ContractHotelDto;
+import dto.Dto;
 import dto.HotelDto;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.stage.Stage;
 import service.ServicesLocator;
 
 import java.net.URL;
@@ -46,11 +48,39 @@ public class ContractHotelModal extends DataManagerFormController{
                 ServicesLocator.getSeasonServices().loadRelated(contractDto.getId()),
                 hotelDto
         ));
+
+        ((Stage) contract_jfxcombobox.getScene().getWindow()).close();
     }
 
     @Override
-    public void update(ActionEvent event) {
+    public void update(ActionEvent event) throws SQLException {
+        ContractDto contractDto = contract_jfxcombobox.getValue();
+        HotelDto hotelDto = hotel_jfxcombobox.getValue();
 
+        ServicesLocator.getContractHotelServices().update(new ContractHotelDto(
+                contractDto.getId(),
+                contractDto.getStartDate(),
+                contractDto.getFinishDate(),
+                contractDto.getConciliationDate(),
+                contractDto.getDescription(),
+                contractDto.getContractTypeDto(),
+                ServicesLocator.getSeasonServices().loadRelated(contractDto.getId()),
+                hotelDto
+        ));
+    }
+
+    @Override
+    public void setDto(Dto dto) {
+        super.setDto(dto);
+
+        ContractHotelDto contractHotelDto = (ContractHotelDto) dto;
+
+        for (ContractDto loopContractDto : contract_jfxcombobox.getItems()) {
+            if (loopContractDto.getId() == contractHotelDto.getId())
+                contract_jfxcombobox.getSelectionModel().select(loopContractDto);
+        }
+
+        hotel_jfxcombobox.getSelectionModel().select(contractHotelDto.getHotel());
     }
 }
 

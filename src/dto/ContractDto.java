@@ -4,7 +4,7 @@ import dto.nom.ContractTypeDto;
 
 import java.util.Date;
 
-public class ContractDto {
+public class ContractDto implements Dto{
     protected int id;
     protected ContractTypeDto contractTypeDto;
     protected java.sql.Date startDate;
@@ -75,5 +75,16 @@ public class ContractDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean areEquals = false;
+
+        if (obj != null)
+            if (this.getClass().equals(obj.getClass()))
+                areEquals = this.id == ((ContractDto) obj).getId();
+
+        return areEquals;
     }
 }

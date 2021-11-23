@@ -7,7 +7,7 @@ import dto.nom.ProvinceDto;
 import java.sql.Date;
 import java.util.List;
 
-public class ContractServiceDto extends ContractDto {
+public class ContractServiceDto extends ContractDto implements Dto{
     private float paxCost;
     private ProvinceDto idProvince;
 

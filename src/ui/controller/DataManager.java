@@ -124,8 +124,6 @@ public class DataManager implements Initializable {
     }
 
     void showContentInDataManagerTableView(String tableName) throws ClassNotFoundException, SQLException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        System.out.println(tableName);
-
         Map<String, Class> tableNames = ConstantUtils.getTableNames();
 
         // Clear Table

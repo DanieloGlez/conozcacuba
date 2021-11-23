@@ -59,13 +59,13 @@ public class MainMenu implements Initializable {
 
         VBox container_vbox = (VBox) anchorPane.getChildren().get(0);
         container_vbox.getChildren().forEach(node -> {
-            System.out.println(node.getId());
             node.setOnMouseClicked(event -> {
                 switch (node.getId()) {
                     case "datamanager_jfxbutton":
                         dynamiccontainer_anchorpane.setVisible(true);
                         dynamiccontainer_anchorpane.getChildren().clear();
                         drawer_jfxdrawer.close();
+
 
                         try {
                             dynamiccontainer_anchorpane.getChildren().add(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/ui/view/datamanager/data_manager.fxml"))));

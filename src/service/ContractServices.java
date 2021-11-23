@@ -66,11 +66,15 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
     public void insert(ContractDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_insert(?,?,?,?,?)}");
-        callableStatement.setDate(1, dto.getStartDate());
-        callableStatement.setDate(2, dto.getFinishDate());
-        callableStatement.setDate(3, dto.getConciliationDate());
+
+        System.out.println(dto.getStartDate());
+
+        callableStatement.setDate(1, (Date) dto.getStartDate());
+        callableStatement.setDate(2, (Date) dto.getFinishDate());
+        callableStatement.setDate(3, (Date) dto.getConciliationDate());
         callableStatement.setString(4, dto.getDescription());
         callableStatement.setInt(5, dto.getContractTypeDto().getId());
+
         callableStatement.execute();
     }
 
@@ -104,16 +108,16 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
 
     @Override
     public List<ContractDto> loadRelated(int id) throws SQLException {
-        LinkedList<ContractDto> contractDtoLinkedList=new LinkedList<>();
+        LinkedList<ContractDto> contractDtoLinkedList = new LinkedList<>();
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{ ? =call tpp.r_touristic_package_contract_by_id(?)}");
-        callableStatement.registerOutParameter(1,Types.REF_CURSOR);
-        callableStatement.setInt(2,id);
-        ResultSet resultSet= (ResultSet) callableStatement.getObject(1);
+        callableStatement.registerOutParameter(1, Types.REF_CURSOR);
+        callableStatement.setInt(2, id);
+        ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
 
-        while (resultSet.next()){
-            ContractTypeDto contractTypeDto=ServicesLocator.getContractTypeServices().load(resultSet.getInt("id_contract_type"));
+        while (resultSet.next()) {
+            ContractTypeDto contractTypeDto = ServicesLocator.getContractTypeServices().load(resultSet.getInt("id_contract_type"));
 
             contractDtoLinkedList.add(
                     new ContractDto(
@@ -123,7 +127,7 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
                             resultSet.getDate("finish_date"),
                             resultSet.getDate("conciliation_date"),
                             resultSet.getString("description")
-            ));
+                    ));
         }
         return contractDtoLinkedList;
     }
