@@ -20,12 +20,11 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
         callableStatement.setInt(2, id);
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
-        ContractDto contractDto = null;
         resultSet.next();
 
-            return new ContractDto(
+        return new ContractDto(
                 resultSet.getInt("id_contract"),
-                    ServicesLocator.getContractTypeServices().load(resultSet.getInt("id_contract_type")),
+                ServicesLocator.getContractTypeServices().load(resultSet.getInt("id_contract_type")),
                 resultSet.getDate("start_date"),
                 resultSet.getDate("finish_date"),
                 resultSet.getDate("conciliation_date"),
@@ -67,34 +66,38 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
     public void insert(ContractDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_insert(?,?,?,?,?)}");
-        callableStatement.setInt("id_contract_type", dto.getContractTypeDto().getId());
-        callableStatement.setDate("start_date", dto.getStartDate());
-        callableStatement.setDate("finish_date", dto.getFinishDate());
-        callableStatement.setDate("conciliation0_date", dto.getConciliationDate());
-        callableStatement.setString("description", dto.getDescription());
+
+        System.out.println(dto.getStartDate());
+
+        callableStatement.setDate(1, (Date) dto.getStartDate());
+        callableStatement.setDate(2, (Date) dto.getFinishDate());
+        callableStatement.setDate(3, (Date) dto.getConciliationDate());
+        callableStatement.setString(4, dto.getDescription());
+        callableStatement.setInt(5, dto.getContractTypeDto().getId());
+
         callableStatement.execute();
     }
 
     @Override
     public void update(ContractDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_update(?,?,?,?,?)}");
-        callableStatement.setInt("id_contract_type", dto.getContractTypeDto().getId());
-        callableStatement.setDate("start_date", dto.getStartDate());
-        callableStatement.setDate("finish_date", dto.getFinishDate());
-        callableStatement.setDate("conciliation0_date", dto.getConciliationDate());
-        callableStatement.setString("description", dto.getDescription());
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_update(?,?,?,?,?,?)}");
+
+        callableStatement.setInt(1, dto.getId());
+        callableStatement.setDate(2, dto.getStartDate());
+        callableStatement.setDate(3, dto.getFinishDate());
+        callableStatement.setDate(4, dto.getConciliationDate());
+        callableStatement.setString(5, dto.getDescription());
+        callableStatement.setInt(6, dto.getContractTypeDto().getId());
+
         callableStatement.execute();
-
-
-
     }
 
     @Override
     public void delete(int id) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_delete(?)}");
-        callableStatement.setInt("id_contract_type", id);
+        callableStatement.setInt(1, id);
         callableStatement.execute();
     }
 

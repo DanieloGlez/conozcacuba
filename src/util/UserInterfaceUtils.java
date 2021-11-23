@@ -41,6 +41,9 @@ public class UserInterfaceUtils {
 
 
     public static Stage showDataManagerForm(String dtoClassSimpleName, Dto dto, Stage stage) throws IOException {
+        System.out.println(dtoClassSimpleName);
+
+
         Stage modalStage = new Stage();
         modalStage.initModality(Modality.WINDOW_MODAL);
         modalStage.initOwner(stage);
