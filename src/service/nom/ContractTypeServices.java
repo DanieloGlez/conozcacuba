@@ -9,25 +9,20 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
+
 public class ContractTypeServices implements Services <ContractTypeDto> {
     @Override
-    public ContractTypeDto load(int id_contract_type) throws SQLException {
+    public ContractTypeDto load(int idContractType) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-
-        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_contract_type_load_by_id(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{ ? = call tpp.n_contract_type_load_by_id(?)}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
-        callableStatement.setInt(2, id_contract_type);
-
+        callableStatement.setInt(2, idContractType);
         callableStatement.execute();
-
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
-        return new ContractTypeDto(
-                resultSet.getInt("id_contract_type"),
-                resultSet.getString("name")
-        );
+        return new ContractTypeDto(resultSet.getInt("id_contract_type"), resultSet.getString("name"));
     }
 
     @Override

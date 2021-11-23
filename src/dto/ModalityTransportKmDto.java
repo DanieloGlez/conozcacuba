@@ -4,18 +4,20 @@ public class ModalityTransportKmDto extends ModalityTransportDto implements Dto 
     private float costKm;
     private float costKmRoundTrip;
     private float costHrWait;
-    private ContractTransportDto contractTransportDto;
-    private VehicleDto vehicleDto;
+    private ContractTransportDto contractTransport;
+    private VehicleDto vehicle;
 
     // Constructors
-    public ModalityTransportKmDto(int id, float costKm, float costKmRoundTrip, float costHrWait, ContractTransportDto contractTransportDto, VehicleDto vehicleDto) {
+    public ModalityTransportKmDto(int id, float costKm, float costKmRoundTrip, float costHrWait, ContractTransportDto contractTransport, VehicleDto vehicle) {
         super(id);
         this.costKm = costKm;
         this.costKmRoundTrip = costKmRoundTrip;
         this.costHrWait = costHrWait;
-        this.contractTransportDto = contractTransportDto;
-        this.vehicleDto = vehicleDto;
+        this.contractTransport = contractTransport;
+        this.vehicle = vehicle;
     }
+
+    // Getters and Setters
 
     public float getCostKm() {
         return costKm;
@@ -41,19 +43,19 @@ public class ModalityTransportKmDto extends ModalityTransportDto implements Dto 
         this.costHrWait = costHrWait;
     }
 
-    public ContractTransportDto getContractTransportDto() {
-        return contractTransportDto;
+    public ContractTransportDto getContractTransport() {
+        return contractTransport;
     }
 
-    public void setContractTransportDto(ContractTransportDto contractTransportDto) {
-        this.contractTransportDto = contractTransportDto;
+    public void setContractTransport(ContractTransportDto contractTransport) {
+        this.contractTransport = contractTransport;
     }
 
-    public VehicleDto getVehicleDto() {
-        return vehicleDto;
+    public VehicleDto getVehicle() {
+        return vehicle;
     }
 
-    public void setVehicleDto(VehicleDto vehicleDto) {
-        this.vehicleDto = vehicleDto;
+    public void setVehicle(VehicleDto vehicle) {
+        this.vehicle = vehicle;
     }
 }

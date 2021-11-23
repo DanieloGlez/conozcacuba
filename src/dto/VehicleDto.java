@@ -85,4 +85,9 @@ public class VehicleDto implements Dto {
         java.sql.Date dateBD=java.sql.Date.valueOf(this.getProductionDate());
         return dateBD;
     }
+
+    @Override
+    public String toString() {
+        return registration;
+    }
 }

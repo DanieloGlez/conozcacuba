@@ -14,6 +14,7 @@ public class ContractTransportDto extends ContractDto {
     public ContractTransportDto(int id, ContractTypeDto contractTypeDto, Date startDate, Date finishDate, Date conciliationDate, String description, CompanyTransportDto transportCompany, List<VehicleDto> vehicles) {
         super(id, contractTypeDto, startDate, finishDate, conciliationDate, description);
         this.transportCompany = transportCompany;
+        this.vehicles = vehicles;
     }
 
     // Getters & Setters
@@ -32,4 +33,6 @@ public class ContractTransportDto extends ContractDto {
     public void setVehicles(List<VehicleDto> vehicles) {
         this.vehicles = vehicles;
     }
+
+
 }

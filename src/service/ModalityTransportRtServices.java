@@ -61,8 +61,8 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
         callableStatement.setString("rt_description", dto.getRtDescription());
         callableStatement.setFloat("cost_rt", dto.getCostRt());
         callableStatement.setFloat("cost_round_trip", dto.getCostRoundTrip());
-        callableStatement.setInt("id_contract", dto.getContractTransportDto().getId());
-        callableStatement.setInt("id_vehicle", dto.getVehicleDto().getId());
+        callableStatement.setInt("id_contract", dto.getContractTransport().getId());
+        callableStatement.setInt("id_vehicle", dto.getVehicle().getId());
         callableStatement.execute();
     }
 
@@ -73,8 +73,8 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
         callableStatement.setString("rt_description", dto.getRtDescription());
         callableStatement.setFloat("cost_rt", dto.getCostRt());
         callableStatement.setFloat("cost_round_trip", dto.getCostRoundTrip());
-        callableStatement.setInt("id_contract", dto.getContractTransportDto().getId());
-        callableStatement.setInt("id_vehicle", dto.getVehicleDto().getId());
+        callableStatement.setInt("id_contract", dto.getContractTransport().getId());
+        callableStatement.setInt("id_vehicle", dto.getVehicle().getId());
         callableStatement.execute();
     }
 

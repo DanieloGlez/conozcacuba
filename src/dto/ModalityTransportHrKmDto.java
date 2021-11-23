@@ -5,18 +5,18 @@ public class ModalityTransportHrKmDto extends ModalityTransportDto implements Dt
     private float costHr;
     private float costKmExtras;
     private float costHrExtras;
-    private ContractTransportDto contractTransportDto;
-    private VehicleDto vehicleDto;
+    private ContractTransportDto contractTransport;
+    private VehicleDto vehicle;
 
     // Constructors
-    public ModalityTransportHrKmDto(int id, float costTraveledKm, float costHr, float costKmExtras, float costHrExtras, ContractTransportDto contractTransportDto, VehicleDto vehicleDto) {
+    public ModalityTransportHrKmDto(int id, float costTraveledKm, float costHr, float costKmExtras, float costHrExtras, ContractTransportDto contractTransport, VehicleDto vehicle) {
         super(id);
         this.costTraveledKm = costTraveledKm;
         this.costHr = costHr;
         this.costKmExtras = costKmExtras;
         this.costHrExtras = costHrExtras;
-        this.contractTransportDto = contractTransportDto;
-        this.vehicleDto = vehicleDto;
+        this.contractTransport = contractTransport;
+        this.vehicle = vehicle;
     }
 
     // Getters and Setters
@@ -52,19 +52,19 @@ public class ModalityTransportHrKmDto extends ModalityTransportDto implements Dt
         this.costHrExtras = costHrExtras;
     }
 
-    public ContractTransportDto getContractTransportDto() {
-        return contractTransportDto;
+    public ContractTransportDto getContractTransport() {
+        return contractTransport;
     }
 
-    public void setContractTransportDto(ContractTransportDto contractTransportDto) {
-        this.contractTransportDto = contractTransportDto;
+    public void setContractTransport(ContractTransportDto contractTransport) {
+        this.contractTransport = contractTransport;
     }
 
-    public VehicleDto getVehicleDto() {
-        return vehicleDto;
+    public VehicleDto getVehicle() {
+        return vehicle;
     }
 
-    public void setVehicleDto(VehicleDto vehicleDto) {
-        this.vehicleDto = vehicleDto;
+    public void setVehicle(VehicleDto vehicle) {
+        this.vehicle = vehicle;
     }
 }

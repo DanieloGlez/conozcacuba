@@ -39,13 +39,13 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
 
             contractServiceDtos.add(new ContractServiceDto(
                     contractDto.getId(),
-                    contractDto.getContractTypeDto(),
                     contractDto.getStartDate(),
                     contractDto.getFinishDate(),
                     contractDto.getConciliationDate(),
                     contractDto.getDescription(),
-                    provinceDto,
+                    contractDto.getContractTypeDto(),
                     resultSet.getFloat(1),
+                    provinceDto,
                     dailyActivityDtoLinkedList
 
 
@@ -118,10 +118,10 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
         return null;
     }
 
-    private void insertInContract(ContractServiceDto contractServiceDto) {
+    private void insertInContract(ContractServiceDto contractServiceDto) throws SQLException {
         ContractDto contractDto = new ContractDto(
                 contractServiceDto.getId(),
-                contractServiceDto.getContractTypeDto(),
+                ServicesLocator.getContractTypeServices().load(contractServiceDto.getContractTypeDto().getId()),
                 contractServiceDto.getStartDate(),
                 contractServiceDto.getFinishDate(),
                 contractServiceDto.getConciliationDate(),

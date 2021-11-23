@@ -93,7 +93,7 @@ public class DailyActivityServices implements Services<DailyActivityDto>, Relati
         LinkedList<DailyActivityDto> activityDtoLinkedList=new LinkedList<>();
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-        CallableStatement callableStatement = connection.prepareCall("{?=call tpp.r_contract_service_n_daily_activity_load_by_id(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{ ? =call tpp.r_contract_service_n_daily_activity_get_by_id(?)}");
         callableStatement.registerOutParameter(1,Types.REF_CURSOR);
         callableStatement.setInt(2,id);
         ResultSet resultSet= (ResultSet) callableStatement.getObject(1);

@@ -36,14 +36,13 @@ public class ContractHotelServices implements Services<ContractHotelDto>{
 
             contractHotelDtos.add(new ContractHotelDto(
                     contractDto.getId(),
-                    contractDto.getContractTypeDto(),
                     contractDto.getStartDate(),
                     contractDto.getFinishDate(),
                     contractDto.getConciliationDate(),
                     contractDto.getDescription(),
-                    hotelDto,
-                    seasonDtos
-
+                    contractDto.getContractTypeDto(),
+                    seasonDtos,
+                    hotelDto
             ) {
             });
         }
@@ -54,7 +53,10 @@ public class ContractHotelServices implements Services<ContractHotelDto>{
 
     @Override
     public void insert(ContractHotelDto dto) throws SQLException {
-
+        /*Connection connection = ServicesLocator.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement callableStatement = connection.prepareCall("{ call tpp.contract_hotel_insert(?, ?)}");
+        callableStatement.*/
     }
 
     @Override

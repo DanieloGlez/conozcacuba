@@ -58,7 +58,7 @@ public class HotelServices implements Services<HotelDto> {
 
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
-
+/*
         while (resultSet.next()) {
             hotelDtos.add(new HotelDto(
                     resultSet.getInt("id_hotel"),
@@ -80,7 +80,7 @@ public class HotelServices implements Services<HotelDto> {
                     ServicesLocator.getModalityCommercialServices().loadRelated(resultSet.getInt("id_hotel"))
             ) {
             });
-        }
+        }*/
 
         return hotelDtos;
     }

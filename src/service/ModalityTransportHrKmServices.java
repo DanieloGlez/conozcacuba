@@ -63,7 +63,8 @@ public class ModalityTransportHrKmServices implements Services<ModalityTransport
         callableStatement.setFloat("cost_traveled_km", dto.getCostTraveledKm());
         callableStatement.setFloat("cost_km_extras", dto.getCostKmExtras());
         callableStatement.setFloat("cost_hr_extras", dto.getCostKmExtras());
-        callableStatement.setInt("id_contract", dto.getContractTransportDto().getId());      callableStatement.setInt("id_vehicle", dto.getVehicleDto().getId());
+        callableStatement.setInt("id_contract", dto.getContractTransport().getId());
+        callableStatement.setInt("id_vehicle", dto.getVehicle().getId());
         callableStatement.setFloat("cost_hr", dto.getCostHr());
         callableStatement.execute();
     }
@@ -75,8 +76,8 @@ public class ModalityTransportHrKmServices implements Services<ModalityTransport
         callableStatement.setFloat("cost_traveled_km", dto.getCostTraveledKm());
         callableStatement.setFloat("cost_km_extras", dto.getCostKmExtras());
         callableStatement.setFloat("cost_hr_extras", dto.getCostHrExtras());
-        callableStatement.setInt("id_contract", dto.getContractTransportDto().getId());
-        callableStatement.setInt("id_vehicle", dto.getVehicleDto().getId());
+        callableStatement.setInt("id_contract", dto.getContractTransport().getId());
+        callableStatement.setInt("id_vehicle", dto.getVehicle().getId());
         callableStatement.setFloat("cost_hr", dto.getCostHr());
         callableStatement.execute();
 

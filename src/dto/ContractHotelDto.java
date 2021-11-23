@@ -6,11 +6,11 @@ import java.sql.Date;
 import java.util.List;
 
 public class ContractHotelDto extends ContractDto {
-    private HotelDto hotel;
     private List<SeasonDto> seasons;
+    private HotelDto hotel;
 
     // Constructors
-    public ContractHotelDto(int id, ContractTypeDto contractTypeDto, java.sql.Date startDate, java.sql.Date finishDate, java.sql.Date conciliationDate, String description, HotelDto hotel, List<SeasonDto> seasons) {
+    public ContractHotelDto(int id, java.sql.Date startDate, java.sql.Date finishDate, java.sql.Date conciliationDate, String description, ContractTypeDto contractTypeDto, List<SeasonDto> seasons,  HotelDto hotel) {
         super(id, contractTypeDto, startDate, finishDate, conciliationDate, description);
         this.hotel = hotel;
         this.seasons = seasons;

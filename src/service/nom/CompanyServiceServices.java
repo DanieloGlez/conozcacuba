@@ -17,7 +17,7 @@ public class CompanyServiceServices implements Services<CompanyServiceDto>, Rela
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
 
-        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_company_service_load_by_id(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{ ? = call tpp.n_company_service_load_by_id(?)}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
         callableStatement.setInt(2, id_company_service);
 
@@ -39,7 +39,7 @@ public class CompanyServiceServices implements Services<CompanyServiceDto>, Rela
         Connection connection = service.ServicesLocator.getConnection();
         connection.setAutoCommit(false);
 
-        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_company_service_load}");
+        CallableStatement callableStatement = connection.prepareCall("{ ? = call tpp.n_company_service_load}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
 
         callableStatement.execute();
@@ -67,7 +67,7 @@ public class CompanyServiceServices implements Services<CompanyServiceDto>, Rela
     @Override
     public void update(CompanyServiceDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_company_service_update(?,?)}");
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_company_service_update(?)}");
         callableStatement.setInt(1, dto.getId());
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
@@ -93,7 +93,7 @@ public class CompanyServiceServices implements Services<CompanyServiceDto>, Rela
         LinkedList<CompanyServiceDto> companyServiceDtoLinkedList=new LinkedList<>();
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-        CallableStatement callableStatement = connection.prepareCall("{?=call tpp.r_contract_service_n_company_service_load_by_id(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{ ? = call tpp.r_contract_service_n_company_service_get_by_id(?)}");
         callableStatement.registerOutParameter(1,Types.REF_CURSOR);
         callableStatement.setInt(2,id);
         ResultSet resultSet= (ResultSet) callableStatement.getObject(1);

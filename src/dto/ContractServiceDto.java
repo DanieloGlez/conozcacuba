@@ -8,14 +8,15 @@ import java.sql.Date;
 import java.util.List;
 
 public class ContractServiceDto extends ContractDto {
-    private ProvinceDto idProvince;
     private float paxCost;
+    private ProvinceDto idProvince;
+
 
     // References
     private List<DailyActivityDto> dailyActivities;
 
     // Constructors
-    public ContractServiceDto(int id, ContractTypeDto contractTypeDto, java.sql.Date startDate, java.sql.Date finishDate, java.sql.Date conciliationDate, String description, ProvinceDto idProvince, float paxCost, List<DailyActivityDto> dailyActivities) {
+    public ContractServiceDto(int id, java.sql.Date startDate, java.sql.Date finishDate, java.sql.Date conciliationDate, String description, ContractTypeDto contractTypeDto, float paxCost, ProvinceDto idProvince, List<DailyActivityDto> dailyActivities) {
         super(id, contractTypeDto, startDate, finishDate, conciliationDate, description);
         this.idProvince = idProvince;
         this.paxCost = paxCost;

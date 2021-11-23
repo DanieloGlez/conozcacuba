@@ -20,11 +20,12 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
         callableStatement.setInt(2, id);
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
+        ContractDto contractDto = null;
         resultSet.next();
 
-        return new ContractDto(
+            return new ContractDto(
                 resultSet.getInt("id_contract"),
-                ServicesLocator.getContractTypeServices().load(resultSet.getInt("id_contract_type")),
+                    ServicesLocator.getContractTypeServices().load(resultSet.getInt("id_contract_type")),
                 resultSet.getDate("start_date"),
                 resultSet.getDate("finish_date"),
                 resultSet.getDate("conciliation_date"),
@@ -67,9 +68,9 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_insert(?,?,?,?,?)}");
         callableStatement.setInt("id_contract_type", dto.getContractTypeDto().getId());
-        callableStatement.setDate("start_date", (Date) dto.getStartDate());
-        callableStatement.setDate("finish_date", (Date) dto.getFinishDate());
-        callableStatement.setDate("conciliation0_date", (Date) dto.getConciliationDate());
+        callableStatement.setDate("start_date", dto.getStartDate());
+        callableStatement.setDate("finish_date", dto.getFinishDate());
+        callableStatement.setDate("conciliation0_date", dto.getConciliationDate());
         callableStatement.setString("description", dto.getDescription());
         callableStatement.execute();
     }
@@ -79,9 +80,9 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_update(?,?,?,?,?)}");
         callableStatement.setInt("id_contract_type", dto.getContractTypeDto().getId());
-        callableStatement.setDate("start_date", (Date) dto.getStartDate());
-        callableStatement.setDate("finish_date", (Date) dto.getFinishDate());
-        callableStatement.setDate("conciliation0_date", (Date) dto.getConciliationDate());
+        callableStatement.setDate("start_date", dto.getStartDate());
+        callableStatement.setDate("finish_date", dto.getFinishDate());
+        callableStatement.setDate("conciliation0_date", dto.getConciliationDate());
         callableStatement.setString("description", dto.getDescription());
         callableStatement.execute();
 
