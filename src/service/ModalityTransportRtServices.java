@@ -58,23 +58,24 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_rt_insert(?,?,?,?,?)}");
-        callableStatement.setString("rt_description", dto.getRtDescription());
-        callableStatement.setFloat("cost_rt", dto.getCostRt());
-        callableStatement.setFloat("cost_round_trip", dto.getCostRoundTrip());
-        callableStatement.setInt("id_contract", dto.getContractTransport().getId());
-        callableStatement.setInt("id_vehicle", dto.getVehicle().getId());
+        callableStatement.setString(1, dto.getRtDescription());
+        callableStatement.setFloat(2, dto.getCostRt());
+        callableStatement.setFloat(3, dto.getCostRoundTrip());
+        callableStatement.setInt(4, dto.getContractTransport().getId());
+        callableStatement.setInt(5, dto.getVehicle().getId());
         callableStatement.execute();
     }
 
     @Override
     public void update(ModalityTransportRtDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_rt_update(?,?,?,?,?)}");
-        callableStatement.setString("rt_description", dto.getRtDescription());
-        callableStatement.setFloat("cost_rt", dto.getCostRt());
-        callableStatement.setFloat("cost_round_trip", dto.getCostRoundTrip());
-        callableStatement.setInt("id_contract", dto.getContractTransport().getId());
-        callableStatement.setInt("id_vehicle", dto.getVehicle().getId());
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_rt_update(?,?,?,?,?,?)}");
+        callableStatement.setInt(1,dto.getId());
+        callableStatement.setString(2, dto.getRtDescription());
+        callableStatement.setFloat(3, dto.getCostRt());
+        callableStatement.setFloat(4, dto.getCostRoundTrip());
+        callableStatement.setInt(5, dto.getContractTransport().getId());
+        callableStatement.setInt(6, dto.getVehicle().getId());
         callableStatement.execute();
     }
 

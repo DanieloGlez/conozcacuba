@@ -59,28 +59,34 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_km_insert(?,?,?,?,?)}");
-        callableStatement.setFloat("cost_km", dto.getCostKm());
-        callableStatement.setFloat("cost_km_round_trip", dto.getCostKmRoundTrip());
-        callableStatement.setFloat("cost_hr_wait", dto.getCostHrWait());
-        callableStatement.setInt("id_contract", dto.getContractTransport().getId());
-        callableStatement.setInt("id_vehicle", dto.getVehicle().getId());
+        callableStatement.setFloat(1, dto.getCostKm());
+        callableStatement.setFloat(2, dto.getCostKmRoundTrip());
+        callableStatement.setFloat(3, dto.getCostHrWait());
+        callableStatement.setInt(4, dto.getContractTransport().getId());
+        callableStatement.setInt(5, dto.getVehicle().getId());
         callableStatement.execute();
     }
 
     @Override
     public void update(ModalityTransportKmDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_km_update(?,?,?,?,?)}");
-        callableStatement.setFloat("cost_km", dto.getCostKm());
-        callableStatement.setFloat("cost_km_round_trip", dto.getCostKmRoundTrip());
-        callableStatement.setFloat("cost_hr_wait", dto.getCostHrWait());
-        callableStatement.setInt("id_contract", dto.getContractTransport().getId());
-        callableStatement.setInt("id_vehicle", dto.getVehicle().getId());
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_km_update(?,?,?,?,?,?)}");
+        callableStatement.setInt(1, dto.getId());
+        callableStatement.setFloat(2, dto.getCostKm());
+        callableStatement.setFloat(3, dto.getCostKmRoundTrip());
+        callableStatement.setFloat(4, dto.getCostHrWait());
+        callableStatement.setInt(5, dto.getContractTransport().getId());
+        callableStatement.setInt(6, dto.getVehicle().getId());
         callableStatement.execute();
     }
 
     @Override
     public void delete(int id) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_km_delete(?)}");
+        callableStatement.setInt(1, id);
+        callableStatement.execute();
+
 
     }
 

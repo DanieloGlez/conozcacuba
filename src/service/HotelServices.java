@@ -42,7 +42,6 @@ public class HotelServices implements Services<HotelDto> {
                 ServicesLocator.getModalityCommercialServices().loadRelated(resultSet.getInt("id_hotel"))
 
 
-
         );
     }
 
@@ -90,29 +89,52 @@ public class HotelServices implements Services<HotelDto> {
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{call tpp.hotel_insert(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
-        callableStatement.setString("name", dto.getName());
-                callableStatement.setString("address", dto.getAddress());
-                callableStatement.setString("category", dto.getCategory());
-                callableStatement.setString("telephone_number", dto.getTelephoneNumber());
-                callableStatement.setString("fax", dto.getFax());
-                callableStatement.setString("emial", dto.getEmail());
-                callableStatement.setFloat("dist_to_city", dto.getDistToCity());
-                callableStatement.setFloat("dist_to_airport", dto.getDistToAirport());
-                callableStatement.setInt("rooms_amount", dto.getRoomsAmount());
-                callableStatement.setInt("floors_amount", dto.getFloorsAmount());
-                callableStatement.setInt("id_hotel_franchise", dto.getHotelFranchise().getId());
-                callableStatement.setInt("id_province", dto.getProvince().getId());
-                callableStatement.setInt("id_localization", dto.getLocalization().getId());
+        callableStatement.setString(1, dto.getName());
+        callableStatement.setString(2, dto.getAddress());
+        callableStatement.setString(3, dto.getCategory());
+        callableStatement.setString(4, dto.getTelephoneNumber());
+        callableStatement.setString(5, dto.getFax());
+        callableStatement.setString(6, dto.getEmail());
+        callableStatement.setFloat(7, dto.getDistToCity());
+        callableStatement.setFloat(8, dto.getDistToAirport());
+        callableStatement.setInt(9, dto.getRoomsAmount());
+        callableStatement.setInt(10, dto.getFloorsAmount());
+        callableStatement.setInt(11, dto.getHotelFranchise().getId());
+        callableStatement.setInt(12, dto.getProvince().getId());
+        callableStatement.setInt(13, dto.getLocalization().getId());
         callableStatement.execute();
     }
 
     @Override
     public void update(HotelDto dto) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.hotel_update(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+        callableStatement.setInt(1,dto.getId());
+        callableStatement.setString(2,dto.getName());
+        callableStatement.setString(3,dto.getAddress());
+        callableStatement.setString(4,dto.getCategory());
+        callableStatement.setString(5, dto.getTelephoneNumber());
+        callableStatement.setString(6, dto.getFax());
+        callableStatement.setString(7, dto.getEmail());
+        callableStatement.setFloat(8, dto.getDistToCity());
+        callableStatement.setFloat(9, dto.getDistToAirport());
+        callableStatement.setInt(10, dto.getRoomsAmount());
+        callableStatement.setInt(11, dto.getFloorsAmount());
+        callableStatement.setInt(12, dto.getHotelFranchise().getId());
+        callableStatement.setInt(13, dto.getProvince().getId());
+        callableStatement.setInt(14, dto.getLocalization().getId());
+        callableStatement.execute();
 
     }
 
     @Override
     public void delete(int id) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.hotel_delete(?)}");
+        callableStatement.setInt(1,id);
+        callableStatement.execute();
 
     }
 
