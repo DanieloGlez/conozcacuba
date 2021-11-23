@@ -2,6 +2,7 @@ package service;
 
 import dto.ContractDto;
 import dto.ContractServiceDto;
+import dto.VehicleDto;
 import dto.nom.ContractTypeDto;
 import dto.nom.DailyActivityDto;
 import dto.nom.ProvinceDto;
@@ -15,7 +16,26 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
 
     @Override
     public ContractServiceDto load(int id) throws SQLException {
-        return null;
+        Connection connection = ServicesLocator.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.contract_service_load_by_id(?)}");
+        callableStatement.registerOutParameter(1, Types.REF_CURSOR);
+        callableStatement.setInt(2, id);
+        callableStatement.execute();
+        ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
+        resultSet.next();
+
+        return new ContractServiceDto(
+                id,
+                resultSet.getDate("start_date"),
+                resultSet.getDate("finish_date"),
+                resultSet.getDate("conciliation_date"),
+                resultSet.getString("description"),
+                ServicesLocator.getContractServices().load(id).getContractTypeDto(),
+                resultSet.getFloat("pax_cost"),
+                ServicesLocator.getProvinceServices().load(resultSet.getInt("id_province")),
+                ServicesLocator.getDailyActivityServices().loadRelated(id)
+        );
     }
 
     @Override
@@ -47,8 +67,6 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
                     resultSet.getFloat(1),
                     provinceDto,
                     dailyActivityDtoLinkedList
-
-
             ) {
             });
         }
@@ -80,17 +98,11 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
                 if (contractDtoCurrent.getDescription().equals(dto.getDescription())) {
                     id = contractDtoCurrent.getId();
                 }
-
-
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
-
         return id;
-
-
     }
 
     @Override
@@ -101,7 +113,6 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
         callableStatement.setInt(2, dto.getIdProvince().getId());
         callableStatement.setInt(3, dto.getId());
         callableStatement.execute();
-
     }
 
     @Override
@@ -110,7 +121,6 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_service_delete(?)}");
         callableStatement.setInt(1, id);
         callableStatement.execute();
-
     }
 
     @Override
@@ -131,8 +141,6 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
-
     }
 }
 

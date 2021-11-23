@@ -57,7 +57,7 @@ public class LocalizationServices implements Services<LocalizationDto> {
     public void insert(LocalizationDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_localization_insert(?)}");
-        callableStatement.setString("name", dto.getName());
+        callableStatement.setString(1, dto.getName());
         callableStatement.execute();
     }
 

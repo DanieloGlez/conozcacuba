@@ -1,5 +1,6 @@
 package service.nom;
 
+import dto.ContractServiceDto;
 import dto.nom.CompanyTransportDto;
 import dto.nom.DailyActivityDto;
 import service.Relation;
@@ -99,10 +100,7 @@ public class DailyActivityServices implements Services<DailyActivityDto>, Relati
         ResultSet resultSet= (ResultSet) callableStatement.getObject(1);
 
         while (resultSet.next()){
-            activityDtoLinkedList.add(
-                    new DailyActivityDto(resultSet.getInt(1),
-                            resultSet.getString(2))
-            );
+            activityDtoLinkedList.add(ServicesLocator.getDailyActivityServices().load(resultSet.getInt("id_daily_activiy")));
         }
         return activityDtoLinkedList;
     }

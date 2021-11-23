@@ -66,15 +66,11 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
     public void insert(ContractDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_insert(?,?,?,?,?)}");
-
-        System.out.println(dto.getStartDate());
-
-        callableStatement.setDate(1, (Date) dto.getStartDate());
-        callableStatement.setDate(2, (Date) dto.getFinishDate());
-        callableStatement.setDate(3, (Date) dto.getConciliationDate());
+        callableStatement.setDate(1, dto.getStartDate());
+        callableStatement.setDate(2, dto.getFinishDate());
+        callableStatement.setDate(3, dto.getConciliationDate());
         callableStatement.setString(4, dto.getDescription());
         callableStatement.setInt(5, dto.getContractTypeDto().getId());
-
         callableStatement.execute();
     }
 
