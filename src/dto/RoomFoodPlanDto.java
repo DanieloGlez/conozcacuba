@@ -39,4 +39,8 @@ public class RoomFoodPlanDto {
     public void setPrice(float price) {
         this.price = price;
     }
+
+    public String toString(){
+        return this.getRoomType().getName()+"-"+this.getFoodPlan().getName();
+    }
 }

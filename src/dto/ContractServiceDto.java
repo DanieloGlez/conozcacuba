@@ -24,6 +24,9 @@ public class ContractServiceDto extends ContractDto {
     }
 
     // Getters & Setters
+    public String toString(){
+        return this.getContractTypeDto().getName();
+    }
 
     public ProvinceDto getIdProvince() {
         return idProvince;

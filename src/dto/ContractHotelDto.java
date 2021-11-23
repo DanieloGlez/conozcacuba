@@ -32,4 +32,8 @@ public class ContractHotelDto extends ContractDto {
     public void setSeasons(List<SeasonDto> seasons) {
         this.seasons = seasons;
     }
+
+    public String toString(){
+        return this.getHotel().getName();
+    }
 }

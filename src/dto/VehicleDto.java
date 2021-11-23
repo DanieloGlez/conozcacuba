@@ -88,6 +88,6 @@ public class VehicleDto implements Dto {
 
     @Override
     public String toString() {
-        return registration;
+        return this.getRegistration();
     }
 }

@@ -122,4 +122,8 @@ public class TouristicPackageDto {
     public void setContracts(List<ContractDto> contracts) {
         this.contracts = contracts;
     }
+
+    public String toString(){
+        return this.getPromotionalName();
+    }
 }

@@ -24,6 +24,10 @@ public class ContractDto {
 
     public ContractDto(){};
 
+    public String toString(){
+        return this.getContractTypeDto().getName();
+    }
+
     // Getters & Setters
     public int getId() {
         return id;
