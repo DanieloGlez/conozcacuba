@@ -3,6 +3,7 @@ package service;
 import dto.ContractDto;
 import dto.ContractServiceDto;
 import dto.ContractTransportDto;
+import dto.ModalityTransportHrKmDto;
 import dto.nom.CompanyTransportDto;
 import service.nom.CompanyTransportServices;
 
@@ -15,7 +16,25 @@ import java.util.List;
 public class ContractTransportServices implements Services<ContractTransportDto>{
     @Override
     public ContractTransportDto load(int id) throws SQLException {
-        return null;
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.contract_transport_load_by_id(?)}");
+        callableStatement.registerOutParameter(1, Types.REF_CURSOR);
+        callableStatement.setInt(2, id);
+        callableStatement.execute();
+        ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
+        resultSet.next();
+        ContractDto contractDto = ServicesLocator.getContractServices().load(id);
+
+        return new ContractTransportDto(
+                id,
+                contractDto.getContractTypeDto(),
+                contractDto.getStartDate(),
+                contractDto.getFinishDate(),
+                contractDto.getConciliationDate(),
+                contractDto.getDescription(),
+                ServicesLocator.getCompanyTransportServices().load(resultSet.getInt("id_company_transport")),
+                ServicesLocator.getVehicleServices().loadRelated(id)
+        );
     }
 
     @Override
