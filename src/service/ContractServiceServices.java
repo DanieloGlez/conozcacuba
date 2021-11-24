@@ -73,7 +73,7 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
     @Override
     public void insert(ContractServiceDto dto) throws SQLException {
         insertInContract(dto);
-        int id = findIdContract(dto);
+        int id = ContractServices.findIdContract(dto);
         dto.setId(id);
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_service_insert(?,?,?)}");
@@ -85,7 +85,7 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
         connection.close();
     }
 
-    private int findIdContract(ContractServiceDto dto) {
+   /* private int findIdContract(ContractServiceDto dto) {
         int id = 0;
         try {
             LinkedList<ContractDto> contractDtoLinkedList = (LinkedList<ContractDto>) ServicesLocator.getContractServices().loadAll();
@@ -101,7 +101,7 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
             throwables.printStackTrace();
         }
         return id;
-    }
+    }*/
 
     @Override
     public void update(ContractServiceDto dto) throws SQLException {
