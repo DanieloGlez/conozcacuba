@@ -22,6 +22,7 @@ public class ContractTypeServices implements Services <ContractTypeDto> {
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        connection.close();
         return new ContractTypeDto(resultSet.getInt("id_contract_type"), resultSet.getString("name"));
     }
 
@@ -45,6 +46,7 @@ public class ContractTypeServices implements Services <ContractTypeDto> {
             ));
         }
 
+        connection.close();
         return contractTypeDtos;
     }
 
@@ -54,6 +56,8 @@ public class ContractTypeServices implements Services <ContractTypeDto> {
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_contract_type_insert(?)}");
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -64,6 +68,7 @@ public class ContractTypeServices implements Services <ContractTypeDto> {
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
 
+        connection.close();
     }
 
     @Override
@@ -73,6 +78,7 @@ public class ContractTypeServices implements Services <ContractTypeDto> {
         callableStatement.setInt(1, id_contract_type);
         callableStatement.execute();
 
+        connection.close();
     }
 
     @Override

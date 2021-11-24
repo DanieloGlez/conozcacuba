@@ -18,6 +18,7 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        connection.close();
         return new ModalityTransportRtDto(
                 resultSet.getInt("id_modality_transport_rt"),
                 resultSet.getString("rtDescription"),
@@ -50,6 +51,7 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
             });
         }
 
+        connection.close();
         return modalityTransportRtDtos;
     }
 
@@ -64,6 +66,8 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
         callableStatement.setInt(4, dto.getContractTransport().getId());
         callableStatement.setInt(5, dto.getVehicle().getId());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -77,6 +81,8 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
         callableStatement.setInt(5, dto.getContractTransport().getId());
         callableStatement.setInt(6, dto.getVehicle().getId());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -86,6 +92,7 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
         callableStatement.setInt(1, id);
         callableStatement.execute();
 
+        connection.close();
     }
 
     @Override

@@ -22,6 +22,7 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
         ContractDto contractDto = null;
         resultSet.next();
 
+        connection.close();
         return new VehicleDto(
                 resultSet.getInt("id_vehicle"),
                 resultSet.getString("chapa"),
@@ -56,6 +57,7 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
             ));
         }
 
+        connection.close();
         return vehicles;
     }
 
@@ -71,6 +73,8 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
         callableStatement.setDate(5, java.sql.Date.valueOf(dto.getProductionDate()));
         callableStatement.setInt(6, dto.getBrand().getId());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -85,6 +89,8 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
         callableStatement.setDate(6,java.sql.Date.valueOf(dto.getProductionDate()));
         callableStatement.setInt(7, dto.getBrand().getId());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -93,6 +99,8 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
         CallableStatement callableStatement = connection.prepareCall("{call tpp.vehicle_delete(?)}");
         callableStatement.setInt(1, id);
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -118,6 +126,8 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
             vehicleDto = load(idVehicle);
             vehicleDtoLinkedList.add(vehicleDto);
         }
+
+        connection.close();
         return vehicleDtoLinkedList;
     }
 }

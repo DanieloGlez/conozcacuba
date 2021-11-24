@@ -24,6 +24,7 @@ public class ProvinceServices implements Services<ProvinceDto> {
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        connection.close();
         return new ProvinceDto(
                 resultSet.getInt("id_province"),
                 resultSet.getString("name")
@@ -50,6 +51,7 @@ public class ProvinceServices implements Services<ProvinceDto> {
             ));
         }
 
+        connection.close();
         return provinceDtos;
     }
 
@@ -60,6 +62,8 @@ public class ProvinceServices implements Services<ProvinceDto> {
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_province_insert(?)}");
         callableStatement.setString("name", dto.getName());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override

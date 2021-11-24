@@ -22,6 +22,7 @@ public class VehicleBrandServices implements Services<VehicleBrandDto> {
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        connection.close();
         return new VehicleBrandDto(
                 resultSet.getInt("id_vehicle_brand"),
                 resultSet.getString("name")
@@ -45,6 +46,7 @@ public class VehicleBrandServices implements Services<VehicleBrandDto> {
                     resultSet.getString("name")));
         }
 
+        connection.close();
         return vehicleBrandlist;
     }
 
@@ -54,6 +56,8 @@ public class VehicleBrandServices implements Services<VehicleBrandDto> {
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_vehicle_brand_insert(?)}");
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -64,6 +68,7 @@ public class VehicleBrandServices implements Services<VehicleBrandDto> {
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
 
+        connection.close();
     }
 
     @Override
@@ -73,6 +78,7 @@ public class VehicleBrandServices implements Services<VehicleBrandDto> {
         callableStatement.setInt(1, id);
         callableStatement.execute();
 
+        connection.close();
     }
 
     @Override

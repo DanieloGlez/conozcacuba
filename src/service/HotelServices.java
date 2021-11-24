@@ -21,6 +21,8 @@ public class HotelServices implements Services<HotelDto> {
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        connection.close();
+
         return new HotelDto(
                 resultSet.getInt("id_hotel"),
                 resultSet.getString("name"),
@@ -75,6 +77,7 @@ public class HotelServices implements Services<HotelDto> {
             });
         }
 
+        connection.close();
         return hotelDtos;
     }
 
@@ -97,6 +100,8 @@ public class HotelServices implements Services<HotelDto> {
         callableStatement.setInt(12, dto.getProvince().getId());
         callableStatement.setInt(13, dto.getLocalization().getId());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -120,6 +125,7 @@ public class HotelServices implements Services<HotelDto> {
         callableStatement.setInt(14, dto.getLocalization().getId());
         callableStatement.execute();
 
+        connection.close();
     }
 
     @Override
@@ -130,6 +136,7 @@ public class HotelServices implements Services<HotelDto> {
         callableStatement.setInt(1,id);
         callableStatement.execute();
 
+        connection.close();
     }
 
     @Override

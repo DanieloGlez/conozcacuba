@@ -26,6 +26,7 @@ public class CompanyServiceServices implements Services<CompanyServiceDto>, Rela
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        connection.close();
         return new CompanyServiceDto(
                 resultSet.getInt("id_company_service"),
                 resultSet.getString("name")
@@ -52,6 +53,7 @@ public class CompanyServiceServices implements Services<CompanyServiceDto>, Rela
             ));
         }
 
+        connection.close();
         return companiesService;
     }
 
@@ -62,6 +64,7 @@ public class CompanyServiceServices implements Services<CompanyServiceDto>, Rela
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
 
+        connection.close();
     }
 
     @Override
@@ -71,6 +74,8 @@ public class CompanyServiceServices implements Services<CompanyServiceDto>, Rela
         callableStatement.setInt(1, dto.getId());
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -80,6 +85,7 @@ public class CompanyServiceServices implements Services<CompanyServiceDto>, Rela
         callableStatement.setInt(1, id_company_service);
         callableStatement.execute();
 
+        connection.close();
     }
 
     @Override
@@ -103,6 +109,8 @@ public class CompanyServiceServices implements Services<CompanyServiceDto>, Rela
                             resultSet.getString(2))
             );
         }
+
+        connection.close();
         return companyServiceDtoLinkedList;
     }
 }

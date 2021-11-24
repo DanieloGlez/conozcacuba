@@ -24,6 +24,7 @@ public class LocalizationServices implements Services<LocalizationDto> {
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        connection.close();
         return new LocalizationDto(
                 resultSet.getInt("id_localization"),
                 resultSet.getString("name")
@@ -50,6 +51,7 @@ public class LocalizationServices implements Services<LocalizationDto> {
             ));
         }
 
+        connection.close();
         return localizationDtos;
     }
 
@@ -59,6 +61,8 @@ public class LocalizationServices implements Services<LocalizationDto> {
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_localization_insert(?)}");
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -68,6 +72,8 @@ public class LocalizationServices implements Services<LocalizationDto> {
         callableStatement.setInt(1, dto.getId());
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -77,6 +83,7 @@ public class LocalizationServices implements Services<LocalizationDto> {
         callableStatement.setInt(1, id_localization);
         callableStatement.execute();
 
+        connection.close();
     }
 
     @Override

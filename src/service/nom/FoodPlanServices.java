@@ -26,6 +26,7 @@ public class FoodPlanServices implements Services<FoodPlanDto>, Relation<FoodPla
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        connection.close();
         return new FoodPlanDto(
                 resultSet.getInt("id_food_plan"),
                 resultSet.getString("name")
@@ -52,6 +53,7 @@ public class FoodPlanServices implements Services<FoodPlanDto>, Relation<FoodPla
             ));
         }
 
+        connection.close();
         return foodPlanDtos;
     }
 
@@ -61,6 +63,8 @@ public class FoodPlanServices implements Services<FoodPlanDto>, Relation<FoodPla
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_food_plan_insert(?)}");
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -70,6 +74,8 @@ public class FoodPlanServices implements Services<FoodPlanDto>, Relation<FoodPla
         callableStatement.setInt(1, dto.getId());
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -78,6 +84,8 @@ public class FoodPlanServices implements Services<FoodPlanDto>, Relation<FoodPla
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_food_plan_delete(?)}");
         callableStatement.setInt(1, id_food_plan);
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -99,6 +107,8 @@ public class FoodPlanServices implements Services<FoodPlanDto>, Relation<FoodPla
         while (resultSet.next()){
             foodPlanDtoLinkedList.add(load(resultSet.getInt("id_food_plan")));
         }
+
+        connection.close();
         return foodPlanDtoLinkedList;
     }
 }

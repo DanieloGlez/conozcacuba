@@ -25,6 +25,7 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        connection.close();
         return new ContractServiceDto(
                 id,
                 resultSet.getDate("start_date"),
@@ -65,6 +66,7 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
             });
         }
 
+        connection.close();
         return contractServiceDtos;
     }
 
@@ -79,6 +81,8 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
         callableStatement.setInt(2, dto.getIdProvince().getId());
         callableStatement.setInt(3, id);
         callableStatement.execute();
+
+        connection.close();
     }
 
     private int findIdContract(ContractServiceDto dto) {
@@ -107,6 +111,8 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
         callableStatement.setInt(2, dto.getIdProvince().getId());
         callableStatement.setInt(3, dto.getId());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -115,6 +121,8 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_service_delete(?)}");
         callableStatement.setInt(1, id);
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override

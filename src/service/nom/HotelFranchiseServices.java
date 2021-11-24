@@ -24,6 +24,7 @@ public class HotelFranchiseServices implements Services<HotelFranchiseDto> {
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        connection.close();
         return new HotelFranchiseDto(
                 resultSet.getInt("id_hotel_franchise"),
                 resultSet.getString("name")
@@ -50,6 +51,7 @@ public class HotelFranchiseServices implements Services<HotelFranchiseDto> {
             ));
         }
 
+        connection.close();
         return hotelFranchiseDtos;
     }
 
@@ -60,6 +62,8 @@ public class HotelFranchiseServices implements Services<HotelFranchiseDto> {
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_hotel_franchise_insert(?)}");
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -69,6 +73,8 @@ public class HotelFranchiseServices implements Services<HotelFranchiseDto> {
         callableStatement.setInt(1, dto.getId());
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -78,6 +84,7 @@ public class HotelFranchiseServices implements Services<HotelFranchiseDto> {
         callableStatement.setInt(1, id_hotel_franchise);
         callableStatement.execute();
 
+        connection.close();
     }
 
     @Override

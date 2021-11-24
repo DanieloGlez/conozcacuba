@@ -24,6 +24,7 @@ public class SeasonServices implements Services<SeasonDto>, Relation<SeasonDto>{
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        connection.close();
         return new SeasonDto(
                 id,
                 resultSet.getString("name"),
@@ -57,6 +58,7 @@ public class SeasonServices implements Services<SeasonDto>, Relation<SeasonDto>{
             });
         }
 
+        connection.close();
         return seasonDtos;
     }
 
@@ -76,6 +78,8 @@ public class SeasonServices implements Services<SeasonDto>, Relation<SeasonDto>{
         CallableStatement callableStatement = connection.prepareCall("{call tpp.season_delete(?)}");
         callableStatement.setInt(1, id);
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -109,6 +113,7 @@ public class SeasonServices implements Services<SeasonDto>, Relation<SeasonDto>{
             );
         }
 
+        connection.close();
         return seasonDtoLinkedList;
     }
 }

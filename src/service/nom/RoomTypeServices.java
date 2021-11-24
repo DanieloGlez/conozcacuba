@@ -26,6 +26,7 @@ public class RoomTypeServices implements Services<RoomTypeDto>, Relation<RoomTyp
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        connection.close();
         return new RoomTypeDto(
                 resultSet.getInt("id_room_type"),
                 resultSet.getString("name")
@@ -52,6 +53,7 @@ public class RoomTypeServices implements Services<RoomTypeDto>, Relation<RoomTyp
             ));
         }
 
+        connection.close();
         return roomTypeDtos;
     }
 
@@ -61,6 +63,8 @@ public class RoomTypeServices implements Services<RoomTypeDto>, Relation<RoomTyp
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_room_type_insert(?)}");
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -71,6 +75,7 @@ public class RoomTypeServices implements Services<RoomTypeDto>, Relation<RoomTyp
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
 
+        connection.close();
     }
 
     @Override
@@ -80,6 +85,7 @@ public class RoomTypeServices implements Services<RoomTypeDto>, Relation<RoomTyp
         callableStatement.setInt(1, id);
         callableStatement.execute();
 
+        connection.close();
     }
 
     @Override
@@ -102,6 +108,7 @@ public class RoomTypeServices implements Services<RoomTypeDto>, Relation<RoomTyp
             roomTypeDtos.add(load(resultSet.getInt("id_room_type")));
         }
 
+        connection.close();
         return roomTypeDtos;
     }
 }

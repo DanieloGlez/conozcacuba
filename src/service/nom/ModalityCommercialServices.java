@@ -23,6 +23,7 @@ public class ModalityCommercialServices implements Services<ModalityCommercialDt
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        connection.close();
         return new ModalityCommercialDto(
                 id_modality_comertial,
                 resultSet.getString("name")
@@ -49,6 +50,7 @@ public class ModalityCommercialServices implements Services<ModalityCommercialDt
             ));
         }
 
+        connection.close();
         return modalityCommercialDtos;
     }
 
@@ -58,6 +60,8 @@ public class ModalityCommercialServices implements Services<ModalityCommercialDt
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_modality_hotel_comertial_insert(?)}");
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -68,6 +72,7 @@ public class ModalityCommercialServices implements Services<ModalityCommercialDt
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
 
+        connection.close();
     }
 
     @Override
@@ -76,6 +81,8 @@ public class ModalityCommercialServices implements Services<ModalityCommercialDt
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_modality_hotel_comertial_delete(?)}");
         callableStatement.setInt(1, id_modality_hotel_comertial);
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -97,6 +104,8 @@ public class ModalityCommercialServices implements Services<ModalityCommercialDt
         while (resultSet.next()){
             modalityCommercialDtos.add(load(resultSet.getInt("id_modality_hotel_comertial")));
         }
+
+        connection.close();
         return modalityCommercialDtos;
     }
 }

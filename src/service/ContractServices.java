@@ -22,6 +22,7 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        connection.close();
         return new ContractDto(
                 resultSet.getInt("id_contract"),
                 ServicesLocator.getContractTypeServices().load(resultSet.getInt("id_contract_type")),
@@ -59,6 +60,7 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
             });
         }
 
+        connection.close();
         return contractDtos;
     }
 
@@ -73,6 +75,8 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
         callableStatement.setInt(5, dto.getContractTypeDto().getId());
 
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -86,6 +90,8 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
         callableStatement.setString(5, dto.getDescription());
         callableStatement.setInt(6, dto.getContractTypeDto().getId());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -94,6 +100,8 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_delete(?)}");
         callableStatement.setInt(1, id);
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -118,6 +126,7 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
             contractDtoLinkedList.add(ServicesLocator.getContractServices().load(idContract));
         }
 
+        connection.close();
         return contractDtoLinkedList;
     }
 }

@@ -24,6 +24,7 @@ public class CompanyTransportServices implements Services<CompanyTransportDto> {
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        connection.close();
         return new CompanyTransportDto(
                 resultSet.getInt("id_company_transport"),
                 resultSet.getString("name")
@@ -50,6 +51,7 @@ public class CompanyTransportServices implements Services<CompanyTransportDto> {
             ));
         }
 
+        connection.close();
         return companyTransportDtos;
     }
 
@@ -59,6 +61,8 @@ public class CompanyTransportServices implements Services<CompanyTransportDto> {
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_company_transport_insert(?)}");
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -69,6 +73,7 @@ public class CompanyTransportServices implements Services<CompanyTransportDto> {
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
 
+        connection.close();
     }
 
     @Override
@@ -78,6 +83,7 @@ public class CompanyTransportServices implements Services<CompanyTransportDto> {
         callableStatement.setInt(1, id_company_transport);
         callableStatement.execute();
 
+        connection.close();
     }
 
     @Override

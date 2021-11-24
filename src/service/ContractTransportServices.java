@@ -27,6 +27,8 @@ public class ContractTransportServices implements Services<ContractTransportDto>
         resultSet.next();
         ContractDto contractDto = ServicesLocator.getContractServices().load(id);
 
+        connection.close();
+
         return new ContractTransportDto(
                 id,
                 contractDto.getContractTypeDto(),
@@ -71,6 +73,7 @@ public class ContractTransportServices implements Services<ContractTransportDto>
             });
         }
 
+        connection.close();
         return contractTransportDtos;
     }
 
@@ -84,6 +87,8 @@ public class ContractTransportServices implements Services<ContractTransportDto>
         callableStatement.setInt(1, dto.getId());
         callableStatement.setInt(2, dto.getTransportCompany().getId());
         callableStatement.execute();
+
+        connection.close();
     }
 
     private int findIdContract(ContractTransportDto dto) {
@@ -111,6 +116,8 @@ public class ContractTransportServices implements Services<ContractTransportDto>
         callableStatement.setInt(1, dto.getId());
         callableStatement.setInt(2, dto.getTransportCompany().getId());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -119,6 +126,8 @@ public class ContractTransportServices implements Services<ContractTransportDto>
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_transport_delete(?)}");
         callableStatement.setInt(1, id);
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override

@@ -18,6 +18,7 @@ public class TouristicPackageServices implements Services<TouristicPackageDto>{
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        connection.close();
         return new TouristicPackageDto(
                 resultSet.getInt("id_touristic_package"),
                 resultSet.getString("promotionla_name"),
@@ -63,6 +64,7 @@ public class TouristicPackageServices implements Services<TouristicPackageDto>{
             });
         }
 
+        connection.close();
         return touristicPackageDtos;
     }
 
@@ -80,6 +82,8 @@ public class TouristicPackageServices implements Services<TouristicPackageDto>{
         callableStatement.setFloat(8, dto.getCostTotal());
         callableStatement.setFloat(9, dto.getPrice());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -97,6 +101,8 @@ public class TouristicPackageServices implements Services<TouristicPackageDto>{
         callableStatement.setFloat(9, dto.getCostTotal());
         callableStatement.setFloat(10, dto.getPrice());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -105,6 +111,8 @@ public class TouristicPackageServices implements Services<TouristicPackageDto>{
         CallableStatement callableStatement = connection.prepareCall("{ call tpp.touristic_package_delete(?)}");
         callableStatement.setInt(1, id);
         callableStatement.execute();
+
+        connection.close();
     }
 
 

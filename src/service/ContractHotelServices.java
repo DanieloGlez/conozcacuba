@@ -20,6 +20,8 @@ public class ContractHotelServices implements Services<ContractHotelDto>{
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        connection.close();
+
         return new ContractHotelDto(
                 id,
                 resultSet.getDate("start_date"),
@@ -66,7 +68,7 @@ public class ContractHotelServices implements Services<ContractHotelDto>{
             });
         }
 
-
+        connection.close();
         return contractHotelDtos;
     }
 
@@ -80,6 +82,8 @@ public class ContractHotelServices implements Services<ContractHotelDto>{
         callableStatement.setInt(1, dto.getId());
         callableStatement.setInt(2, dto.getHotel().getId());
         callableStatement.execute();
+
+        connection.close();
     }
 
     private int findIdContract(ContractHotelDto dto) {
@@ -108,6 +112,8 @@ public class ContractHotelServices implements Services<ContractHotelDto>{
         callableStatement.setInt(1, dto.getId());
         callableStatement.setInt(2, dto.getHotel().getId());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -116,6 +122,8 @@ public class ContractHotelServices implements Services<ContractHotelDto>{
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_hotel_delete(?)}");
         callableStatement.setInt(1, id);
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override

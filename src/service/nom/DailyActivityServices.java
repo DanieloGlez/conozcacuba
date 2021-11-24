@@ -26,6 +26,7 @@ public class DailyActivityServices implements Services<DailyActivityDto>, Relati
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        connection.close();
         return new DailyActivityDto(
                 resultSet.getInt("id_daily_activity"),
                 resultSet.getString("name")
@@ -53,6 +54,7 @@ public class DailyActivityServices implements Services<DailyActivityDto>, Relati
             });
         }
 
+        connection.close();
         return dailyActivityDtos;
     }
 
@@ -62,6 +64,8 @@ public class DailyActivityServices implements Services<DailyActivityDto>, Relati
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_daily_activity_insert(?)}");
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -71,6 +75,8 @@ public class DailyActivityServices implements Services<DailyActivityDto>, Relati
         callableStatement.setInt(1, dto.getId());
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -80,6 +86,7 @@ public class DailyActivityServices implements Services<DailyActivityDto>, Relati
         callableStatement.setInt(1, id_daily_activity);
         callableStatement.execute();
 
+        connection.close();
     }
 
     @Override
@@ -102,6 +109,7 @@ public class DailyActivityServices implements Services<DailyActivityDto>, Relati
             activityDtoLinkedList.add(load(resultSet.getInt("id_daily_activity")));
         }
 
+        connection.close();
         return activityDtoLinkedList;
     }
 }

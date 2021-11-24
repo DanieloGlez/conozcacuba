@@ -19,6 +19,8 @@ public class ModalityTransportHrKmServices implements Services<ModalityTransport
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        connection.close();
+
         return new ModalityTransportHrKmDto(
                 resultSet.getInt("id_modality_transport_hr_km"),
                 resultSet.getFloat("costTraveledKm"),
@@ -53,6 +55,7 @@ public class ModalityTransportHrKmServices implements Services<ModalityTransport
             });
         }
 
+        connection.close();
         return modalityTransportHrKmDtos;
     }
 
@@ -68,6 +71,8 @@ public class ModalityTransportHrKmServices implements Services<ModalityTransport
         callableStatement.setInt(5, (int) dto.getCostHr());
         callableStatement.setFloat(6, dto.getCostHr());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -83,6 +88,7 @@ public class ModalityTransportHrKmServices implements Services<ModalityTransport
         callableStatement.setFloat(7, dto.getCostHr());
         callableStatement.execute();
 
+        connection.close();
     }
 
     @Override
@@ -91,6 +97,8 @@ public class ModalityTransportHrKmServices implements Services<ModalityTransport
         CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_hr_km_delete(?)}");
         callableStatement.setInt(1, id);
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override

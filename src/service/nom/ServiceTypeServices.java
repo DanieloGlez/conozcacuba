@@ -25,6 +25,7 @@ public class ServiceTypeServices implements Services<ServiceTypeDto>, Relation<S
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        connection.close();
         return new ServiceTypeDto(
                 resultSet.getInt("id_service_type"),
                 resultSet.getString("name")
@@ -51,6 +52,7 @@ public class ServiceTypeServices implements Services<ServiceTypeDto>, Relation<S
             ));
         }
 
+        connection.close();
         return serviceTypeDtos;
     }
 
@@ -60,6 +62,8 @@ public class ServiceTypeServices implements Services<ServiceTypeDto>, Relation<S
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_service_type_insert(?)}");
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -70,7 +74,7 @@ public class ServiceTypeServices implements Services<ServiceTypeDto>, Relation<S
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
 
-
+        connection.close();
     }
 
     @Override
@@ -80,6 +84,7 @@ public class ServiceTypeServices implements Services<ServiceTypeDto>, Relation<S
         callableStatement.setInt(1, id_service_type);
         callableStatement.execute();
 
+        connection.close();
     }
 
     @Override
@@ -103,6 +108,8 @@ public class ServiceTypeServices implements Services<ServiceTypeDto>, Relation<S
                             resultSet.getString(2))
             );
         }
+
+        connection.close();
         return servicesTypesDto;
     }
 }

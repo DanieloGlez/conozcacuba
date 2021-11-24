@@ -39,6 +39,7 @@ public class UserServices implements Services<UserDto> {
             ));
         }
 
+        connection.close();
         return users;
     }
 

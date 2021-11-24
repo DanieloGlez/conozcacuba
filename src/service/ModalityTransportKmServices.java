@@ -18,6 +18,8 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        connection.close();
+
         return new ModalityTransportKmDto(
                 resultSet.getInt("id_modality_transport_km"),
                 resultSet.getFloat("costKm"),
@@ -51,6 +53,7 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
             });
         }
 
+        connection.close();
         return modalityTransportKmDtos;
     }
 
@@ -65,6 +68,8 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
         callableStatement.setInt(4, dto.getContractTransport().getId());
         callableStatement.setInt(5, dto.getVehicle().getId());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -78,6 +83,8 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
         callableStatement.setInt(5, dto.getContractTransport().getId());
         callableStatement.setInt(6, dto.getVehicle().getId());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -87,7 +94,7 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
         callableStatement.setInt(1, id);
         callableStatement.execute();
 
-
+        connection.close();
     }
 
     @Override
