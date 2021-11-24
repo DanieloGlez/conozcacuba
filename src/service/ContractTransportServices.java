@@ -17,6 +17,8 @@ public class ContractTransportServices implements Services<ContractTransportDto>
     @Override
     public ContractTransportDto load(int id) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
+        connection.setAutoCommit(false);
+
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.contract_transport_load_by_id(?)}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
         callableStatement.setInt(2, id);

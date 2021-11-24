@@ -11,6 +11,7 @@ public class ModalityTransportHrKmServices implements Services<ModalityTransport
     @Override
     public ModalityTransportHrKmDto load(int id) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
+
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.modality_transport_hr_km_load_by_id(?)}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
         callableStatement.setInt(2, id);

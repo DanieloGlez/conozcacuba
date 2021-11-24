@@ -56,7 +56,7 @@ public class HotelFranchiseServices implements Services<HotelFranchiseDto> {
     @Override
     public void insert(HotelFranchiseDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        connection.setAutoCommit(false);
+
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_hotel_franchise_insert(?)}");
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
@@ -69,8 +69,6 @@ public class HotelFranchiseServices implements Services<HotelFranchiseDto> {
         callableStatement.setInt(1, dto.getId());
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
-
-
     }
 
     @Override
