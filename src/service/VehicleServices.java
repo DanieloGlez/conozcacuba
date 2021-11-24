@@ -68,7 +68,7 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
         callableStatement.setInt(2, dto.getCapacityWithoutBaggage());
         callableStatement.setInt(3, dto.getCapacityWithBaggage());
         callableStatement.setInt(4, dto.getCapacityTotal());
-        callableStatement.setDate(5, dto.toDate());
+        callableStatement.setDate(5, java.sql.Date.valueOf(dto.getProductionDate()));
         callableStatement.setInt(6, dto.getBrand().getId());
         callableStatement.execute();
     }
@@ -76,13 +76,14 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
     @Override
     public void update(VehicleDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        CallableStatement callableStatement = connection.prepareCall("{call tpp.vehicle_update(?,?,?,?,?,?)}");
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.vehicle_update(?,?,?,?,?,?,?)}");
         callableStatement.setInt(1, dto.getId());
         callableStatement.setString(2, dto.getRegistration());
         callableStatement.setInt(3, dto.getCapacityWithoutBaggage());
         callableStatement.setInt(4,dto.getCapacityWithBaggage());
         callableStatement.setInt(5,dto.getCapacityTotal());
-        callableStatement.setInt(6, dto.getBrand().getId());
+        callableStatement.setDate(6,java.sql.Date.valueOf(dto.getProductionDate()));
+        callableStatement.setInt(7, dto.getBrand().getId());
         callableStatement.execute();
     }
 

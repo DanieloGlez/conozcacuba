@@ -176,14 +176,26 @@ public class VehicleModal extends DataManagerFormController {
                 Integer.parseInt(capacitywithoutbaggage_jfxtextfield.getText()),
                 Integer.parseInt(capacitywithbaggage_jfxtextfield.getText()),
                 productiondate_jfxdatepicker.getValue()));
+        ((Stage) chapavehicle_jfxtextfield.getScene().getWindow()).close();
     }
 
     @Override
-    public void update(ActionEvent event) {
+    public void update(ActionEvent event) throws SQLException {
+        ((VehicleDto) dto).setRegistration(chapavehicle_jfxtextfield.getText());
+        ((VehicleDto) dto).setCapacityWithoutBaggage(Integer.parseInt(capacitywithoutbaggage_jfxtextfield.getText()));
+        ((VehicleDto) dto).setCapacityWithBaggage(Integer.parseInt(capacitywithbaggage_jfxtextfield.getText()));
+        ((VehicleDto) dto).setProductionDate(productiondate_jfxdatepicker.getValue());
+        ((VehicleDto) dto).setBrand(findBrand());
+
+        ServicesLocator.getVehicleServices().update((VehicleDto) dto);
+        ((Stage) chapavehicle_jfxtextfield.getScene().getWindow()).close();
+
+
 
     }
 
 
+    //function for add items to combobox
     public void addComboBoxItems() throws SQLException {
         LinkedList<VehicleBrandDto> t = (LinkedList<VehicleBrandDto>) ServicesLocator.getVehicleBrandServices().loadAll();
 
