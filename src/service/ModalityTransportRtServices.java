@@ -83,7 +83,7 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
     public void delete(int id) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_rt_delete(?)}");
-        callableStatement.setInt("id_modality_transport_rt", id);
+        callableStatement.setInt(1, id);
         callableStatement.execute();
 
     }

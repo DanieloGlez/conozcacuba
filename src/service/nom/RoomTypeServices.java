@@ -92,18 +92,16 @@ public class RoomTypeServices implements Services<RoomTypeDto>, Relation<RoomTyp
         LinkedList<RoomTypeDto> roomTypeDtos=new LinkedList<>();
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-        CallableStatement callableStatement = connection.prepareCall("{?=call tpp.r_hotel_room_type_load_by_id(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{ ? =call tpp.r_hotel_room_type_load_by_id(?)}");
         callableStatement.registerOutParameter(1,Types.REF_CURSOR);
         callableStatement.setInt(2,id);
         callableStatement.execute();
         ResultSet resultSet= (ResultSet) callableStatement.getObject(1);
 
         while (resultSet.next()){
-            roomTypeDtos.add(
-                    new RoomTypeDto(resultSet.getInt(1),
-                            resultSet.getString(2))
-            );
+            roomTypeDtos.add(load(resultSet.getInt("id_room_type")));
         }
+
         return roomTypeDtos;
     }
 }

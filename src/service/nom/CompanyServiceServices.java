@@ -67,11 +67,10 @@ public class CompanyServiceServices implements Services<CompanyServiceDto>, Rela
     @Override
     public void update(CompanyServiceDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_company_service_update(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_company_service_update(?,?)}");
         callableStatement.setInt(1, dto.getId());
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
-
     }
 
     @Override

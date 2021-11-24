@@ -16,18 +16,15 @@ public class ModalityCommercialServices implements Services<ModalityCommercialDt
     public ModalityCommercialDto load(int id_modality_comertial) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.n_modality_hotel_comertial_load_by_id(?)}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
         callableStatement.setInt(2, id_modality_comertial);
-
         callableStatement.execute();
-
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
         return new ModalityCommercialDto(
-                resultSet.getInt("id_modality_comertial"),
+                id_modality_comertial,
                 resultSet.getString("name")
         );
     }
@@ -79,7 +76,6 @@ public class ModalityCommercialServices implements Services<ModalityCommercialDt
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_modality_hotel_comertial_delete(?)}");
         callableStatement.setInt(1, id_modality_hotel_comertial);
         callableStatement.execute();
-
     }
 
     @Override
@@ -92,17 +88,14 @@ public class ModalityCommercialServices implements Services<ModalityCommercialDt
         LinkedList<ModalityCommercialDto> modalityCommercialDtos=new LinkedList<>();
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-        CallableStatement callableStatement = connection.prepareCall("{?=call tpp.r_hotel_modality_hotel_comertial_load_by_id(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{ ? =call tpp.r_hotel_modality_hotel_comertial_load_by_id(?)}");
         callableStatement.registerOutParameter(1,Types.REF_CURSOR);
         callableStatement.setInt(2,id);
         callableStatement.execute();
         ResultSet resultSet= (ResultSet) callableStatement.getObject(1);
 
         while (resultSet.next()){
-            modalityCommercialDtos.add(
-                    new ModalityCommercialDto(resultSet.getInt(1),
-                            resultSet.getString(2))
-            );
+            modalityCommercialDtos.add(load(resultSet.getInt("id_modality_hotel_comertial")));
         }
         return modalityCommercialDtos;
     }

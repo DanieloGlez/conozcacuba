@@ -33,6 +33,7 @@ public class ContractHotelDto extends ContractDto {
         this.seasons = seasons;
     }
 
+    @Override
     public String toString(){
         return this.getHotel().getName();
     }

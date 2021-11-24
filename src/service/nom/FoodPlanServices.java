@@ -70,8 +70,6 @@ public class FoodPlanServices implements Services<FoodPlanDto>, Relation<FoodPla
         callableStatement.setInt(1, dto.getId());
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
-
-
     }
 
     @Override
@@ -80,7 +78,6 @@ public class FoodPlanServices implements Services<FoodPlanDto>, Relation<FoodPla
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_food_plan_delete(?)}");
         callableStatement.setInt(1, id_food_plan);
         callableStatement.execute();
-
     }
 
     @Override
@@ -93,17 +90,14 @@ public class FoodPlanServices implements Services<FoodPlanDto>, Relation<FoodPla
         LinkedList<FoodPlanDto> foodPlanDtoLinkedList=new LinkedList<>();
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-        CallableStatement callableStatement = connection.prepareCall("{?=call tpp.r_hotel_food_plan_load_by_id(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{ ? =call tpp.r_hotel_food_plan_load_by_id(?)}");
         callableStatement.registerOutParameter(1,Types.REF_CURSOR);
         callableStatement.setInt(2,id);
         callableStatement.execute();
         ResultSet resultSet= (ResultSet) callableStatement.getObject(1);
 
         while (resultSet.next()){
-            foodPlanDtoLinkedList.add(
-                    new FoodPlanDto(resultSet.getInt(1),
-                            resultSet.getString(2))
-            );
+            foodPlanDtoLinkedList.add(load(resultSet.getInt("id_food_plan")));
         }
         return foodPlanDtoLinkedList;
     }

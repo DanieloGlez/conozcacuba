@@ -76,12 +76,23 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
 
     @Override
     public void update(VehicleDto dto) throws SQLException {
-
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.vehicle_update(?,?,?,?,?,?)}");
+        callableStatement.setInt(1, dto.getId());
+        callableStatement.setString(2, dto.getRegistration());
+        callableStatement.setInt(3, dto.getCapacityWithoutBaggage());
+        callableStatement.setInt(4,dto.getCapacityWithBaggage());
+        callableStatement.setInt(5,dto.getCapacityTotal());
+        callableStatement.setInt(6, dto.getBrand().getId());
+        callableStatement.execute();
     }
 
     @Override
     public void delete(int id) throws SQLException {
-
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.vehicle_delete(?)}");
+        callableStatement.setInt(1, id);
+        callableStatement.execute();
     }
 
     @Override

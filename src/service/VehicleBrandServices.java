@@ -50,7 +50,6 @@ public class VehicleBrandServices implements Services<VehicleBrandDto> {
 
     @Override
     public void insert(VehicleBrandDto dto) throws SQLException {
-
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_vehicle_brand_insert(?)}");
         callableStatement.setString(1, dto.getName());
@@ -70,7 +69,7 @@ public class VehicleBrandServices implements Services<VehicleBrandDto> {
     @Override
     public void delete(int id) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_vehicle_brand_update(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.n_vehicle_brand_delete(?)}");
         callableStatement.setInt(1, id);
         callableStatement.execute();
 

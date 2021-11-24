@@ -70,9 +70,7 @@ public class DailyActivityServices implements Services<DailyActivityDto>, Relati
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_daily_activity_update(?,?)}");
         callableStatement.setInt(1, dto.getId());
         callableStatement.setString(2, dto.getName());
-
         callableStatement.execute();
-
     }
 
     @Override
@@ -97,11 +95,13 @@ public class DailyActivityServices implements Services<DailyActivityDto>, Relati
         CallableStatement callableStatement = connection.prepareCall("{ ? =call tpp.r_contract_service_n_daily_activity_load_by_id(?)}");
         callableStatement.registerOutParameter(1,Types.REF_CURSOR);
         callableStatement.setInt(2,id);
+        callableStatement.execute();
         ResultSet resultSet= (ResultSet) callableStatement.getObject(1);
 
         while (resultSet.next()){
-            activityDtoLinkedList.add(ServicesLocator.getDailyActivityServices().load(resultSet.getInt("id_daily_activiy")));
+            activityDtoLinkedList.add(load(resultSet.getInt("id_daily_activity")));
         }
+
         return activityDtoLinkedList;
     }
 }

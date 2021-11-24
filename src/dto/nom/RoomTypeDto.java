@@ -13,6 +13,4 @@ public class RoomTypeDto extends NomenclatorDto implements Dto {
     public String toString() {
         return name;
     }
-
-
 }

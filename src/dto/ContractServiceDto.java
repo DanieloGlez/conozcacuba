@@ -24,6 +24,7 @@ public class ContractServiceDto extends ContractDto implements Dto{
     }
 
     // Getters & Setters
+    @Override
     public String toString(){
         return this.getContractTypeDto().getName();
     }

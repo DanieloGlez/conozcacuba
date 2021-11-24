@@ -90,7 +90,6 @@ public class ModalityTransportHrKmServices implements Services<ModalityTransport
         CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_hr_km_delete(?)}");
         callableStatement.setInt(1, id);
         callableStatement.execute();
-
     }
 
     @Override

@@ -21,7 +21,6 @@ public class HotelServices implements Services<HotelDto> {
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
-
         return new HotelDto(
                 resultSet.getInt("id_hotel"),
                 resultSet.getString("name"),
@@ -40,21 +39,16 @@ public class HotelServices implements Services<HotelDto> {
                 ServicesLocator.getRoomTypeServices().loadRelated(resultSet.getInt("id_hotel")),
                 ServicesLocator.getFoodPlanServices().loadRelated(resultSet.getInt("id_hotel")),
                 ServicesLocator.getModalityCommercialServices().loadRelated(resultSet.getInt("id_hotel"))
-
-
         );
     }
 
     @Override
     public List<HotelDto> loadAll() throws SQLException {
         List<HotelDto> hotelDtos = new LinkedList<>();
-
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.hotel_load}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
-
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
 

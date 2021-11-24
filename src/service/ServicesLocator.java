@@ -1,6 +1,7 @@
 package service;
 
 import dto.ModalityTransportHrKmDto;
+import dto.TouristicPackageDto;
 import service.fun.UserServices;
 import service.nom.*;
 import util.ConfigurationUtils;
@@ -33,6 +34,7 @@ public class ServicesLocator {
     private static ServiceTypeServices serviceTypeServices;
     private static ContractServiceServices contractServiceServices;
     private static ContractHotelServices contractHotelServices;
+    private static TouristicPackageServices touristicPackageServices;
 
     // Connection
     public static Connection getConnection() throws SQLException {
@@ -65,6 +67,7 @@ public class ServicesLocator {
 
         return contractServices;
     }
+
     public static HotelServices getHotelServices() {
         if (hotelServices == null)
             hotelServices = new HotelServices();
@@ -73,21 +76,21 @@ public class ServicesLocator {
     }
 
 
-    public static ModalityTransportHrKmServices getModalityTransportHrKmServices(){
+    public static ModalityTransportHrKmServices getModalityTransportHrKmServices() {
         if (modalityTransportHrKmServices == null)
             modalityTransportHrKmServices = new ModalityTransportHrKmServices();
 
         return modalityTransportHrKmServices;
     }
 
-    public static ModalityTransportRtServices getModalityTransportRtServices(){
+    public static ModalityTransportRtServices getModalityTransportRtServices() {
         if (modalityTransportRtServices == null)
             modalityTransportRtServices = new ModalityTransportRtServices();
 
         return modalityTransportRtServices;
     }
 
-    public static ModalityTransportKmServices getModalityTransportKmServices(){
+    public static ModalityTransportKmServices getModalityTransportKmServices() {
         if (modalityTransportKmServices == null)
             modalityTransportKmServices = new ModalityTransportKmServices();
 
@@ -121,6 +124,7 @@ public class ServicesLocator {
 
         return contractTypeServices;
     }
+
     public static FoodPlanServices getFoodPlanServices() {
         if (foodPlanServices == null)
             foodPlanServices = new FoodPlanServices();
@@ -193,14 +197,20 @@ public class ServicesLocator {
 
 
     public static ContractServiceServices getContractServiceServices() {
-        if (contractServiceServices==null)
-            contractServiceServices=new ContractServiceServices();
+        if (contractServiceServices == null)
+            contractServiceServices = new ContractServiceServices();
         return contractServiceServices;
     }
 
     public static ContractHotelServices getContractHotelServices() {
-        if (contractHotelServices==null)
-            contractHotelServices=new ContractHotelServices();
+        if (contractHotelServices == null)
+            contractHotelServices = new ContractHotelServices();
         return contractHotelServices;
+    }
+
+    public static TouristicPackageServices getTouristicPackageServices() {
+        if (touristicPackageServices == null)
+            touristicPackageServices = new TouristicPackageServices();
+        return touristicPackageServices;
     }
 }

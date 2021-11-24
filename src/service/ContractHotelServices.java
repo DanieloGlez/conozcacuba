@@ -103,12 +103,19 @@ public class ContractHotelServices implements Services<ContractHotelDto>{
 
     @Override
     public void update(ContractHotelDto dto) throws SQLException {
-
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_hotel_update(?,?)}");
+        callableStatement.setInt(1, dto.getId());
+        callableStatement.setInt(2, dto.getHotel().getId());
+        callableStatement.execute();
     }
 
     @Override
     public void delete(int id) throws SQLException {
-
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_hotel_delete(?)}");
+        callableStatement.setInt(1, id);
+        callableStatement.execute();
     }
 
     @Override

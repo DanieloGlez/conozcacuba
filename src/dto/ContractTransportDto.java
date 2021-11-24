@@ -34,9 +34,8 @@ public class ContractTransportDto extends ContractDto {
         this.vehicles = vehicles;
     }
 
+    @Override
     public String toString(){
         return this.getTransportCompany().getName();
     }
-
-
 }
