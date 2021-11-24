@@ -1,12 +1,14 @@
 package service;
 
 import dto.ContractDto;
+import dto.ContractServiceDto;
 import dto.nom.CompanyServiceDto;
 import dto.nom.ContractTypeDto;
 import dto.nom.RoomTypeDto;
 import service.nom.ContractTypeServices;
 
 import java.sql.*;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -119,5 +121,26 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
         }
 
         return contractDtoLinkedList;
+    }
+
+
+
+    public static int findIdContract(ContractDto dto) {
+        int id = 0;
+        try {
+            LinkedList<ContractDto> contractDtoLinkedList = (LinkedList<ContractDto>) ServicesLocator.getContractServices().loadAll();
+            Iterator<ContractDto> i = contractDtoLinkedList.iterator();
+            boolean found = false;
+            while (i.hasNext() && !found) {
+                ContractDto contractDtoCurrent = i.next();
+                if (contractDtoCurrent.getDescription().equals(dto.getDescription())) {
+                    id = contractDtoCurrent.getId();
+                    found=true;
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return id;
     }
 }

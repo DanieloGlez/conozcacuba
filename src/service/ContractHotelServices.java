@@ -73,7 +73,7 @@ public class ContractHotelServices implements Services<ContractHotelDto>{
     @Override
     public void insert(ContractHotelDto dto) throws SQLException {
         insertInContract(dto);
-        int id = findIdContract(dto);
+        int id = ContractServices.findIdContract(dto);
         dto.setId(id);
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_hotel_insert(?,?)}");
@@ -82,7 +82,7 @@ public class ContractHotelServices implements Services<ContractHotelDto>{
         callableStatement.execute();
     }
 
-    private int findIdContract(ContractHotelDto dto) {
+    /*private int findIdContract(ContractHotelDto dto) {
         int id = 0;
         try {
             LinkedList<ContractDto> contractDtoLinkedList = (LinkedList<ContractDto>) ServicesLocator.getContractServices().loadAll();
@@ -98,7 +98,7 @@ public class ContractHotelServices implements Services<ContractHotelDto>{
             throwables.printStackTrace();
         }
         return id;
-    }
+    }*/
 
 
     @Override
