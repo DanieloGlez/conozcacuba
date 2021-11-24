@@ -48,7 +48,7 @@ public class VehicleModal extends DataManagerFormController {
     private JFXDatePicker productiondate_jfxdatepicker;
 
     @FXML
-    private JFXComboBox<?> vehiclebrand_jfxcombobox;
+    private JFXComboBox<String> vehiclebrand_jfxcombobox;
 
     /*@FXML
     void insertVehicle(ActionEvent event) throws SQLException {
@@ -79,15 +79,7 @@ public class VehicleModal extends DataManagerFormController {
 
     }
 
-    public void addComboBoxItems() throws SQLException {
-        LinkedList<VehicleBrandDto> t = (LinkedList<VehicleBrandDto>) ServicesLocator.getVehicleBrandServices().loadAll();
 
-        Iterator<VehicleBrandDto> i = t.iterator();
-        while (i.hasNext()) {
-            cb_vehicle_brand.getItems().add(i.next().getName());
-        }
-
-    }
 
 
     public VehicleBrandDto findBrand() throws SQLException {
@@ -166,17 +158,63 @@ public class VehicleModal extends DataManagerFormController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            addComboBoxItems();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
     }
 
     @Override
-    public void insert(ActionEvent event) {
+    public void insert(ActionEvent event) throws SQLException {
 
+        ServicesLocator.getVehicleServices().insert(new VehicleDto(
+                0,
+                chapavehicle_jfxtextfield.getText(),
+                findBrand(),
+                Integer.parseInt(capacitywithoutbaggage_jfxtextfield.getText()),
+                Integer.parseInt(capacitywithbaggage_jfxtextfield.getText()),
+                productiondate_jfxdatepicker.getValue()));
     }
 
     @Override
     public void update(ActionEvent event) {
 
     }
+
+
+    public void addComboBoxItems() throws SQLException {
+        LinkedList<VehicleBrandDto> t = (LinkedList<VehicleBrandDto>) ServicesLocator.getVehicleBrandServices().loadAll();
+
+        Iterator<VehicleBrandDto> i = t.iterator();
+
+        while (i.hasNext()) {
+
+                vehiclebrand_jfxcombobox.getItems().add(i.next().getName());
+
+        }
+
+    }
+
+
+
+   //function to find the VehicleBrandDto that is going
+   // to be passed as a parameter
+   // to the vehicle insert function
+    public VehicleBrandDto findBrand() throws SQLException {
+        LinkedList<VehicleBrandDto> vehicleBrandDtoList = (LinkedList<VehicleBrandDto>) ServicesLocator.getVehicleBrandServices().loadAll();
+        Iterator i = vehicleBrandDtoList.iterator();
+        boolean found = false;
+        VehicleBrandDto currentVehicleBrandDto = null;
+        while (i.hasNext() && !found) {
+            currentVehicleBrandDto = (VehicleBrandDto) i.next();
+            if (currentVehicleBrandDto.getName().equals(vehiclebrand_jfxcombobox.getValue()))
+                found = true;
+        }
+
+        return currentVehicleBrandDto;
+    }
+
 }
 

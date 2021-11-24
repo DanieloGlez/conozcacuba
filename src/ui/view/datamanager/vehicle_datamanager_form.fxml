@@ -15,7 +15,7 @@
    <children>
       <VBox layoutX="207.0" layoutY="14.0" prefHeight="325.0" prefWidth="179.0" AnchorPane.leftAnchor="207.0" AnchorPane.rightAnchor="214.0">
          <children>
-            <JFXTextField fx:id="chapavehicle_jfxtextfield" prefHeight="25.0" prefWidth="433.0" promptText="ID Vehicle" text="Chapa">
+            <JFXTextField fx:id="chapavehicle_jfxtextfield" prefHeight="25.0" prefWidth="433.0" promptText="ID Vehicle" text="">
                <font>
                   <Font size="14.0" />
                </font></JFXTextField>

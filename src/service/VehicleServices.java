@@ -64,13 +64,12 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
 
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.vehicle_insert(?,?,?,?,?,?)}");
-        callableStatement.setInt(1, dto.getId());
-        callableStatement.setString(2, dto.getRegistration());
-        callableStatement.setInt(3, dto.getCapacityWithoutBaggage());
-        callableStatement.setInt(4, dto.getCapacityWithBaggage());
-        callableStatement.setInt(5, dto.getCapacityTotal());
-        callableStatement.setDate(6, dto.toDate());
-        callableStatement.setInt(7, dto.getBrand().getId());
+        callableStatement.setString(1, dto.getRegistration());
+        callableStatement.setInt(2, dto.getCapacityWithoutBaggage());
+        callableStatement.setInt(3, dto.getCapacityWithBaggage());
+        callableStatement.setInt(4, dto.getCapacityTotal());
+        callableStatement.setDate(5, dto.toDate());
+        callableStatement.setInt(6, dto.getBrand().getId());
         callableStatement.execute();
     }
 
