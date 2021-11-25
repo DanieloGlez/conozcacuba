@@ -11,6 +11,7 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
     @Override
     public ModalityTransportKmDto load(int id) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
+        connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.modality_transport_km_load_by_id(?)}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
         callableStatement.setInt(2, id);
@@ -39,7 +40,6 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
-        int idTypeContract;
 
         while (resultSet.next()) {
             modalityTransportKmDtos.add(new ModalityTransportKmDto(
@@ -60,7 +60,6 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
     @Override
     public void insert(ModalityTransportKmDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_km_insert(?,?,?,?,?)}");
         callableStatement.setFloat(1, dto.getCostKm());
         callableStatement.setFloat(2, dto.getCostKmRoundTrip());

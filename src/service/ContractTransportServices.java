@@ -18,7 +18,6 @@ public class ContractTransportServices implements Services<ContractTransportDto>
     public ContractTransportDto load(int id) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.contract_transport_load_by_id(?)}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
         callableStatement.setInt(2, id);
@@ -26,8 +25,6 @@ public class ContractTransportServices implements Services<ContractTransportDto>
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
         ContractDto contractDto = ServicesLocator.getContractServices().load(id);
-
-        connection.close();
 
         return new ContractTransportDto(
                 id,
@@ -73,25 +70,22 @@ public class ContractTransportServices implements Services<ContractTransportDto>
             });
         }
 
-        connection.close();
         return contractTransportDtos;
     }
 
     @Override
     public void insert(ContractTransportDto dto) throws SQLException {
         insertInContract(dto);
-        int id = ContractServices.findIdContract(dto);
+        int id = findIdContract(dto);
         dto.setId(id);
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_transport_insert(?,?)}");
         callableStatement.setInt(1, dto.getId());
         callableStatement.setInt(2, dto.getTransportCompany().getId());
         callableStatement.execute();
-
-        connection.close();
     }
 
-   /* private int findIdContract(ContractTransportDto dto) {
+    private int findIdContract(ContractTransportDto dto) {
         int id = 0;
         try {
             LinkedList<ContractDto> contractDtoLinkedList = (LinkedList<ContractDto>) ServicesLocator.getContractServices().loadAll();
@@ -107,7 +101,7 @@ public class ContractTransportServices implements Services<ContractTransportDto>
             throwables.printStackTrace();
         }
         return id;
-    }*/
+    }
 
     @Override
     public void update(ContractTransportDto dto) throws SQLException {
@@ -116,8 +110,6 @@ public class ContractTransportServices implements Services<ContractTransportDto>
         callableStatement.setInt(1, dto.getId());
         callableStatement.setInt(2, dto.getTransportCompany().getId());
         callableStatement.execute();
-
-        connection.close();
     }
 
     @Override
@@ -126,8 +118,6 @@ public class ContractTransportServices implements Services<ContractTransportDto>
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_transport_delete(?)}");
         callableStatement.setInt(1, id);
         callableStatement.execute();
-
-        connection.close();
     }
 
     @Override

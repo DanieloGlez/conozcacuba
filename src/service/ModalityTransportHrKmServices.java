@@ -11,14 +11,13 @@ public class ModalityTransportHrKmServices implements Services<ModalityTransport
     @Override
     public ModalityTransportHrKmDto load(int id) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-
+        connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.modality_transport_hr_km_load_by_id(?)}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
         callableStatement.setInt(2, id);
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
-
         connection.close();
 
         return new ModalityTransportHrKmDto(
@@ -62,7 +61,6 @@ public class ModalityTransportHrKmServices implements Services<ModalityTransport
     @Override
     public void insert(ModalityTransportHrKmDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_hr_km_insert(?,?,?,?,?,?)}");
         callableStatement.setFloat(1, dto.getCostTraveledKm());
         callableStatement.setFloat(2, dto.getCostKmExtras());
@@ -71,7 +69,6 @@ public class ModalityTransportHrKmServices implements Services<ModalityTransport
         callableStatement.setInt(5, (int) dto.getCostHr());
         callableStatement.setFloat(6, dto.getCostHr());
         callableStatement.execute();
-
         connection.close();
     }
 
@@ -87,7 +84,6 @@ public class ModalityTransportHrKmServices implements Services<ModalityTransport
         callableStatement.setInt(6, (int) dto.getCostHr());
         callableStatement.setFloat(7, dto.getCostHr());
         callableStatement.execute();
-
         connection.close();
     }
 
@@ -97,7 +93,6 @@ public class ModalityTransportHrKmServices implements Services<ModalityTransport
         CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_hr_km_delete(?)}");
         callableStatement.setInt(1, id);
         callableStatement.execute();
-
         connection.close();
     }
 
