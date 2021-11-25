@@ -11,6 +11,7 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
     @Override
     public ModalityTransportRtDto load(int id) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
+        connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.modality_transport_rt_load_by_id(?)}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
         callableStatement.setInt(2, id);
@@ -58,7 +59,6 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
     @Override
     public void insert(ModalityTransportRtDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_rt_insert(?,?,?,?,?)}");
         callableStatement.setString(1, dto.getRtDescription());
         callableStatement.setFloat(2, dto.getCostRt());

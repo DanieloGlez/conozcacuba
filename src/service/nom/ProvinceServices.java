@@ -58,7 +58,6 @@ public class ProvinceServices implements Services<ProvinceDto> {
     @Override
     public void insert(ProvinceDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{call tpp.n_province_insert(?)}");
         callableStatement.setString("name", dto.getName());
         callableStatement.execute();

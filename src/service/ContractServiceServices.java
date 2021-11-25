@@ -72,41 +72,34 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
 
     @Override
     public void insert(ContractServiceDto dto) throws SQLException {
-        insertInContract(dto);
-        int id = ContractServices.findIdContract(dto);
-        dto.setId(id);
+        ContractDto contractDto = new ContractDto(0,
+                dto.getContractTypeDto(),
+                dto.getStartDate(),
+                dto.getFinishDate(),
+                dto.getConciliationDate(),
+                dto.getDescription());
+        ServicesLocator.getContractServices().insert(contractDto);
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_service_insert(?,?,?)}");
         callableStatement.setDouble(1, dto.getPaxCost());
         callableStatement.setInt(2, dto.getIdProvince().getId());
-        callableStatement.setInt(3, id);
+        callableStatement.setInt(3, contractDto.getId());
         callableStatement.execute();
 
         connection.close();
     }
 
-   /* private int findIdContract(ContractServiceDto dto) {
-        int id = 0;
-        try {
-            LinkedList<ContractDto> contractDtoLinkedList = (LinkedList<ContractDto>) ServicesLocator.getContractServices().loadAll();
-            Iterator<ContractDto> i = contractDtoLinkedList.iterator();
-            boolean found = false;
-            while (i.hasNext() && !found) {
-                ContractDto contractDtoCurrent = i.next();
-                if (contractDtoCurrent.getDescription().equals(dto.getDescription())) {
-                    id = contractDtoCurrent.getId();
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return id;
-    }*/
-
     @Override
     public void update(ContractServiceDto dto) throws SQLException {
+        ContractDto contractDto = new ContractDto(dto.getId(),
+                dto.getContractTypeDto(),
+                dto.getStartDate(),
+                dto.getFinishDate(),
+                dto.getConciliationDate(),
+                dto.getDescription());
+        ServicesLocator.getContractServices().update(contractDto);
         Connection connection = ServicesLocator.getConnection();
-        CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_service_insert(?,?,?)}");
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_service_update(?,?,?)}");
         callableStatement.setDouble(1, dto.getPaxCost());
         callableStatement.setInt(2, dto.getIdProvince().getId());
         callableStatement.setInt(3, dto.getId());
@@ -117,32 +110,12 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
 
     @Override
     public void delete(int id) throws SQLException {
-        Connection connection = ServicesLocator.getConnection();
-        CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_service_delete(?)}");
-        callableStatement.setInt(1, id);
-        callableStatement.execute();
-
-        connection.close();
+        ServicesLocator.getContractServices().delete(id);
     }
 
     @Override
     public String getGenericType() {
         return null;
-    }
-
-    private void insertInContract(ContractServiceDto contractServiceDto) throws SQLException {
-        ContractDto contractDto = new ContractDto(
-                contractServiceDto.getId(),
-                ServicesLocator.getContractTypeServices().load(contractServiceDto.getContractTypeDto().getId()),
-                contractServiceDto.getStartDate(),
-                contractServiceDto.getFinishDate(),
-                contractServiceDto.getConciliationDate(),
-                contractServiceDto.getDescription());
-        try {
-            ServicesLocator.getContractServices().insert(contractDto);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 }
 

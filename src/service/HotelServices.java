@@ -84,7 +84,6 @@ public class HotelServices implements Services<HotelDto> {
     @Override
     public void insert(HotelDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{call tpp.hotel_insert(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
         callableStatement.setString(1, dto.getName());
         callableStatement.setString(2, dto.getAddress());
@@ -107,7 +106,6 @@ public class HotelServices implements Services<HotelDto> {
     @Override
     public void update(HotelDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{call tpp.hotel_update(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
         callableStatement.setInt(1,dto.getId());
         callableStatement.setString(2,dto.getName());
@@ -131,7 +129,6 @@ public class HotelServices implements Services<HotelDto> {
     @Override
     public void delete(int id) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{call tpp.hotel_delete(?)}");
         callableStatement.setInt(1,id);
         callableStatement.execute();
