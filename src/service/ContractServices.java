@@ -38,16 +38,12 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
     @Override
     public List<ContractDto> loadAll() throws SQLException {
         List<ContractDto> contractDtos = new LinkedList<>();
-
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.contract_load()}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
-
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
-
 
         while (resultSet.next()) {
 
@@ -137,26 +133,5 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
 
         connection.close();
         return contractDtoLinkedList;
-    }
-
-
-
-    public static int findIdContract(ContractDto dto) {
-        int id = 0;
-        try {
-            LinkedList<ContractDto> contractDtoLinkedList = (LinkedList<ContractDto>) ServicesLocator.getContractServices().loadAll();
-            Iterator<ContractDto> i = contractDtoLinkedList.iterator();
-            boolean found = false;
-            while (i.hasNext() && !found) {
-                ContractDto contractDtoCurrent = i.next();
-                if (contractDtoCurrent.getDescription().equals(dto.getDescription())) {
-                    id = contractDtoCurrent.getId();
-                    found=true;
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return id;
     }
 }

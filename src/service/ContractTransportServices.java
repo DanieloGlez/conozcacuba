@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ContractTransportServices implements Services<ContractTransportDto>{
+public class ContractTransportServices implements Services<ContractTransportDto> {
     @Override
     public ContractTransportDto load(int id) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
@@ -41,18 +41,14 @@ public class ContractTransportServices implements Services<ContractTransportDto>
     @Override
     public List<ContractTransportDto> loadAll() throws SQLException {
         List<ContractTransportDto> contractTransportDtos = new LinkedList<>();
-
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.contract_transport_load()}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
-
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         int id;
         ContractDto contract = new ContractDto();
-
 
         while (resultSet.next()) {
             id = resultSet.getInt("id_contract");
@@ -75,68 +71,47 @@ public class ContractTransportServices implements Services<ContractTransportDto>
 
     @Override
     public void insert(ContractTransportDto dto) throws SQLException {
-        insertInContract(dto);
-        int id = findIdContract(dto);
-        dto.setId(id);
+        ContractDto contractDto = new ContractDto(0,
+                dto.getContractTypeDto(),
+                dto.getStartDate(),
+                dto.getFinishDate(),
+                dto.getConciliationDate(),
+                dto.getDescription());
+        ServicesLocator.getContractServices().insert(contractDto);
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_transport_insert(?,?)}");
-        callableStatement.setInt(1, dto.getId());
+        callableStatement.setInt(1, contractDto.getId());
         callableStatement.setInt(2, dto.getTransportCompany().getId());
         callableStatement.execute();
-    }
 
-    private int findIdContract(ContractTransportDto dto) {
-        int id = 0;
-        try {
-            LinkedList<ContractDto> contractDtoLinkedList = (LinkedList<ContractDto>) ServicesLocator.getContractServices().loadAll();
-            Iterator<ContractDto> i = contractDtoLinkedList.iterator();
-            boolean found = false;
-            while (i.hasNext() && !found) {
-                ContractDto contractDtoCurrent = i.next();
-                if (contractDtoCurrent.getDescription().equals(dto.getDescription())) {
-                    id = contractDtoCurrent.getId();
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return id;
+        connection.close();
     }
 
     @Override
     public void update(ContractTransportDto dto) throws SQLException {
+        ContractDto contractDto = new ContractDto(dto.getId(),
+                dto.getContractTypeDto(),
+                dto.getStartDate(),
+                dto.getFinishDate(),
+                dto.getConciliationDate(),
+                dto.getDescription());
+        ServicesLocator.getContractServices().update(contractDto);
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_transport_update(?,?)}");
-        callableStatement.setInt(1, dto.getId());
+        callableStatement.setDouble(1, contractDto.getId());
         callableStatement.setInt(2, dto.getTransportCompany().getId());
         callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
     public void delete(int id) throws SQLException {
-        Connection connection = ServicesLocator.getConnection();
-        CallableStatement callableStatement = connection.prepareCall("{call tpp.contract_transport_delete(?)}");
-        callableStatement.setInt(1, id);
-        callableStatement.execute();
+        ServicesLocator.getContractServices().delete(id);
     }
 
     @Override
     public String getGenericType() {
         return null;
-    }
-
-    private void insertInContract(ContractTransportDto contractTransportDto) throws SQLException {
-        ContractDto contractDto = new ContractDto(
-                contractTransportDto.getId(),
-                ServicesLocator.getContractTypeServices().load(contractTransportDto.getContractTypeDto().getId()),
-                contractTransportDto.getStartDate(),
-                contractTransportDto.getFinishDate(),
-                contractTransportDto.getConciliationDate(),
-                contractTransportDto.getDescription());
-        try {
-            ServicesLocator.getContractServices().insert(contractDto);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 }

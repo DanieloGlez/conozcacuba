@@ -1,7 +1,5 @@
 package service;
 
-import dto.ModalityTransportHrKmDto;
-import dto.TouristicPackageDto;
 import service.fun.UserServices;
 import service.nom.*;
 import util.ConfigurationUtils;
