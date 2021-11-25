@@ -3,24 +3,43 @@ package dto.fun;
 import dto.Dto;
 
 public class UserDto implements Dto {
+    private int id;
     private String username;
+    private String name;
     private String password;
-    private Boolean isAdmin;
+    private RoleDto role;
 
-    // Constructors
-    public UserDto(String username, String password, Boolean isAdmin) {
+    public UserDto(int id, String username, String name, String password, RoleDto role) {
+        this.id = id;
         this.username = username;
+        this.name = name;
         this.password = password;
-        this.isAdmin = isAdmin;
+        this.role = role;
     }
 
-    // Getters & Setters
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {
@@ -31,16 +50,16 @@ public class UserDto implements Dto {
         this.password = password;
     }
 
-    public Boolean isAdmin() {
-        return isAdmin;
+    public RoleDto getRole() {
+        return role;
     }
 
-    public void setAdmin(Boolean admin) {
-        isAdmin = admin;
+    public void setRole(RoleDto role) {
+        this.role = role;
     }
 
     @Override
-    public int getId() {
-        return 0;
+    public String toString() {
+        return name + " / " + role;
     }
 }

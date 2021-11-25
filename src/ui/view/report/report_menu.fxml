@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.report.ReportMenu">
+   <children>
+      <Label layoutX="435.0" layoutY="348.0" text="Report Menu is not implemented yet" textFill="#468c82">
+         <font>
+            <Font name="Hack Bold" size="20.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

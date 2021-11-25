@@ -9,7 +9,7 @@
 <AnchorPane fx:id="container_anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../asset/css/global.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.MainMenu">
    <children>
       <AnchorPane fx:id="dynamiccontainer_anchorpane" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <JFXDrawer fx:id="drawer_jfxdrawer" defaultDrawerSize="256.0" prefWidth="256.0" stylesheets="@../asset/css/global.css" translateZ="16.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <JFXDrawer fx:id="drawer_jfxdrawer" defaultDrawerSize="256.0" prefWidth="256.0" stylesheets="@../asset/css/global.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <StackPane alignment="CENTER_LEFT" minHeight="-Infinity" prefHeight="40.0" style="-fx-background-color: #468c82;" translateZ="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <JFXHamburger fx:id="hamburger_jfxhamburger" alignment="CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="24.0" prefWidth="24.0" styleClass="jfx-hamburger" translateZ="16.0" StackPane.alignment="CENTER_LEFT">

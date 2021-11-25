@@ -74,4 +74,17 @@ public class UserInterfaceUtils {
         modalStage.setScene(scene);
         return modalStage;
     }
+
+    public static Stage showModalWindow(Stage stage, String resourceUrl) throws IOException {
+        Stage modalStage = new Stage();
+        modalStage.initModality(Modality.WINDOW_MODAL);
+        modalStage.initOwner(stage);
+
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(resourceUrl));
+        Scene scene = new Scene(fxmlLoader.load());
+
+        modalStage.setTitle("Touristic Packages Planning");
+        modalStage.setScene(scene);
+        return modalStage;
+    }
 }

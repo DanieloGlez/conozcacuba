@@ -14,10 +14,12 @@ import javafx.scene.paint.Color;
 import org.json.simple.parser.ParseException;
 import service.ServicesLocator;
 import util.ConfigurationUtils;
+import util.EncryptionUtils;
 import util.UserInterfaceUtils;
 
 import java.io.IOException;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
@@ -55,7 +57,7 @@ public class LoginMenu implements Initializable {
     }
 
     @FXML
-    void login(ActionEvent event) throws IOException, ParseException {
+    void login(ActionEvent event) throws IOException, ParseException, NoSuchAlgorithmException {
         if (formInputIsValid()) {
             ConfigurationUtils.initializeDatabaseHost(remotehost_jfxtogglebutton.isSelected());
             checkCredentials();
@@ -68,9 +70,9 @@ public class LoginMenu implements Initializable {
         return usernameIsValid && passwordIsValid;
     }
 
-    void checkCredentials() {
-        String inputUsername = username_jfxtextfield.getText();
-        String inputPassword = password_jfxpasswordfield.getText();
+    void checkCredentials() throws NoSuchAlgorithmException {
+        String inputUsername = EncryptionUtils.getMd5From(username_jfxtextfield.getText());
+        String inputPassword = EncryptionUtils.getMd5From(password_jfxpasswordfield.getText());
 
         login_jfxbutton.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
 
@@ -93,6 +95,7 @@ public class LoginMenu implements Initializable {
                 if (users != null) {
                     Iterator<UserDto> iterator = users.iterator();
                     boolean found = false;
+
                     while (iterator.hasNext() && !found) {
                         UserDto currentUser = iterator.next();
 
@@ -113,6 +116,7 @@ public class LoginMenu implements Initializable {
 
                 if(userDto != null) {
                     if(userDto.getPassword().equals(inputPassword)) {
+                        ConfigurationUtils.setActiveUser(userDto);
                         goToMainMenu();
                     } else {
                         UserInterfaceUtils.showTemporaryLabel(errormessage_label, "Incorrect password", Color.RED, 5);

@@ -25,9 +25,6 @@ public class ConstantUtils {
             TouristicPackageDto.class,
             VehicleDto.class,
 
-            // Functionality
-            UserDto.class,
-
             // Nomenclators
             CompanyServiceDto.class,
             CompanyTransportDto.class,

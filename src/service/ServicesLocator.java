@@ -2,6 +2,7 @@ package service;
 
 import dto.ModalityTransportHrKmDto;
 import dto.TouristicPackageDto;
+import service.fun.RoleServices;
 import service.fun.UserServices;
 import service.nom.*;
 import util.ConfigurationUtils;
@@ -29,6 +30,7 @@ public class ServicesLocator {
     private static ProvinceServices provinceServices;
     private static RoomTypeServices roomTypeServices;
     private static UserServices userServices;
+    private static RoleServices roleServices;
     private static VehicleServices vehicleServices;
     private static VehicleBrandServices vehicleBrandServices;
     private static ServiceTypeServices serviceTypeServices;
@@ -172,6 +174,13 @@ public class ServicesLocator {
             userServices = new UserServices();
 
         return userServices;
+    }
+
+    public static RoleServices getRoleServices() {
+        if(roleServices == null)
+            roleServices = new RoleServices();
+
+        return roleServices;
     }
 
     public static VehicleServices getVehicleServices() {

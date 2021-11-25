@@ -2,10 +2,10 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.5 (Ubuntu 13.5-1.pgdg20.04+1)
--- Dumped by pg_dump version 13.5 (Ubuntu 13.5-1.pgdg20.04+1)
+-- Dumped from database version 13.5 (Ubuntu 13.5-2.pgdg20.04+1)
+-- Dumped by pg_dump version 13.5 (Ubuntu 13.5-2.pgdg20.04+1)
 
--- Started on 2021-11-22 23:34:57 CST
+-- Started on 2021-11-24 23:43:25 CST
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -19,7 +19,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 6 (class 2615 OID 21938)
+-- TOC entry 4 (class 2615 OID 23804)
 -- Name: tpp; Type: SCHEMA; Schema: -; Owner: -
 --
 
@@ -27,8 +27,8 @@ CREATE SCHEMA tpp;
 
 
 --
--- TOC entry 3517 (class 0 OID 0)
--- Dependencies: 6
+-- TOC entry 3548 (class 0 OID 0)
+-- Dependencies: 4
 -- Name: SCHEMA tpp; Type: COMMENT; Schema: -; Owner: -
 --
 
@@ -36,41 +36,72 @@ COMMENT ON SCHEMA tpp IS 'standard public schema';
 
 
 --
--- TOC entry 269 (class 1255 OID 21939)
+-- TOC entry 274 (class 1255 OID 23805)
+-- Name: cheq_hotel_insert_dist_to_airport(); Type: FUNCTION; Schema: tpp; Owner: -
+--
+
+CREATE FUNCTION tpp.cheq_hotel_insert_dist_to_airport() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    IF (NEW.dist_to_airport <= 0)  THEN
+        RAISE EXCEPTION 'distance to airport cant not be a negative number';
+    END IF;
+    RETURN NEW;
+END
+$$;
+
+
+--
+-- TOC entry 275 (class 1255 OID 23806)
+-- Name: cheq_hotel_insert_dist_to_city(); Type: FUNCTION; Schema: tpp; Owner: -
+--
+
+CREATE FUNCTION tpp.cheq_hotel_insert_dist_to_city() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    IF (NEW.dist_to_city <= 0)  THEN
+        RAISE EXCEPTION 'distance to city cant not be a negative number';
+    END IF;
+    RETURN NEW;
+END
+$$;
+
+
+--
+-- TOC entry 276 (class 1255 OID 23807)
 -- Name: cheq_pax_amount_package(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
 CREATE FUNCTION tpp.cheq_pax_amount_package() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
-        DECLARE
-            pax_amount_temp integer;
-        BEGIN
-            SELECT INTO pax_amount_temp pax_amount
-            FROM touristic_package;
-            IF (NEW.pax_amount <= 0)  THEN
-                RAISE EXCEPTION 'pax amount cant not be negative or zero';
-            END IF;
-        END
+BEGIN
+    IF (NEW.pax_amount <= 0)  THEN
+        RAISE EXCEPTION 'pax amount cant not be negative or zero';
+    END IF;
+    RETURN NEW;
+END
 $$;
 
 
 --
--- TOC entry 270 (class 1255 OID 21940)
+-- TOC entry 277 (class 1255 OID 23808)
 -- Name: contract_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
-CREATE FUNCTION tpp.contract_delete(id_contract integer) RETURNS void
+CREATE FUNCTION tpp.contract_delete(idcontract integer) RETURNS void
     LANGUAGE plpgsql
     AS $_$
 BEGIN
-    DELETE FROM tpp.contract WHERE contract.id_contract = $1;
+    DELETE FROM tpp.contract WHERE id_contract = $1;
 END
 $_$;
 
 
 --
--- TOC entry 271 (class 1255 OID 21941)
+-- TOC entry 278 (class 1255 OID 23809)
 -- Name: contract_hotel_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -78,13 +109,13 @@ CREATE FUNCTION tpp.contract_hotel_delete(idcontract integer) RETURNS void
     LANGUAGE plpgsql
     AS $_$
 BEGIN
-    DELETE FROM tpp.contract_hotel WHERE contract_hotel.id_contract = $1;
+    DELETE FROM tpp.contract_hotel WHERE id_contract = $1;
 END
 $_$;
 
 
 --
--- TOC entry 272 (class 1255 OID 21942)
+-- TOC entry 279 (class 1255 OID 23810)
 -- Name: contract_hotel_insert(integer, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -92,13 +123,13 @@ CREATE FUNCTION tpp.contract_hotel_insert(idcontract integer, idhotel integer) R
     LANGUAGE plpgsql
     AS $_$
 BEGIN
-    INSERT INTO tpp.contract_hotel VALUES ($1, $2);
+    INSERT INTO tpp.contract_hotel (id_contract, id_hotel) VALUES ($1, $2);
 END
 $_$;
 
 
 --
--- TOC entry 273 (class 1255 OID 21943)
+-- TOC entry 280 (class 1255 OID 23811)
 -- Name: contract_hotel_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -115,7 +146,7 @@ $$;
 
 
 --
--- TOC entry 274 (class 1255 OID 21944)
+-- TOC entry 281 (class 1255 OID 23812)
 -- Name: contract_hotel_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -132,21 +163,21 @@ $_$;
 
 
 --
--- TOC entry 275 (class 1255 OID 21945)
+-- TOC entry 282 (class 1255 OID 23813)
 -- Name: contract_hotel_update(integer, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
 CREATE FUNCTION tpp.contract_hotel_update(idcontract integer, idhotel integer) RETURNS void
     LANGUAGE plpgsql
-    AS $$
+    AS $_$
 BEGIN
-    UPDATE tpp.contract_hotel SET id_hotel = idhotel WHERE id_contract = idcontract;
+    UPDATE tpp.contract_hotel SET id_hotel = $2 WHERE id_contract = $1;
 END
-$$;
+$_$;
 
 
 --
--- TOC entry 410 (class 1255 OID 22554)
+-- TOC entry 283 (class 1255 OID 23814)
 -- Name: contract_insert(date, date, date, character varying, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -160,7 +191,7 @@ $$;
 
 
 --
--- TOC entry 276 (class 1255 OID 21947)
+-- TOC entry 284 (class 1255 OID 23815)
 -- Name: contract_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -177,7 +208,7 @@ $$;
 
 
 --
--- TOC entry 277 (class 1255 OID 21948)
+-- TOC entry 285 (class 1255 OID 23816)
 -- Name: contract_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -194,21 +225,38 @@ $_$;
 
 
 --
--- TOC entry 278 (class 1255 OID 21949)
+-- TOC entry 286 (class 1255 OID 23817)
+-- Name: contract_return_id_max(); Type: FUNCTION; Schema: tpp; Owner: -
+--
+
+CREATE FUNCTION tpp.contract_return_id_max() RETURNS refcursor
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    ref refcursor = 'mycursor';
+BEGIN
+    OPEN ref FOR SELECT MAX(id_contract) FROM tpp.contract;
+    RETURN ref;
+END
+$$;
+
+
+--
+-- TOC entry 287 (class 1255 OID 23818)
 -- Name: contract_service_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
-CREATE FUNCTION tpp.contract_service_delete(id_contract integer) RETURNS void
+CREATE FUNCTION tpp.contract_service_delete(idcontract integer) RETURNS void
     LANGUAGE plpgsql
     AS $_$
 BEGIN
-    DELETE FROM contract_service WHERE contract_service.id_contract = $1;
+    DELETE FROM tpp.contract_service WHERE id_contract = $1;
 END
 $_$;
 
 
 --
--- TOC entry 279 (class 1255 OID 21950)
+-- TOC entry 288 (class 1255 OID 23819)
 -- Name: contract_service_insert(double precision, integer, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -222,7 +270,7 @@ $_$;
 
 
 --
--- TOC entry 280 (class 1255 OID 21951)
+-- TOC entry 289 (class 1255 OID 23820)
 -- Name: contract_service_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -239,7 +287,7 @@ $$;
 
 
 --
--- TOC entry 281 (class 1255 OID 21952)
+-- TOC entry 290 (class 1255 OID 23821)
 -- Name: contract_service_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -256,11 +304,11 @@ $_$;
 
 
 --
--- TOC entry 282 (class 1255 OID 21953)
+-- TOC entry 291 (class 1255 OID 23822)
 -- Name: contract_service_update(double precision, integer, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
-CREATE FUNCTION tpp.contract_service_update(pax_cost double precision, id_province integer, id_contract integer) RETURNS void
+CREATE FUNCTION tpp.contract_service_update(pax_cost double precision, id_province integer, idcontract integer) RETURNS void
     LANGUAGE plpgsql
     AS $_$
 BEGIN
@@ -270,35 +318,35 @@ $_$;
 
 
 --
--- TOC entry 283 (class 1255 OID 21954)
+-- TOC entry 292 (class 1255 OID 23823)
 -- Name: contract_transport_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
-CREATE FUNCTION tpp.contract_transport_delete(id_contract integer) RETURNS void
+CREATE FUNCTION tpp.contract_transport_delete(idcontract integer) RETURNS void
     LANGUAGE plpgsql
     AS $_$
 BEGIN
-    DELETE FROM tpp.contract_transport WHERE contract_transport.id_contract = $1;
+    DELETE FROM tpp.contract_transport WHERE id_contract = $1;
 END
 $_$;
 
 
 --
--- TOC entry 284 (class 1255 OID 21955)
+-- TOC entry 293 (class 1255 OID 23824)
 -- Name: contract_transport_insert(integer, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
-CREATE FUNCTION tpp.contract_transport_insert(id_contract integer, id_company_transport integer) RETURNS void
+CREATE FUNCTION tpp.contract_transport_insert(idcontract integer, idcompanytransport integer) RETURNS void
     LANGUAGE plpgsql
     AS $_$
 BEGIN
-    INSERT INTO tpp.contract_transport VALUES (contract_transport.id_contract = $1, contract_transport.id_company_transport = $2);
+    INSERT INTO tpp.contract_transport (id_contract, id_company_transport) VALUES ($1, $2);
 END
 $_$;
 
 
 --
--- TOC entry 285 (class 1255 OID 21956)
+-- TOC entry 294 (class 1255 OID 23825)
 -- Name: contract_transport_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -315,15 +363,15 @@ $$;
 
 
 --
--- TOC entry 286 (class 1255 OID 21957)
+-- TOC entry 295 (class 1255 OID 23826)
 -- Name: contract_transport_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
-CREATE FUNCTION tpp.contract_transport_load_by_id(id_contract_transport integer) RETURNS refcursor
+CREATE FUNCTION tpp.contract_transport_load_by_id(idcontracttransport integer) RETURNS refcursor
     LANGUAGE plpgsql
     AS $_$
 DECLARE
-    contract_transport_ref refcursor = 'mycursor';
+    contract_transport_ref refcursor := 'mycursor';
 BEGIN
     OPEN contract_transport_ref FOR SELECT * FROM tpp.contract_transport WHERE id_contract = $1;
     RETURN contract_transport_ref;
@@ -332,11 +380,11 @@ $_$;
 
 
 --
--- TOC entry 287 (class 1255 OID 21958)
+-- TOC entry 296 (class 1255 OID 23827)
 -- Name: contract_transport_update(integer, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
-CREATE FUNCTION tpp.contract_transport_update(id_contract integer, id_company_transport integer) RETURNS void
+CREATE FUNCTION tpp.contract_transport_update(idcontract integer, id_companytransport integer) RETURNS void
     LANGUAGE plpgsql
     AS $_$
 BEGIN
@@ -346,11 +394,11 @@ $_$;
 
 
 --
--- TOC entry 288 (class 1255 OID 21959)
+-- TOC entry 297 (class 1255 OID 23828)
 -- Name: contract_update(integer, date, date, date, character varying, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
-CREATE FUNCTION tpp.contract_update(id_contract integer, start_date date, finish_date date, conciliation date, description character varying, id_contract_type integer) RETURNS void
+CREATE FUNCTION tpp.contract_update(idcontract integer, start_date date, finish_date date, conciliation date, description character varying, id_contract_type integer) RETURNS void
     LANGUAGE plpgsql
     AS $_$
 BEGIN
@@ -360,7 +408,69 @@ $_$;
 
 
 --
--- TOC entry 289 (class 1255 OID 21960)
+-- TOC entry 273 (class 1255 OID 24463)
+-- Name: f_role_load(); Type: FUNCTION; Schema: tpp; Owner: -
+--
+
+CREATE FUNCTION tpp.f_role_load() RETURNS refcursor
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    f_role refcursor = 'mycursor';
+BEGIN
+    OPEN f_role FOR SELECT * FROM tpp.f_role;
+    RETURN f_role;
+END
+$$;
+
+
+--
+-- TOC entry 424 (class 1255 OID 24444)
+-- Name: f_role_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
+--
+
+CREATE FUNCTION tpp.f_role_load_by_id(id_role integer) RETURNS refcursor
+    LANGUAGE plpgsql
+    AS $_$
+DECLARE
+     role refcursor = 'mycursor';
+BEGIN
+    OPEN role FOR SELECT * FROM tpp.f_role WHERE f_role.id_role = $1;
+    RETURN role;
+END
+$_$;
+
+
+--
+-- TOC entry 428 (class 1255 OID 24466)
+-- Name: f_user_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
+--
+
+CREATE FUNCTION tpp.f_user_delete(id_user integer) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+begin
+    DELETE FROM tpp.f_user WHERE f_user.id=id_user;
+end;
+$$;
+
+
+--
+-- TOC entry 427 (class 1255 OID 24465)
+-- Name: f_user_insert(character varying, character varying, character varying, integer); Type: FUNCTION; Schema: tpp; Owner: -
+--
+
+CREATE FUNCTION tpp.f_user_insert(username character varying, name character varying, password character varying, id_role integer) RETURNS void
+    LANGUAGE plpgsql
+    AS $_$
+BEGIN
+    INSERT INTO tpp.f_user (username, name, password, id_role) values($1, $2, $3, $4);
+end;
+$_$;
+
+
+--
+-- TOC entry 298 (class 1255 OID 23829)
 -- Name: f_user_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -375,21 +485,21 @@ END$$;
 
 
 --
--- TOC entry 290 (class 1255 OID 21961)
+-- TOC entry 299 (class 1255 OID 23830)
 -- Name: hotel_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
 CREATE FUNCTION tpp.hotel_delete(idhotel integer) RETURNS void
     LANGUAGE plpgsql
-    AS $$
+    AS $_$
 begin
-    DELETE FROM hotel WHERE hotel.id_hotel=idhotel;
+    DELETE FROM tpp.hotel WHERE id_hotel = $1;
 end;
-$$;
+$_$;
 
 
 --
--- TOC entry 291 (class 1255 OID 21962)
+-- TOC entry 300 (class 1255 OID 23831)
 -- Name: hotel_insert(character varying, integer, character varying, character varying, character varying, character varying, character varying, character varying, double precision, double precision, integer, integer, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -404,7 +514,7 @@ $_$;
 
 
 --
--- TOC entry 292 (class 1255 OID 21963)
+-- TOC entry 301 (class 1255 OID 23832)
 -- Name: hotel_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -421,7 +531,7 @@ $$;
 
 
 --
--- TOC entry 293 (class 1255 OID 21964)
+-- TOC entry 302 (class 1255 OID 23833)
 -- Name: hotel_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -438,36 +548,36 @@ $$;
 
 
 --
--- TOC entry 294 (class 1255 OID 21965)
+-- TOC entry 303 (class 1255 OID 23834)
 -- Name: hotel_update(integer, character varying, integer, character varying, character varying, character varying, character varying, character varying, character varying, double precision, double precision, integer, integer, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
 CREATE FUNCTION tpp.hotel_update(idhotel integer, nameh character varying, idhotelfranchise integer, idprovincia character varying, addressh character varying, categoryh character varying, telephonenuber character varying, faxh character varying, emailh character varying, distancetocity double precision, distancetoairport double precision, roomsamount integer, floorsamount integer, idlocalizacion integer) RETURNS void
     LANGUAGE plpgsql
-    AS $$
+    AS $_$
 begin
-    UPDATE tpp.hotel SET name=nameh, id_hotel_franchise=idhotelfranchise, id_province=idprovincia, address=addressh, category=categoryh, telephone_number=telephonenuber, fax=faxh, email=emailh, dist_to_city=distancetocity, dist_to_airport=distancetoairport, rooms_amount=roomsamount, floors_amount=floorsamount, id_localization=idlocalizacion WHERE hotel.id_hotel=idhotel;
+    UPDATE tpp.hotel SET name = $2, id_hotel_franchise = $3, id_province = $4, address = $5, category = $6, telephone_number = $7, fax = $8, email = $9, dist_to_city = $10, dist_to_airport = $11, rooms_amount = $12, floors_amount = $13, id_localization = $14 WHERE id_hotel = $1;
 end;
-$$;
+$_$;
 
 
 --
--- TOC entry 295 (class 1255 OID 21966)
+-- TOC entry 304 (class 1255 OID 23835)
 -- Name: modality_transport_hr_km_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
 CREATE FUNCTION tpp.modality_transport_hr_km_delete(idmodality integer) RETURNS void
     LANGUAGE plpgsql
-    AS $$
+    AS $_$
 BEGIN
-        DELETE  FROM tpp.modality_transport_hr_km WHERE id_modality_transport_hr_km=id_modality_transport_hr_km;
+        DELETE  FROM tpp.modality_transport_hr_km WHERE id_modality_transport_hr_km = $1;
 
     end;
-$$;
+$_$;
 
 
 --
--- TOC entry 296 (class 1255 OID 21967)
+-- TOC entry 305 (class 1255 OID 23836)
 -- Name: modality_transport_hr_km_insert(integer, integer, integer, integer, integer, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -482,7 +592,7 @@ $_$;
 
 
 --
--- TOC entry 297 (class 1255 OID 21968)
+-- TOC entry 306 (class 1255 OID 23837)
 -- Name: modality_transport_hr_km_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -501,7 +611,7 @@ $$;
 
 
 --
--- TOC entry 298 (class 1255 OID 21969)
+-- TOC entry 307 (class 1255 OID 23838)
 -- Name: modality_transport_hr_km_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -520,21 +630,21 @@ $_$;
 
 
 --
--- TOC entry 299 (class 1255 OID 21970)
+-- TOC entry 308 (class 1255 OID 23839)
 -- Name: modality_transport_hr_km_update(integer, integer, integer, double precision, double precision, double precision); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
 CREATE FUNCTION tpp.modality_transport_hr_km_update(idmodality integer, idcontract integer, idvehicle integer, costtraveledkm double precision, costkmextras double precision, costhrextras double precision) RETURNS void
     LANGUAGE plpgsql
-    AS $$
+    AS $_$
 BEGIN
-        UPDATE tpp.modality_transport_hr_km SET cost_traveled_km=costTraveledKm, cost_hr_extras=costHrExtras, cost_km_extras=costkmextras, id_contract = idcontract, id_vehicle = idvehicle WHERE id_modality_transport_hr_km=idModality;
+        UPDATE tpp.modality_transport_hr_km SET cost_traveled_km = $4, cost_hr_extras = $6, cost_km_extras = $5, id_contract = $2, id_vehicle = $3 WHERE id_modality_transport_hr_km = $1;
     end;
-$$;
+$_$;
 
 
 --
--- TOC entry 300 (class 1255 OID 21971)
+-- TOC entry 309 (class 1255 OID 23840)
 -- Name: modality_transport_km_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -548,7 +658,7 @@ $$;
 
 
 --
--- TOC entry 301 (class 1255 OID 21972)
+-- TOC entry 310 (class 1255 OID 23841)
 -- Name: modality_transport_km_insert(integer, integer, double precision, double precision, double precision); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -562,7 +672,7 @@ $_$;
 
 
 --
--- TOC entry 302 (class 1255 OID 21973)
+-- TOC entry 311 (class 1255 OID 23842)
 -- Name: modality_transport_km_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -581,7 +691,7 @@ $$;
 
 
 --
--- TOC entry 303 (class 1255 OID 21974)
+-- TOC entry 312 (class 1255 OID 23843)
 -- Name: modality_transport_km_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -600,21 +710,21 @@ $$;
 
 
 --
--- TOC entry 304 (class 1255 OID 21975)
+-- TOC entry 313 (class 1255 OID 23844)
 -- Name: modality_transport_km_update(integer, integer, integer, double precision, double precision, double precision); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
 CREATE FUNCTION tpp.modality_transport_km_update(idmodalitykm integer, idcontract integer, idvehicle integer, costkm double precision, costkmroundtrip double precision, costhrwait double precision) RETURNS void
     LANGUAGE plpgsql
-    AS $$
+    AS $_$
 begin
-     Update tpp.modality_transport_km SET cost_km=costKm, cost_km_round_trip=costKmRoundTrip, cost_hr_wait=costHrWait, id_contract = idcontract, id_vehicle = idvehicle WHERE modality_transport_km.id_modality_transport_km=idModalityKm;
+     Update tpp.modality_transport_km SET cost_km = $4, cost_km_round_trip = $5, cost_hr_wait = $6, id_contract = $2, id_vehicle = $3 WHERE id_modality_transport_km = $1;
     end;
-$$;
+$_$;
 
 
 --
--- TOC entry 305 (class 1255 OID 21976)
+-- TOC entry 314 (class 1255 OID 23845)
 -- Name: modality_transport_rt_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -629,7 +739,7 @@ $$;
 
 
 --
--- TOC entry 306 (class 1255 OID 21977)
+-- TOC entry 315 (class 1255 OID 23846)
 -- Name: modality_transport_rt_insert(integer, integer, character varying, double precision, double precision); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -644,7 +754,7 @@ $_$;
 
 
 --
--- TOC entry 307 (class 1255 OID 21978)
+-- TOC entry 316 (class 1255 OID 23847)
 -- Name: modality_transport_rt_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -663,7 +773,7 @@ $$;
 
 
 --
--- TOC entry 308 (class 1255 OID 21979)
+-- TOC entry 317 (class 1255 OID 23848)
 -- Name: modality_transport_rt_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -682,7 +792,7 @@ $$;
 
 
 --
--- TOC entry 309 (class 1255 OID 21980)
+-- TOC entry 318 (class 1255 OID 23849)
 -- Name: modality_transport_rt_update(integer, integer, integer, character varying, double precision, double precision); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -696,7 +806,7 @@ $$;
 
 
 --
--- TOC entry 310 (class 1255 OID 21981)
+-- TOC entry 319 (class 1255 OID 23850)
 -- Name: n_company_service_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -710,7 +820,7 @@ $_$;
 
 
 --
--- TOC entry 311 (class 1255 OID 21982)
+-- TOC entry 320 (class 1255 OID 23851)
 -- Name: n_company_service_insert(character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -724,7 +834,7 @@ $_$;
 
 
 --
--- TOC entry 312 (class 1255 OID 21983)
+-- TOC entry 321 (class 1255 OID 23852)
 -- Name: n_company_service_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -741,7 +851,7 @@ $$;
 
 
 --
--- TOC entry 313 (class 1255 OID 21984)
+-- TOC entry 322 (class 1255 OID 23853)
 -- Name: n_company_service_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -758,7 +868,7 @@ $_$;
 
 
 --
--- TOC entry 314 (class 1255 OID 21985)
+-- TOC entry 323 (class 1255 OID 23854)
 -- Name: n_company_service_update(integer, character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -772,7 +882,7 @@ $_$;
 
 
 --
--- TOC entry 315 (class 1255 OID 21986)
+-- TOC entry 324 (class 1255 OID 23855)
 -- Name: n_company_transport_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -787,7 +897,7 @@ $$;
 
 
 --
--- TOC entry 316 (class 1255 OID 21987)
+-- TOC entry 325 (class 1255 OID 23856)
 -- Name: n_company_transport_insert(character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -795,13 +905,13 @@ CREATE FUNCTION tpp.n_company_transport_insert(namecompany character varying) RE
     LANGUAGE plpgsql
     AS $_$
 BEGIN
-        INSERT INTO tpp.n_company_transport (name) values ($1);
-    end;
+    INSERT INTO tpp.n_company_transport (name) values ($1);
+END
 $_$;
 
 
 --
--- TOC entry 317 (class 1255 OID 21988)
+-- TOC entry 326 (class 1255 OID 23857)
 -- Name: n_company_transport_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -820,7 +930,7 @@ $$;
 
 
 --
--- TOC entry 318 (class 1255 OID 21989)
+-- TOC entry 327 (class 1255 OID 23858)
 -- Name: n_company_transport_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -838,7 +948,7 @@ $$;
 
 
 --
--- TOC entry 319 (class 1255 OID 21990)
+-- TOC entry 328 (class 1255 OID 23859)
 -- Name: n_company_transport_update(integer, character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -852,7 +962,7 @@ $$;
 
 
 --
--- TOC entry 320 (class 1255 OID 21991)
+-- TOC entry 329 (class 1255 OID 23860)
 -- Name: n_contract_type_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -866,7 +976,7 @@ $_$;
 
 
 --
--- TOC entry 321 (class 1255 OID 21992)
+-- TOC entry 330 (class 1255 OID 23861)
 -- Name: n_contract_type_insert(character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -880,7 +990,7 @@ $_$;
 
 
 --
--- TOC entry 322 (class 1255 OID 21993)
+-- TOC entry 331 (class 1255 OID 23862)
 -- Name: n_contract_type_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -897,7 +1007,7 @@ $$;
 
 
 --
--- TOC entry 323 (class 1255 OID 21994)
+-- TOC entry 332 (class 1255 OID 23863)
 -- Name: n_contract_type_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -914,11 +1024,11 @@ $_$;
 
 
 --
--- TOC entry 324 (class 1255 OID 21995)
+-- TOC entry 333 (class 1255 OID 23864)
 -- Name: n_contract_type_update(integer, character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
-CREATE FUNCTION tpp.n_contract_type_update(id_contract_type integer, name character varying) RETURNS void
+CREATE FUNCTION tpp.n_contract_type_update(idcontracttype integer, name character varying) RETURNS void
     LANGUAGE plpgsql
     AS $_$
 BEGIN
@@ -928,7 +1038,7 @@ $_$;
 
 
 --
--- TOC entry 325 (class 1255 OID 21996)
+-- TOC entry 334 (class 1255 OID 23865)
 -- Name: n_daily_activity_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -942,7 +1052,7 @@ $$;
 
 
 --
--- TOC entry 326 (class 1255 OID 21997)
+-- TOC entry 335 (class 1255 OID 23866)
 -- Name: n_daily_activity_insert(character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -956,7 +1066,7 @@ $_$;
 
 
 --
--- TOC entry 327 (class 1255 OID 21998)
+-- TOC entry 336 (class 1255 OID 23867)
 -- Name: n_daily_activity_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -973,7 +1083,7 @@ $$;
 
 
 --
--- TOC entry 328 (class 1255 OID 21999)
+-- TOC entry 337 (class 1255 OID 23868)
 -- Name: n_daily_activity_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -990,11 +1100,11 @@ $_$;
 
 
 --
--- TOC entry 329 (class 1255 OID 22000)
+-- TOC entry 338 (class 1255 OID 23869)
 -- Name: n_daily_activity_update(integer, character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
-CREATE FUNCTION tpp.n_daily_activity_update(id_daily_activity integer, name character varying) RETURNS void
+CREATE FUNCTION tpp.n_daily_activity_update(iddailyactivity integer, name character varying) RETURNS void
     LANGUAGE plpgsql
     AS $_$
 BEGIN
@@ -1004,7 +1114,7 @@ $_$;
 
 
 --
--- TOC entry 330 (class 1255 OID 22001)
+-- TOC entry 339 (class 1255 OID 23870)
 -- Name: n_food_plan_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1018,7 +1128,7 @@ $_$;
 
 
 --
--- TOC entry 331 (class 1255 OID 22002)
+-- TOC entry 340 (class 1255 OID 23871)
 -- Name: n_food_plan_insert(character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1032,7 +1142,7 @@ $_$;
 
 
 --
--- TOC entry 332 (class 1255 OID 22003)
+-- TOC entry 341 (class 1255 OID 23872)
 -- Name: n_food_plan_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1049,7 +1159,7 @@ $$;
 
 
 --
--- TOC entry 333 (class 1255 OID 22004)
+-- TOC entry 342 (class 1255 OID 23873)
 -- Name: n_food_plan_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1059,14 +1169,14 @@ CREATE FUNCTION tpp.n_food_plan_load_by_id(idfoodplan integer) RETURNS refcursor
 DECLARE
     n_food_plan_ref refcursor = 'mycursor';
 BEGIN
-    OPEN n_food_plan_ref FOR SELECT * FROM tpp.n_food_plan WHERE n_food_plan.id_food_plan = $1;
+    OPEN n_food_plan_ref FOR SELECT * FROM tpp.n_food_plan WHERE id_food_plan = $1;
     RETURN n_food_plan_ref;
 END
 $_$;
 
 
 --
--- TOC entry 334 (class 1255 OID 22005)
+-- TOC entry 343 (class 1255 OID 23874)
 -- Name: n_food_plan_update(integer, character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1080,7 +1190,7 @@ $_$;
 
 
 --
--- TOC entry 335 (class 1255 OID 22006)
+-- TOC entry 344 (class 1255 OID 23875)
 -- Name: n_hotel_franchise_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1094,7 +1204,7 @@ $_$;
 
 
 --
--- TOC entry 336 (class 1255 OID 22007)
+-- TOC entry 345 (class 1255 OID 23876)
 -- Name: n_hotel_franchise_insert(character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1108,7 +1218,7 @@ $_$;
 
 
 --
--- TOC entry 337 (class 1255 OID 22008)
+-- TOC entry 346 (class 1255 OID 23877)
 -- Name: n_hotel_franchise_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1125,7 +1235,7 @@ $$;
 
 
 --
--- TOC entry 338 (class 1255 OID 22009)
+-- TOC entry 347 (class 1255 OID 23878)
 -- Name: n_hotel_franchise_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1142,7 +1252,7 @@ $_$;
 
 
 --
--- TOC entry 339 (class 1255 OID 22010)
+-- TOC entry 348 (class 1255 OID 23879)
 -- Name: n_hotel_franchise_update(integer, character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1150,13 +1260,13 @@ CREATE FUNCTION tpp.n_hotel_franchise_update(idhotelfranchise integer, name char
     LANGUAGE plpgsql
     AS $_$
 BEGIN
-    UPDATE n_hotel_franchise SET name = $2 WHERE id_hotel_franchise = $1;
+    UPDATE tpp.n_hotel_franchise SET name = $2 WHERE id_hotel_franchise = $1;
 END
 $_$;
 
 
 --
--- TOC entry 340 (class 1255 OID 22011)
+-- TOC entry 349 (class 1255 OID 23880)
 -- Name: n_localization_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1164,13 +1274,13 @@ CREATE FUNCTION tpp.n_localization_delete(idlocalization integer) RETURNS void
     LANGUAGE plpgsql
     AS $_$
 BEGIN
-    DELETE FROM tpp.n_localization WHERE n_localization.id_localization = $1;
+    DELETE FROM tpp.n_localization WHERE id_localization = $1;
 END
 $_$;
 
 
 --
--- TOC entry 341 (class 1255 OID 22012)
+-- TOC entry 350 (class 1255 OID 23881)
 -- Name: n_localization_insert(character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1184,7 +1294,7 @@ $_$;
 
 
 --
--- TOC entry 342 (class 1255 OID 22013)
+-- TOC entry 351 (class 1255 OID 23882)
 -- Name: n_localization_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1201,7 +1311,7 @@ $$;
 
 
 --
--- TOC entry 343 (class 1255 OID 22014)
+-- TOC entry 352 (class 1255 OID 23883)
 -- Name: n_localization_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1218,7 +1328,7 @@ $_$;
 
 
 --
--- TOC entry 344 (class 1255 OID 22015)
+-- TOC entry 353 (class 1255 OID 23884)
 -- Name: n_localization_update(integer, character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1232,7 +1342,7 @@ $_$;
 
 
 --
--- TOC entry 345 (class 1255 OID 22016)
+-- TOC entry 354 (class 1255 OID 23885)
 -- Name: n_modality_hotel_comertial_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1246,7 +1356,7 @@ $_$;
 
 
 --
--- TOC entry 346 (class 1255 OID 22017)
+-- TOC entry 355 (class 1255 OID 23886)
 -- Name: n_modality_hotel_comertial_insert(character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1260,7 +1370,7 @@ $_$;
 
 
 --
--- TOC entry 347 (class 1255 OID 22018)
+-- TOC entry 356 (class 1255 OID 23887)
 -- Name: n_modality_hotel_comertial_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1277,7 +1387,7 @@ $$;
 
 
 --
--- TOC entry 348 (class 1255 OID 22019)
+-- TOC entry 357 (class 1255 OID 23888)
 -- Name: n_modality_hotel_comertial_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1285,16 +1395,16 @@ CREATE FUNCTION tpp.n_modality_hotel_comertial_load_by_id(idmodality integer) RE
     LANGUAGE plpgsql
     AS $_$
 DECLARE
-    n_modality_hotel_comertial_ref refcursor = 'mycursor';
+    n_modality_hotel_comertial_ref refcursor := 'mycursor';
 BEGIN
-    OPEN n_modality_hotel_comertial_ref FOR SELECT * FROM tpp.n_modality_hotel_comertial WHERE n_modality_hotel_comertial.id_modality_hotel_comertial = $1;
+    OPEN n_modality_hotel_comertial_ref FOR SELECT * FROM tpp.n_modality_hotel_comertial WHERE id_modality_hotel_comertial = $1;
     RETURN n_modality_hotel_comertial_ref;
 END
 $_$;
 
 
 --
--- TOC entry 349 (class 1255 OID 22020)
+-- TOC entry 358 (class 1255 OID 23889)
 -- Name: n_modality_hotel_comertial_update(integer, character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1308,7 +1418,7 @@ $_$;
 
 
 --
--- TOC entry 350 (class 1255 OID 22021)
+-- TOC entry 359 (class 1255 OID 23890)
 -- Name: n_province_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1322,7 +1432,7 @@ $_$;
 
 
 --
--- TOC entry 351 (class 1255 OID 22022)
+-- TOC entry 360 (class 1255 OID 23891)
 -- Name: n_province_insert(character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1336,7 +1446,7 @@ $_$;
 
 
 --
--- TOC entry 352 (class 1255 OID 22023)
+-- TOC entry 361 (class 1255 OID 23892)
 -- Name: n_province_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1353,7 +1463,7 @@ $$;
 
 
 --
--- TOC entry 353 (class 1255 OID 22024)
+-- TOC entry 362 (class 1255 OID 23893)
 -- Name: n_province_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1370,7 +1480,7 @@ $_$;
 
 
 --
--- TOC entry 354 (class 1255 OID 22025)
+-- TOC entry 363 (class 1255 OID 23894)
 -- Name: n_province_update(integer, character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1384,7 +1494,7 @@ $_$;
 
 
 --
--- TOC entry 355 (class 1255 OID 22026)
+-- TOC entry 364 (class 1255 OID 23895)
 -- Name: n_room_type_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1398,7 +1508,7 @@ $_$;
 
 
 --
--- TOC entry 356 (class 1255 OID 22027)
+-- TOC entry 365 (class 1255 OID 23896)
 -- Name: n_room_type_insert(character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1412,7 +1522,7 @@ $_$;
 
 
 --
--- TOC entry 357 (class 1255 OID 22028)
+-- TOC entry 366 (class 1255 OID 23897)
 -- Name: n_room_type_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1429,7 +1539,7 @@ $$;
 
 
 --
--- TOC entry 358 (class 1255 OID 22029)
+-- TOC entry 367 (class 1255 OID 23898)
 -- Name: n_room_type_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1446,7 +1556,7 @@ $_$;
 
 
 --
--- TOC entry 359 (class 1255 OID 22030)
+-- TOC entry 368 (class 1255 OID 23899)
 -- Name: n_room_type_update(integer, character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1460,21 +1570,21 @@ $_$;
 
 
 --
--- TOC entry 360 (class 1255 OID 22031)
+-- TOC entry 369 (class 1255 OID 23900)
 -- Name: n_service_type_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
-CREATE FUNCTION tpp.n_service_type_delete(id_service_type integer) RETURNS void
+CREATE FUNCTION tpp.n_service_type_delete(idservicetype integer) RETURNS void
     LANGUAGE plpgsql
     AS $_$
 BEGIN
-    DELETE FROM tpp.n_service_type WHERE n_service_type.id_service_type = $1;
+    DELETE FROM tpp.n_service_type WHERE id_service_type = $1;
 END
 $_$;
 
 
 --
--- TOC entry 361 (class 1255 OID 22032)
+-- TOC entry 370 (class 1255 OID 23901)
 -- Name: n_service_type_insert(character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1488,7 +1598,7 @@ $_$;
 
 
 --
--- TOC entry 362 (class 1255 OID 22033)
+-- TOC entry 371 (class 1255 OID 23902)
 -- Name: n_service_type_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1505,7 +1615,7 @@ $$;
 
 
 --
--- TOC entry 363 (class 1255 OID 22034)
+-- TOC entry 372 (class 1255 OID 23903)
 -- Name: n_service_type_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1522,11 +1632,11 @@ $_$;
 
 
 --
--- TOC entry 364 (class 1255 OID 22035)
+-- TOC entry 373 (class 1255 OID 23904)
 -- Name: n_service_type_update(integer, character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
-CREATE FUNCTION tpp.n_service_type_update(id_service_type integer, name character varying) RETURNS void
+CREATE FUNCTION tpp.n_service_type_update(idservicetype integer, name character varying) RETURNS void
     LANGUAGE plpgsql
     AS $_$
 BEGIN
@@ -1536,21 +1646,21 @@ $_$;
 
 
 --
--- TOC entry 365 (class 1255 OID 22036)
+-- TOC entry 374 (class 1255 OID 23905)
 -- Name: n_vehicle_brand_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
 CREATE FUNCTION tpp.n_vehicle_brand_delete(idbrand integer) RETURNS void
     LANGUAGE plpgsql
-    AS $$
+    AS $_$
 begin
-      DELETE FROM n_vehicle_brand WHERE id_vehicle_brand=idBrand;
+      DELETE FROM tpp.n_vehicle_brand WHERE id_vehicle_brand = $1;
     end;
-$$;
+$_$;
 
 
 --
--- TOC entry 366 (class 1255 OID 22037)
+-- TOC entry 375 (class 1255 OID 23906)
 -- Name: n_vehicle_brand_insert(character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1564,7 +1674,7 @@ $_$;
 
 
 --
--- TOC entry 367 (class 1255 OID 22038)
+-- TOC entry 376 (class 1255 OID 23907)
 -- Name: n_vehicle_brand_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1582,7 +1692,7 @@ $$;
 
 
 --
--- TOC entry 368 (class 1255 OID 22039)
+-- TOC entry 377 (class 1255 OID 23908)
 -- Name: n_vehicle_brand_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1599,21 +1709,21 @@ $$;
 
 
 --
--- TOC entry 369 (class 1255 OID 22040)
+-- TOC entry 378 (class 1255 OID 23909)
 -- Name: n_vehicle_brand_update(integer, character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
 CREATE FUNCTION tpp.n_vehicle_brand_update(idbrand integer, brandname character varying) RETURNS void
     LANGUAGE plpgsql
-    AS $$
+    AS $_$
 begin
-      UPDATE tpp.n_vehicle_brand SET name=brandName WHERE id_vehicle_brand=idBrand;
+      UPDATE tpp.n_vehicle_brand SET name = $2 WHERE id_vehicle_brand = $1;
     end;
-$$;
+$_$;
 
 
 --
--- TOC entry 370 (class 1255 OID 22041)
+-- TOC entry 379 (class 1255 OID 23910)
 -- Name: r_contract_service_n_company_service_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1630,7 +1740,7 @@ $$;
 
 
 --
--- TOC entry 371 (class 1255 OID 22042)
+-- TOC entry 380 (class 1255 OID 23911)
 -- Name: r_contract_service_n_company_service_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1647,7 +1757,7 @@ $_$;
 
 
 --
--- TOC entry 372 (class 1255 OID 22043)
+-- TOC entry 381 (class 1255 OID 23912)
 -- Name: r_contract_service_n_daily_activity_insert(integer, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1661,7 +1771,7 @@ $_$;
 
 
 --
--- TOC entry 373 (class 1255 OID 22044)
+-- TOC entry 382 (class 1255 OID 23913)
 -- Name: r_contract_service_n_daily_activity_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1678,7 +1788,7 @@ $$;
 
 
 --
--- TOC entry 374 (class 1255 OID 22045)
+-- TOC entry 383 (class 1255 OID 23914)
 -- Name: r_contract_service_n_daily_activity_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1695,7 +1805,7 @@ $_$;
 
 
 --
--- TOC entry 375 (class 1255 OID 22046)
+-- TOC entry 384 (class 1255 OID 23915)
 -- Name: r_contract_service_n_service_type_insert(integer, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1709,7 +1819,7 @@ $_$;
 
 
 --
--- TOC entry 376 (class 1255 OID 22047)
+-- TOC entry 385 (class 1255 OID 23916)
 -- Name: r_contract_service_n_service_type_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1726,7 +1836,7 @@ $$;
 
 
 --
--- TOC entry 377 (class 1255 OID 22048)
+-- TOC entry 386 (class 1255 OID 23917)
 -- Name: r_contract_service_n_service_type_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1743,7 +1853,7 @@ $_$;
 
 
 --
--- TOC entry 378 (class 1255 OID 22049)
+-- TOC entry 387 (class 1255 OID 23918)
 -- Name: r_contract_transport_vehicle_insert(integer, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1757,7 +1867,7 @@ $_$;
 
 
 --
--- TOC entry 379 (class 1255 OID 22050)
+-- TOC entry 388 (class 1255 OID 23919)
 -- Name: r_contract_transport_vehicle_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1774,7 +1884,7 @@ $$;
 
 
 --
--- TOC entry 380 (class 1255 OID 22051)
+-- TOC entry 389 (class 1255 OID 23920)
 -- Name: r_contract_transport_vehicle_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1791,7 +1901,7 @@ $_$;
 
 
 --
--- TOC entry 381 (class 1255 OID 22052)
+-- TOC entry 390 (class 1255 OID 23921)
 -- Name: r_hotel_food_plan_insert(integer, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1805,7 +1915,7 @@ $_$;
 
 
 --
--- TOC entry 382 (class 1255 OID 22053)
+-- TOC entry 391 (class 1255 OID 23922)
 -- Name: r_hotel_food_plan_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1822,7 +1932,7 @@ $$;
 
 
 --
--- TOC entry 383 (class 1255 OID 22054)
+-- TOC entry 392 (class 1255 OID 23923)
 -- Name: r_hotel_food_plan_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1839,7 +1949,7 @@ $_$;
 
 
 --
--- TOC entry 384 (class 1255 OID 22055)
+-- TOC entry 393 (class 1255 OID 23924)
 -- Name: r_hotel_modality_hotel_comertial_insert(integer, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1853,7 +1963,7 @@ $_$;
 
 
 --
--- TOC entry 385 (class 1255 OID 22056)
+-- TOC entry 394 (class 1255 OID 23925)
 -- Name: r_hotel_modality_hotel_comertial_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1870,7 +1980,7 @@ $$;
 
 
 --
--- TOC entry 386 (class 1255 OID 22057)
+-- TOC entry 395 (class 1255 OID 23926)
 -- Name: r_hotel_modality_hotel_comertial_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1887,7 +1997,7 @@ $_$;
 
 
 --
--- TOC entry 387 (class 1255 OID 22058)
+-- TOC entry 396 (class 1255 OID 23927)
 -- Name: r_hotel_room_type_insert(integer, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1901,7 +2011,7 @@ $_$;
 
 
 --
--- TOC entry 388 (class 1255 OID 22059)
+-- TOC entry 397 (class 1255 OID 23928)
 -- Name: r_hotel_room_type_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1918,7 +2028,7 @@ $$;
 
 
 --
--- TOC entry 389 (class 1255 OID 22060)
+-- TOC entry 398 (class 1255 OID 23929)
 -- Name: r_hotel_room_type_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1935,7 +2045,7 @@ $_$;
 
 
 --
--- TOC entry 390 (class 1255 OID 22061)
+-- TOC entry 399 (class 1255 OID 23930)
 -- Name: r_season_contract_hotel_insert(integer, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1943,13 +2053,13 @@ CREATE FUNCTION tpp.r_season_contract_hotel_insert(idcontracthotel integer, idse
     LANGUAGE plpgsql
     AS $_$
 BEGIN
-    INSERT INTO tpp.r_season_contract_hotel VALUES ($1, $2);
+    INSERT INTO tpp.r_season_contract_hotel (id_season, id_contract) VALUES ($1, $2);
 END
 $_$;
 
 
 --
--- TOC entry 391 (class 1255 OID 22062)
+-- TOC entry 400 (class 1255 OID 23931)
 -- Name: r_season_contract_hotel_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1966,7 +2076,7 @@ $$;
 
 
 --
--- TOC entry 392 (class 1255 OID 22063)
+-- TOC entry 401 (class 1255 OID 23932)
 -- Name: r_season_contract_hotel_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -1983,7 +2093,7 @@ $_$;
 
 
 --
--- TOC entry 393 (class 1255 OID 22064)
+-- TOC entry 402 (class 1255 OID 23933)
 -- Name: r_season_room_type-food_plan_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -2000,7 +2110,7 @@ $$;
 
 
 --
--- TOC entry 394 (class 1255 OID 22065)
+-- TOC entry 403 (class 1255 OID 23934)
 -- Name: r_season_room_type-food_plan_load_by_id(integer, integer, integer, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -2017,7 +2127,7 @@ $_$;
 
 
 --
--- TOC entry 395 (class 1255 OID 22066)
+-- TOC entry 404 (class 1255 OID 23935)
 -- Name: r_season_room_type_food_plan_insert(integer, integer, integer, double precision, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -2031,7 +2141,7 @@ $_$;
 
 
 --
--- TOC entry 396 (class 1255 OID 22067)
+-- TOC entry 405 (class 1255 OID 23936)
 -- Name: r_touristic_package_contract_insert(integer, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -2045,7 +2155,7 @@ $_$;
 
 
 --
--- TOC entry 397 (class 1255 OID 22068)
+-- TOC entry 406 (class 1255 OID 23937)
 -- Name: r_touristic_package_contract_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -2062,24 +2172,24 @@ $$;
 
 
 --
--- TOC entry 398 (class 1255 OID 22069)
+-- TOC entry 407 (class 1255 OID 23938)
 -- Name: r_touristic_package_contract_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
-CREATE FUNCTION tpp.r_touristic_package_contract_load_by_id(id_contr integer) RETURNS refcursor
+CREATE FUNCTION tpp.r_touristic_package_contract_load_by_id(idtourpack integer) RETURNS refcursor
     LANGUAGE plpgsql
     AS $_$
 DECLARE
     r_contract_t_p_ref refcursor = 'mycursor';
 BEGIN
-    OPEN r_contract_t_p_ref FOR SELECT * FROM tpp."r_contract-touristic_package" WHERE id_contract = $1;
+    OPEN r_contract_t_p_ref FOR SELECT * FROM tpp."r_touristic_package-contract" WHERE id_touristic_package = $1;
     RETURN r_contract_t_p_ref;
 END
 $_$;
 
 
 --
--- TOC entry 399 (class 1255 OID 22070)
+-- TOC entry 408 (class 1255 OID 23939)
 -- Name: season_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -2093,7 +2203,7 @@ $_$;
 
 
 --
--- TOC entry 400 (class 1255 OID 22071)
+-- TOC entry 409 (class 1255 OID 23940)
 -- Name: season_insert(date, date, character varying, character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -2107,7 +2217,7 @@ $_$;
 
 
 --
--- TOC entry 401 (class 1255 OID 22072)
+-- TOC entry 410 (class 1255 OID 23941)
 -- Name: season_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -2124,7 +2234,7 @@ $$;
 
 
 --
--- TOC entry 402 (class 1255 OID 22073)
+-- TOC entry 411 (class 1255 OID 23942)
 -- Name: season_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -2141,7 +2251,7 @@ $$;
 
 
 --
--- TOC entry 403 (class 1255 OID 22074)
+-- TOC entry 412 (class 1255 OID 23943)
 -- Name: season_update(integer, date, date, character varying, character varying); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -2149,13 +2259,27 @@ CREATE FUNCTION tpp.season_update(idseason integer, startdate date, finishdate d
     LANGUAGE plpgsql
     AS $_$
 BEGIN
-    UPDATE tpp.season SET  start_date = $3, finish_date = $4, name = $5, description = $6 WHERE id_season = $1;
+    UPDATE tpp.season SET  start_date = $2, finish_date = $3, name = $4, description = $5 WHERE id_season = $1;
 END
 $_$;
 
 
 --
--- TOC entry 404 (class 1255 OID 22075)
+-- TOC entry 413 (class 1255 OID 23944)
+-- Name: touristic_package_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
+--
+
+CREATE FUNCTION tpp.touristic_package_delete(id_tour_pack integer) RETURNS void
+    LANGUAGE plpgsql
+    AS $_$
+BEGIN
+    DELETE FROM tpp.touristic_package WHERE id_touristic_package = $1;
+END
+$_$;
+
+
+--
+-- TOC entry 414 (class 1255 OID 23945)
 -- Name: touristic_package_insert(character varying, integer, integer, integer, double precision, double precision, double precision, double precision, double precision); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -2169,21 +2293,69 @@ $_$;
 
 
 --
--- TOC entry 405 (class 1255 OID 22076)
+-- TOC entry 415 (class 1255 OID 23946)
+-- Name: touristic_package_load(); Type: FUNCTION; Schema: tpp; Owner: -
+--
+
+CREATE FUNCTION tpp.touristic_package_load() RETURNS refcursor
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    touristic_package_ref refcursor:='mycursor';
+begin
+    OPEN touristic_package_ref FOR SELECT * from tpp.touristic_package;
+    RETURN touristic_package_ref;
+end;
+$$;
+
+
+--
+-- TOC entry 416 (class 1255 OID 23947)
+-- Name: touristic_package_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
+--
+
+CREATE FUNCTION tpp.touristic_package_load_by_id(idtouristicpackage integer) RETURNS refcursor
+    LANGUAGE plpgsql
+    AS $_$
+DECLARE
+    touristic_package_ref refcursor:='mycursor';
+begin
+    OPEN touristic_package_ref FOR SELECT * from tpp.touristic_package WHERE id_touristic_package = $1;
+    RETURN touristic_package_ref;
+end;
+$_$;
+
+
+--
+-- TOC entry 417 (class 1255 OID 23948)
+-- Name: touristic_package_update(integer, character varying, integer, integer, integer, double precision, double precision, double precision, double precision, double precision); Type: FUNCTION; Schema: tpp; Owner: -
+--
+
+CREATE FUNCTION tpp.touristic_package_update(id_tour_pack integer, promotional_name character varying, days_amount integer, nights_amount integer, pax_amount integer, cost_hotel double precision, cost_transport double precision, cost_transport_hotel_airport double precision, cost_total double precision, price double precision) RETURNS void
+    LANGUAGE plpgsql
+    AS $_$
+BEGIN
+    UPDATE tpp.touristic_package SET promotional_name = $2, days_amount = $3, nights_amount = $4, pax_amount = $5, cost_hotel = $6, cost_transport = $7, cost_transport_hotel_airport = $8, cost_total = $9, price = $10 WHERE id_touristic_package = $1;
+END
+$_$;
+
+
+--
+-- TOC entry 418 (class 1255 OID 23949)
 -- Name: vehicle_delete(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
 CREATE FUNCTION tpp.vehicle_delete(idvehicle integer) RETURNS void
     LANGUAGE plpgsql
-    AS $$
+    AS $_$
 begin
-        DELETE FROM tpp.vehicle WHERE vehicle.id_vehicle=idVehicle;
+        DELETE FROM tpp.vehicle WHERE id_vehicle = $1;
     end;
-$$;
+$_$;
 
 
 --
--- TOC entry 406 (class 1255 OID 22077)
+-- TOC entry 419 (class 1255 OID 23950)
 -- Name: vehicle_insert(character varying, integer, integer, integer, date, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -2198,7 +2370,7 @@ $_$;
 
 
 --
--- TOC entry 407 (class 1255 OID 22078)
+-- TOC entry 420 (class 1255 OID 23951)
 -- Name: vehicle_load(); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -2215,7 +2387,7 @@ $$;
 
 
 --
--- TOC entry 408 (class 1255 OID 22079)
+-- TOC entry 421 (class 1255 OID 23952)
 -- Name: vehicle_load_by_id(integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
@@ -2232,21 +2404,21 @@ $$;
 
 
 --
--- TOC entry 409 (class 1255 OID 22080)
+-- TOC entry 422 (class 1255 OID 23953)
 -- Name: vehicle_update(integer, character varying, integer, integer, integer, date, integer); Type: FUNCTION; Schema: tpp; Owner: -
 --
 
 CREATE FUNCTION tpp.vehicle_update(idvehicle integer, chapa_ character varying, capacitywithoutbagage integer, capacitywithbagage integer, capacitytotal integer, productiondate date, idvehiclebrand integer) RETURNS void
     LANGUAGE plpgsql
-    AS $$
+    AS $_$
 begin
-        UPDATE tpp.vehicle SET chapa = chapa_ ,capacity_without_baggage=capacitywithoutbagage, capacity_with_baggage=capacitywithbagage, capacity_total=capacitytotal, production_date=productiondate, id_vehicle_brand=idvehiclebrand WHERE vehicle.id_vehicle=idVehicle;
+        UPDATE tpp.vehicle SET chapa = $2 ,capacity_without_baggage = $3, capacity_with_baggage = $4, capacity_total = $5, production_date = $6, id_vehicle_brand = $7 WHERE id_vehicle = $1;
     end;
-$$;
+$_$;
 
 
 --
--- TOC entry 201 (class 1259 OID 22081)
+-- TOC entry 201 (class 1259 OID 23954)
 -- Name: company_transport_id_company_transport_seq; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -2260,7 +2432,7 @@ CREATE SEQUENCE tpp.company_transport_id_company_transport_seq
 
 
 --
--- TOC entry 202 (class 1259 OID 22083)
+-- TOC entry 202 (class 1259 OID 23956)
 -- Name: contract_id_contract_seq; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -2278,7 +2450,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- TOC entry 203 (class 1259 OID 22085)
+-- TOC entry 203 (class 1259 OID 23958)
 -- Name: contract; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2293,7 +2465,7 @@ CREATE TABLE tpp.contract (
 
 
 --
--- TOC entry 204 (class 1259 OID 22092)
+-- TOC entry 204 (class 1259 OID 23965)
 -- Name: contract_hotel; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2304,7 +2476,7 @@ CREATE TABLE tpp.contract_hotel (
 
 
 --
--- TOC entry 205 (class 1259 OID 22095)
+-- TOC entry 205 (class 1259 OID 23968)
 -- Name: contract_service; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2316,7 +2488,7 @@ CREATE TABLE tpp.contract_service (
 
 
 --
--- TOC entry 206 (class 1259 OID 22098)
+-- TOC entry 206 (class 1259 OID 23971)
 -- Name: contract_transport; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2327,19 +2499,55 @@ CREATE TABLE tpp.contract_transport (
 
 
 --
--- TOC entry 207 (class 1259 OID 22101)
--- Name: f_user; Type: TABLE; Schema: tpp; Owner: -
+-- TOC entry 207 (class 1259 OID 23974)
+-- Name: f_role; Type: TABLE; Schema: tpp; Owner: -
 --
 
-CREATE TABLE tpp.f_user (
-    username character varying(64) NOT NULL,
-    password character varying(64),
-    is_admin bit(1)
+CREATE TABLE tpp.f_role (
+    id_role integer NOT NULL,
+    name character varying(64)
 );
 
 
 --
--- TOC entry 208 (class 1259 OID 22104)
+-- TOC entry 208 (class 1259 OID 23979)
+-- Name: f_user; Type: TABLE; Schema: tpp; Owner: -
+--
+
+CREATE TABLE tpp.f_user (
+    password character varying(64),
+    id_role integer,
+    name character varying(128),
+    id integer NOT NULL,
+    username character varying(64)
+);
+
+
+--
+-- TOC entry 259 (class 1259 OID 24445)
+-- Name: f_user_id_seq; Type: SEQUENCE; Schema: tpp; Owner: -
+--
+
+CREATE SEQUENCE tpp.f_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 3549 (class 0 OID 0)
+-- Dependencies: 259
+-- Name: f_user_id_seq; Type: SEQUENCE OWNED BY; Schema: tpp; Owner: -
+--
+
+ALTER SEQUENCE tpp.f_user_id_seq OWNED BY tpp.f_user.username;
+
+
+--
+-- TOC entry 209 (class 1259 OID 23982)
 -- Name: hotel_id_hotel_seq; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -2353,7 +2561,7 @@ CREATE SEQUENCE tpp.hotel_id_hotel_seq
 
 
 --
--- TOC entry 209 (class 1259 OID 22106)
+-- TOC entry 210 (class 1259 OID 23984)
 -- Name: hotel; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2376,7 +2584,7 @@ CREATE TABLE tpp.hotel (
 
 
 --
--- TOC entry 210 (class 1259 OID 22113)
+-- TOC entry 211 (class 1259 OID 23991)
 -- Name: n_hotel_franchise; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2387,7 +2595,7 @@ CREATE TABLE tpp.n_hotel_franchise (
 
 
 --
--- TOC entry 211 (class 1259 OID 22116)
+-- TOC entry 212 (class 1259 OID 23994)
 -- Name: hotel_franchise_id_seq; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -2401,8 +2609,8 @@ CREATE SEQUENCE tpp.hotel_franchise_id_seq
 
 
 --
--- TOC entry 3518 (class 0 OID 0)
--- Dependencies: 211
+-- TOC entry 3550 (class 0 OID 0)
+-- Dependencies: 212
 -- Name: hotel_franchise_id_seq; Type: SEQUENCE OWNED BY; Schema: tpp; Owner: -
 --
 
@@ -2410,7 +2618,7 @@ ALTER SEQUENCE tpp.hotel_franchise_id_seq OWNED BY tpp.n_hotel_franchise.id_hote
 
 
 --
--- TOC entry 212 (class 1259 OID 22118)
+-- TOC entry 213 (class 1259 OID 23996)
 -- Name: modality_transport_hr_km_id_modality_transport_hr_km_seq; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -2424,7 +2632,7 @@ CREATE SEQUENCE tpp.modality_transport_hr_km_id_modality_transport_hr_km_seq
 
 
 --
--- TOC entry 213 (class 1259 OID 22120)
+-- TOC entry 214 (class 1259 OID 23998)
 -- Name: modality_transport_hr_km; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2440,7 +2648,7 @@ CREATE TABLE tpp.modality_transport_hr_km (
 
 
 --
--- TOC entry 214 (class 1259 OID 22124)
+-- TOC entry 215 (class 1259 OID 24002)
 -- Name: modality_transport_km_id_modality_transport_km_seq; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -2454,7 +2662,7 @@ CREATE SEQUENCE tpp.modality_transport_km_id_modality_transport_km_seq
 
 
 --
--- TOC entry 215 (class 1259 OID 22126)
+-- TOC entry 216 (class 1259 OID 24004)
 -- Name: modality_transport_km; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2469,7 +2677,7 @@ CREATE TABLE tpp.modality_transport_km (
 
 
 --
--- TOC entry 216 (class 1259 OID 22130)
+-- TOC entry 217 (class 1259 OID 24008)
 -- Name: modality_transport_rt_id_modality_transport_rt_seq; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -2483,7 +2691,7 @@ CREATE SEQUENCE tpp.modality_transport_rt_id_modality_transport_rt_seq
 
 
 --
--- TOC entry 217 (class 1259 OID 22132)
+-- TOC entry 218 (class 1259 OID 24010)
 -- Name: modality_transport_rt; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2498,7 +2706,7 @@ CREATE TABLE tpp.modality_transport_rt (
 
 
 --
--- TOC entry 218 (class 1259 OID 22139)
+-- TOC entry 219 (class 1259 OID 24017)
 -- Name: n_company_service; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2509,7 +2717,7 @@ CREATE TABLE tpp.n_company_service (
 
 
 --
--- TOC entry 219 (class 1259 OID 22145)
+-- TOC entry 220 (class 1259 OID 24023)
 -- Name: n_company_service_id_company_service_seq; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -2523,8 +2731,8 @@ CREATE SEQUENCE tpp.n_company_service_id_company_service_seq
 
 
 --
--- TOC entry 3519 (class 0 OID 0)
--- Dependencies: 219
+-- TOC entry 3551 (class 0 OID 0)
+-- Dependencies: 220
 -- Name: n_company_service_id_company_service_seq; Type: SEQUENCE OWNED BY; Schema: tpp; Owner: -
 --
 
@@ -2532,7 +2740,7 @@ ALTER SEQUENCE tpp.n_company_service_id_company_service_seq OWNED BY tpp.n_compa
 
 
 --
--- TOC entry 220 (class 1259 OID 22147)
+-- TOC entry 221 (class 1259 OID 24025)
 -- Name: n_company_transport; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2543,7 +2751,7 @@ CREATE TABLE tpp.n_company_transport (
 
 
 --
--- TOC entry 221 (class 1259 OID 22150)
+-- TOC entry 222 (class 1259 OID 24028)
 -- Name: n_company_transport_id_company_transport_seq; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -2557,8 +2765,8 @@ CREATE SEQUENCE tpp.n_company_transport_id_company_transport_seq
 
 
 --
--- TOC entry 3520 (class 0 OID 0)
--- Dependencies: 221
+-- TOC entry 3552 (class 0 OID 0)
+-- Dependencies: 222
 -- Name: n_company_transport_id_company_transport_seq; Type: SEQUENCE OWNED BY; Schema: tpp; Owner: -
 --
 
@@ -2566,7 +2774,7 @@ ALTER SEQUENCE tpp.n_company_transport_id_company_transport_seq OWNED BY tpp.n_c
 
 
 --
--- TOC entry 222 (class 1259 OID 22152)
+-- TOC entry 223 (class 1259 OID 24030)
 -- Name: n_contract_type; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2577,7 +2785,7 @@ CREATE TABLE tpp.n_contract_type (
 
 
 --
--- TOC entry 223 (class 1259 OID 22155)
+-- TOC entry 224 (class 1259 OID 24033)
 -- Name: n_contract_type_id_contract_type_seq; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -2591,8 +2799,8 @@ CREATE SEQUENCE tpp.n_contract_type_id_contract_type_seq
 
 
 --
--- TOC entry 3521 (class 0 OID 0)
--- Dependencies: 223
+-- TOC entry 3553 (class 0 OID 0)
+-- Dependencies: 224
 -- Name: n_contract_type_id_contract_type_seq; Type: SEQUENCE OWNED BY; Schema: tpp; Owner: -
 --
 
@@ -2600,7 +2808,7 @@ ALTER SEQUENCE tpp.n_contract_type_id_contract_type_seq OWNED BY tpp.n_contract_
 
 
 --
--- TOC entry 224 (class 1259 OID 22157)
+-- TOC entry 225 (class 1259 OID 24035)
 -- Name: n_daily_activity; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2611,7 +2819,7 @@ CREATE TABLE tpp.n_daily_activity (
 
 
 --
--- TOC entry 225 (class 1259 OID 22163)
+-- TOC entry 226 (class 1259 OID 24041)
 -- Name: n_daily_activity_id_daily_activity_seq; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -2625,8 +2833,8 @@ CREATE SEQUENCE tpp.n_daily_activity_id_daily_activity_seq
 
 
 --
--- TOC entry 3522 (class 0 OID 0)
--- Dependencies: 225
+-- TOC entry 3554 (class 0 OID 0)
+-- Dependencies: 226
 -- Name: n_daily_activity_id_daily_activity_seq; Type: SEQUENCE OWNED BY; Schema: tpp; Owner: -
 --
 
@@ -2634,7 +2842,7 @@ ALTER SEQUENCE tpp.n_daily_activity_id_daily_activity_seq OWNED BY tpp.n_daily_a
 
 
 --
--- TOC entry 226 (class 1259 OID 22165)
+-- TOC entry 227 (class 1259 OID 24043)
 -- Name: n_food_plan; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2645,7 +2853,7 @@ CREATE TABLE tpp.n_food_plan (
 
 
 --
--- TOC entry 227 (class 1259 OID 22168)
+-- TOC entry 228 (class 1259 OID 24046)
 -- Name: n_food_plan_id_food_plan_seq; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -2659,8 +2867,8 @@ CREATE SEQUENCE tpp.n_food_plan_id_food_plan_seq
 
 
 --
--- TOC entry 3523 (class 0 OID 0)
--- Dependencies: 227
+-- TOC entry 3555 (class 0 OID 0)
+-- Dependencies: 228
 -- Name: n_food_plan_id_food_plan_seq; Type: SEQUENCE OWNED BY; Schema: tpp; Owner: -
 --
 
@@ -2668,7 +2876,7 @@ ALTER SEQUENCE tpp.n_food_plan_id_food_plan_seq OWNED BY tpp.n_food_plan.id_food
 
 
 --
--- TOC entry 228 (class 1259 OID 22170)
+-- TOC entry 229 (class 1259 OID 24048)
 -- Name: n_localization; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2679,7 +2887,7 @@ CREATE TABLE tpp.n_localization (
 
 
 --
--- TOC entry 229 (class 1259 OID 22173)
+-- TOC entry 230 (class 1259 OID 24051)
 -- Name: n_localization_id_localization_seq; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -2693,8 +2901,8 @@ CREATE SEQUENCE tpp.n_localization_id_localization_seq
 
 
 --
--- TOC entry 3524 (class 0 OID 0)
--- Dependencies: 229
+-- TOC entry 3556 (class 0 OID 0)
+-- Dependencies: 230
 -- Name: n_localization_id_localization_seq; Type: SEQUENCE OWNED BY; Schema: tpp; Owner: -
 --
 
@@ -2702,18 +2910,18 @@ ALTER SEQUENCE tpp.n_localization_id_localization_seq OWNED BY tpp.n_localizatio
 
 
 --
--- TOC entry 230 (class 1259 OID 22175)
+-- TOC entry 231 (class 1259 OID 24053)
 -- Name: n_modality_hotel_comertial; Type: TABLE; Schema: tpp; Owner: -
 --
 
 CREATE TABLE tpp.n_modality_hotel_comertial (
-    name character varying(32) NOT NULL,
-    id_modality_hotel_comertial integer NOT NULL
+    id_modality_hotel_comertial integer NOT NULL,
+    name character varying NOT NULL
 );
 
 
 --
--- TOC entry 231 (class 1259 OID 22178)
+-- TOC entry 232 (class 1259 OID 24059)
 -- Name: n_modality_hotel_comertial_id_modality_hotel_comertial_seq; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -2727,16 +2935,16 @@ CREATE SEQUENCE tpp.n_modality_hotel_comertial_id_modality_hotel_comertial_seq
 
 
 --
--- TOC entry 3525 (class 0 OID 0)
--- Dependencies: 231
+-- TOC entry 3557 (class 0 OID 0)
+-- Dependencies: 232
 -- Name: n_modality_hotel_comertial_id_modality_hotel_comertial_seq; Type: SEQUENCE OWNED BY; Schema: tpp; Owner: -
 --
 
-ALTER SEQUENCE tpp.n_modality_hotel_comertial_id_modality_hotel_comertial_seq OWNED BY tpp.n_modality_hotel_comertial.id_modality_hotel_comertial;
+ALTER SEQUENCE tpp.n_modality_hotel_comertial_id_modality_hotel_comertial_seq OWNED BY tpp.n_modality_hotel_comertial.name;
 
 
 --
--- TOC entry 232 (class 1259 OID 22180)
+-- TOC entry 233 (class 1259 OID 24061)
 -- Name: n_province; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2747,7 +2955,7 @@ CREATE TABLE tpp.n_province (
 
 
 --
--- TOC entry 233 (class 1259 OID 22183)
+-- TOC entry 234 (class 1259 OID 24064)
 -- Name: n_province_id_province_seq; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -2761,7 +2969,7 @@ CREATE SEQUENCE tpp.n_province_id_province_seq
 
 
 --
--- TOC entry 234 (class 1259 OID 22185)
+-- TOC entry 235 (class 1259 OID 24066)
 -- Name: n_province_id_province_seq1; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -2775,8 +2983,8 @@ CREATE SEQUENCE tpp.n_province_id_province_seq1
 
 
 --
--- TOC entry 3526 (class 0 OID 0)
--- Dependencies: 234
+-- TOC entry 3558 (class 0 OID 0)
+-- Dependencies: 235
 -- Name: n_province_id_province_seq1; Type: SEQUENCE OWNED BY; Schema: tpp; Owner: -
 --
 
@@ -2784,7 +2992,7 @@ ALTER SEQUENCE tpp.n_province_id_province_seq1 OWNED BY tpp.n_province.id_provin
 
 
 --
--- TOC entry 235 (class 1259 OID 22187)
+-- TOC entry 236 (class 1259 OID 24068)
 -- Name: n_room_type; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2795,7 +3003,7 @@ CREATE TABLE tpp.n_room_type (
 
 
 --
--- TOC entry 236 (class 1259 OID 22190)
+-- TOC entry 237 (class 1259 OID 24071)
 -- Name: n_room_type_id_room_type_seq; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -2809,8 +3017,8 @@ CREATE SEQUENCE tpp.n_room_type_id_room_type_seq
 
 
 --
--- TOC entry 3527 (class 0 OID 0)
--- Dependencies: 236
+-- TOC entry 3559 (class 0 OID 0)
+-- Dependencies: 237
 -- Name: n_room_type_id_room_type_seq; Type: SEQUENCE OWNED BY; Schema: tpp; Owner: -
 --
 
@@ -2818,7 +3026,7 @@ ALTER SEQUENCE tpp.n_room_type_id_room_type_seq OWNED BY tpp.n_room_type.id_room
 
 
 --
--- TOC entry 237 (class 1259 OID 22192)
+-- TOC entry 238 (class 1259 OID 24073)
 -- Name: n_service_type; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2829,7 +3037,7 @@ CREATE TABLE tpp.n_service_type (
 
 
 --
--- TOC entry 238 (class 1259 OID 22195)
+-- TOC entry 239 (class 1259 OID 24076)
 -- Name: n_service_type_id_service_type_seq; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -2843,8 +3051,8 @@ CREATE SEQUENCE tpp.n_service_type_id_service_type_seq
 
 
 --
--- TOC entry 3528 (class 0 OID 0)
--- Dependencies: 238
+-- TOC entry 3560 (class 0 OID 0)
+-- Dependencies: 239
 -- Name: n_service_type_id_service_type_seq; Type: SEQUENCE OWNED BY; Schema: tpp; Owner: -
 --
 
@@ -2852,7 +3060,7 @@ ALTER SEQUENCE tpp.n_service_type_id_service_type_seq OWNED BY tpp.n_service_typ
 
 
 --
--- TOC entry 239 (class 1259 OID 22197)
+-- TOC entry 240 (class 1259 OID 24078)
 -- Name: vehicle_brand_id_vehicle_brand_seq; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -2866,7 +3074,7 @@ CREATE SEQUENCE tpp.vehicle_brand_id_vehicle_brand_seq
 
 
 --
--- TOC entry 240 (class 1259 OID 22199)
+-- TOC entry 241 (class 1259 OID 24080)
 -- Name: n_vehicle_brand; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2877,7 +3085,7 @@ CREATE TABLE tpp.n_vehicle_brand (
 
 
 --
--- TOC entry 241 (class 1259 OID 22206)
+-- TOC entry 242 (class 1259 OID 24087)
 -- Name: r_contract_service_n_company_service; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2888,7 +3096,7 @@ CREATE TABLE tpp.r_contract_service_n_company_service (
 
 
 --
--- TOC entry 242 (class 1259 OID 22209)
+-- TOC entry 243 (class 1259 OID 24090)
 -- Name: r_contract_service_n_daily_activity; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2899,7 +3107,7 @@ CREATE TABLE tpp.r_contract_service_n_daily_activity (
 
 
 --
--- TOC entry 243 (class 1259 OID 22212)
+-- TOC entry 244 (class 1259 OID 24093)
 -- Name: r_contract_service_n_service_type; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2910,7 +3118,7 @@ CREATE TABLE tpp.r_contract_service_n_service_type (
 
 
 --
--- TOC entry 244 (class 1259 OID 22215)
+-- TOC entry 245 (class 1259 OID 24096)
 -- Name: r_contract_transport-vehicle; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2921,7 +3129,7 @@ CREATE TABLE tpp."r_contract_transport-vehicle" (
 
 
 --
--- TOC entry 245 (class 1259 OID 22218)
+-- TOC entry 246 (class 1259 OID 24099)
 -- Name: r_hotel-food_plan; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2932,7 +3140,7 @@ CREATE TABLE tpp."r_hotel-food_plan" (
 
 
 --
--- TOC entry 246 (class 1259 OID 22221)
+-- TOC entry 247 (class 1259 OID 24102)
 -- Name: r_hotel-modality_hotel_comertial; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2943,7 +3151,7 @@ CREATE TABLE tpp."r_hotel-modality_hotel_comertial" (
 
 
 --
--- TOC entry 247 (class 1259 OID 22224)
+-- TOC entry 248 (class 1259 OID 24105)
 -- Name: r_hotel-room_type; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2954,7 +3162,7 @@ CREATE TABLE tpp."r_hotel-room_type" (
 
 
 --
--- TOC entry 248 (class 1259 OID 22227)
+-- TOC entry 249 (class 1259 OID 24108)
 -- Name: r_season-room_type-food_plan; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2968,7 +3176,7 @@ CREATE TABLE tpp."r_season-room_type-food_plan" (
 
 
 --
--- TOC entry 249 (class 1259 OID 22230)
+-- TOC entry 250 (class 1259 OID 24111)
 -- Name: r_season_contract_hotel; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2979,7 +3187,7 @@ CREATE TABLE tpp.r_season_contract_hotel (
 
 
 --
--- TOC entry 250 (class 1259 OID 22233)
+-- TOC entry 251 (class 1259 OID 24114)
 -- Name: r_touristic_package-contract; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -2990,7 +3198,7 @@ CREATE TABLE tpp."r_touristic_package-contract" (
 
 
 --
--- TOC entry 251 (class 1259 OID 22236)
+-- TOC entry 252 (class 1259 OID 24117)
 -- Name: season; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -3004,7 +3212,7 @@ CREATE TABLE tpp.season (
 
 
 --
--- TOC entry 252 (class 1259 OID 22242)
+-- TOC entry 253 (class 1259 OID 24123)
 -- Name: season_id_season_seq; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -3018,8 +3226,8 @@ CREATE SEQUENCE tpp.season_id_season_seq
 
 
 --
--- TOC entry 3529 (class 0 OID 0)
--- Dependencies: 252
+-- TOC entry 3561 (class 0 OID 0)
+-- Dependencies: 253
 -- Name: season_id_season_seq; Type: SEQUENCE OWNED BY; Schema: tpp; Owner: -
 --
 
@@ -3027,7 +3235,7 @@ ALTER SEQUENCE tpp.season_id_season_seq OWNED BY tpp.season.id_season;
 
 
 --
--- TOC entry 253 (class 1259 OID 22244)
+-- TOC entry 254 (class 1259 OID 24125)
 -- Name: touristic_package_id_touristic_package_seq; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -3041,7 +3249,7 @@ CREATE SEQUENCE tpp.touristic_package_id_touristic_package_seq
 
 
 --
--- TOC entry 254 (class 1259 OID 22246)
+-- TOC entry 255 (class 1259 OID 24127)
 -- Name: touristic_package; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -3060,7 +3268,7 @@ CREATE TABLE tpp.touristic_package (
 
 
 --
--- TOC entry 255 (class 1259 OID 22253)
+-- TOC entry 256 (class 1259 OID 24134)
 -- Name: vehicle; Type: TABLE; Schema: tpp; Owner: -
 --
 
@@ -3069,14 +3277,14 @@ CREATE TABLE tpp.vehicle (
     capacity_with_baggage integer NOT NULL,
     capacity_total integer NOT NULL,
     production_date date NOT NULL,
-    id_vehicle_brand integer,
     id_vehicle integer NOT NULL,
-    chapa character varying(10)
+    chapa character varying(10) NOT NULL,
+    id_vehicle_brand integer NOT NULL
 );
 
 
 --
--- TOC entry 256 (class 1259 OID 22256)
+-- TOC entry 257 (class 1259 OID 24137)
 -- Name: vehicle_id_vehicle_seq; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -3090,7 +3298,7 @@ CREATE SEQUENCE tpp.vehicle_id_vehicle_seq
 
 
 --
--- TOC entry 257 (class 1259 OID 22258)
+-- TOC entry 258 (class 1259 OID 24139)
 -- Name: vehicle_id_vehicle_seq1; Type: SEQUENCE; Schema: tpp; Owner: -
 --
 
@@ -3104,16 +3312,24 @@ CREATE SEQUENCE tpp.vehicle_id_vehicle_seq1
 
 
 --
--- TOC entry 3530 (class 0 OID 0)
--- Dependencies: 257
+-- TOC entry 3562 (class 0 OID 0)
+-- Dependencies: 258
 -- Name: vehicle_id_vehicle_seq1; Type: SEQUENCE OWNED BY; Schema: tpp; Owner: -
 --
 
-ALTER SEQUENCE tpp.vehicle_id_vehicle_seq1 OWNED BY tpp.vehicle.id_vehicle;
+ALTER SEQUENCE tpp.vehicle_id_vehicle_seq1 OWNED BY tpp.vehicle.id_vehicle_brand;
 
 
 --
--- TOC entry 3191 (class 2604 OID 22260)
+-- TOC entry 3209 (class 2604 OID 24447)
+-- Name: f_user id; Type: DEFAULT; Schema: tpp; Owner: -
+--
+
+ALTER TABLE ONLY tpp.f_user ALTER COLUMN id SET DEFAULT nextval('tpp.f_user_id_seq'::regclass);
+
+
+--
+-- TOC entry 3215 (class 2604 OID 24142)
 -- Name: n_company_service id_company_service; Type: DEFAULT; Schema: tpp; Owner: -
 --
 
@@ -3121,7 +3337,7 @@ ALTER TABLE ONLY tpp.n_company_service ALTER COLUMN id_company_service SET DEFAU
 
 
 --
--- TOC entry 3192 (class 2604 OID 22261)
+-- TOC entry 3216 (class 2604 OID 24143)
 -- Name: n_company_transport id_company_transport; Type: DEFAULT; Schema: tpp; Owner: -
 --
 
@@ -3129,7 +3345,7 @@ ALTER TABLE ONLY tpp.n_company_transport ALTER COLUMN id_company_transport SET D
 
 
 --
--- TOC entry 3193 (class 2604 OID 22262)
+-- TOC entry 3217 (class 2604 OID 24144)
 -- Name: n_contract_type id_contract_type; Type: DEFAULT; Schema: tpp; Owner: -
 --
 
@@ -3137,7 +3353,7 @@ ALTER TABLE ONLY tpp.n_contract_type ALTER COLUMN id_contract_type SET DEFAULT n
 
 
 --
--- TOC entry 3194 (class 2604 OID 22263)
+-- TOC entry 3218 (class 2604 OID 24145)
 -- Name: n_daily_activity id_daily_activity; Type: DEFAULT; Schema: tpp; Owner: -
 --
 
@@ -3145,7 +3361,7 @@ ALTER TABLE ONLY tpp.n_daily_activity ALTER COLUMN id_daily_activity SET DEFAULT
 
 
 --
--- TOC entry 3195 (class 2604 OID 22264)
+-- TOC entry 3219 (class 2604 OID 24146)
 -- Name: n_food_plan id_food_plan; Type: DEFAULT; Schema: tpp; Owner: -
 --
 
@@ -3153,7 +3369,7 @@ ALTER TABLE ONLY tpp.n_food_plan ALTER COLUMN id_food_plan SET DEFAULT nextval('
 
 
 --
--- TOC entry 3187 (class 2604 OID 22265)
+-- TOC entry 3211 (class 2604 OID 24147)
 -- Name: n_hotel_franchise id_hotel_franchise; Type: DEFAULT; Schema: tpp; Owner: -
 --
 
@@ -3161,7 +3377,7 @@ ALTER TABLE ONLY tpp.n_hotel_franchise ALTER COLUMN id_hotel_franchise SET DEFAU
 
 
 --
--- TOC entry 3196 (class 2604 OID 22266)
+-- TOC entry 3220 (class 2604 OID 24148)
 -- Name: n_localization id_localization; Type: DEFAULT; Schema: tpp; Owner: -
 --
 
@@ -3169,7 +3385,7 @@ ALTER TABLE ONLY tpp.n_localization ALTER COLUMN id_localization SET DEFAULT nex
 
 
 --
--- TOC entry 3197 (class 2604 OID 22267)
+-- TOC entry 3221 (class 2604 OID 24149)
 -- Name: n_modality_hotel_comertial id_modality_hotel_comertial; Type: DEFAULT; Schema: tpp; Owner: -
 --
 
@@ -3177,7 +3393,7 @@ ALTER TABLE ONLY tpp.n_modality_hotel_comertial ALTER COLUMN id_modality_hotel_c
 
 
 --
--- TOC entry 3198 (class 2604 OID 22268)
+-- TOC entry 3222 (class 2604 OID 24150)
 -- Name: n_province id_province; Type: DEFAULT; Schema: tpp; Owner: -
 --
 
@@ -3185,7 +3401,7 @@ ALTER TABLE ONLY tpp.n_province ALTER COLUMN id_province SET DEFAULT nextval('tp
 
 
 --
--- TOC entry 3199 (class 2604 OID 22269)
+-- TOC entry 3223 (class 2604 OID 24151)
 -- Name: n_room_type id_room_type; Type: DEFAULT; Schema: tpp; Owner: -
 --
 
@@ -3193,7 +3409,7 @@ ALTER TABLE ONLY tpp.n_room_type ALTER COLUMN id_room_type SET DEFAULT nextval('
 
 
 --
--- TOC entry 3200 (class 2604 OID 22270)
+-- TOC entry 3224 (class 2604 OID 24152)
 -- Name: n_service_type id_service_type; Type: DEFAULT; Schema: tpp; Owner: -
 --
 
@@ -3201,7 +3417,7 @@ ALTER TABLE ONLY tpp.n_service_type ALTER COLUMN id_service_type SET DEFAULT nex
 
 
 --
--- TOC entry 3202 (class 2604 OID 22271)
+-- TOC entry 3226 (class 2604 OID 24153)
 -- Name: season id_season; Type: DEFAULT; Schema: tpp; Owner: -
 --
 
@@ -3209,7 +3425,7 @@ ALTER TABLE ONLY tpp.season ALTER COLUMN id_season SET DEFAULT nextval('tpp.seas
 
 
 --
--- TOC entry 3204 (class 2604 OID 22272)
+-- TOC entry 3228 (class 2604 OID 24154)
 -- Name: vehicle id_vehicle; Type: DEFAULT; Schema: tpp; Owner: -
 --
 
@@ -3217,7 +3433,7 @@ ALTER TABLE ONLY tpp.vehicle ALTER COLUMN id_vehicle SET DEFAULT nextval('tpp.ve
 
 
 --
--- TOC entry 3457 (class 0 OID 22085)
+-- TOC entry 3486 (class 0 OID 23958)
 -- Dependencies: 203
 -- Data for Name: contract; Type: TABLE DATA; Schema: tpp; Owner: -
 --
@@ -3231,21 +3447,22 @@ INSERT INTO tpp.contract (id_contract, start_date, finish_date, conciliation_dat
 INSERT INTO tpp.contract (id_contract, start_date, finish_date, conciliation_date, description, id_contract_type) VALUES (7, '2021-11-23', '2022-11-23', '2021-11-16', 'Tourism', 5);
 INSERT INTO tpp.contract (id_contract, start_date, finish_date, conciliation_date, description, id_contract_type) VALUES (8, '2021-11-28', '2022-11-28', '2021-11-21', 'Tourism', 5);
 INSERT INTO tpp.contract (id_contract, start_date, finish_date, conciliation_date, description, id_contract_type) VALUES (9, '2021-11-19', '2022-11-19', '2021-11-12', 'Tourism', 3);
+INSERT INTO tpp.contract (id_contract, start_date, finish_date, conciliation_date, description, id_contract_type) VALUES (10, '2021-11-03', '2022-11-03', '2021-11-01', 'Tourism', 5);
 
 
 --
--- TOC entry 3458 (class 0 OID 22092)
+-- TOC entry 3487 (class 0 OID 23965)
 -- Dependencies: 204
 -- Data for Name: contract_hotel; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
 INSERT INTO tpp.contract_hotel (id_contract, id_hotel) VALUES (6, 21);
 INSERT INTO tpp.contract_hotel (id_contract, id_hotel) VALUES (7, 1);
-INSERT INTO tpp.contract_hotel (id_contract, id_hotel) VALUES (8, 3);
+INSERT INTO tpp.contract_hotel (id_contract, id_hotel) VALUES (8, 21);
 
 
 --
--- TOC entry 3459 (class 0 OID 22095)
+-- TOC entry 3488 (class 0 OID 23968)
 -- Dependencies: 205
 -- Data for Name: contract_service; Type: TABLE DATA; Schema: tpp; Owner: -
 --
@@ -3256,28 +3473,41 @@ INSERT INTO tpp.contract_service (pax_cost, id_contract, id_province) VALUES (90
 
 
 --
--- TOC entry 3460 (class 0 OID 22098)
+-- TOC entry 3489 (class 0 OID 23971)
 -- Dependencies: 206
 -- Data for Name: contract_transport; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
 INSERT INTO tpp.contract_transport (id_contract, id_company_transport) VALUES (4, 1);
 INSERT INTO tpp.contract_transport (id_contract, id_company_transport) VALUES (5, 2);
-INSERT INTO tpp.contract_transport (id_contract, id_company_transport) VALUES (9, 3);
 
 
 --
--- TOC entry 3461 (class 0 OID 22101)
+-- TOC entry 3490 (class 0 OID 23974)
 -- Dependencies: 207
+-- Data for Name: f_role; Type: TABLE DATA; Schema: tpp; Owner: -
+--
+
+INSERT INTO tpp.f_role (id_role, name) VALUES (1, 'user');
+INSERT INTO tpp.f_role (id_role, name) VALUES (2, 'admin');
+
+
+--
+-- TOC entry 3491 (class 0 OID 23979)
+-- Dependencies: 208
 -- Data for Name: f_user; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
-INSERT INTO tpp.f_user (username, password, is_admin) VALUES ('root', 'root', B'1');
+INSERT INTO tpp.f_user (password, id_role, name, id, username) VALUES ('Y6nw6nu5gFB5a2SehUgYRQ==', 2, 'Root User', 4, 'Y6nw6nu5gFB5a2SehUgYRQ==');
+INSERT INTO tpp.f_user (password, id_role, name, id, username) VALUES ('biUHmYLDcsyf2xKca1zzEQ==', 1, 'Liss Marian Bouza', 5, 'biUHmYLDcsyf2xKca1zzEQ==');
+INSERT INTO tpp.f_user (password, id_role, name, id, username) VALUES ('4FJFDymy4OmlP9TrOJ4lqQ==', 1, 'Alejandro Rodriguez', 6, '4FJFDymy4OmlP9TrOJ4lqQ==');
+INSERT INTO tpp.f_user (password, id_role, name, id, username) VALUES ('j5G9tN4BQnEKwXGDRbljCA==', 1, 'Ernesto Martinez', 7, 'j5G9tN4BQnEKwXGDRbljCA==');
+INSERT INTO tpp.f_user (password, id_role, name, id, username) VALUES ('Lu6m7xZnAYRSGOe9l025OQ==', 1, 'Daniel Gonzalez', 8, 'Lu6m7xZnAYRSGOe9l025OQ==');
 
 
 --
--- TOC entry 3463 (class 0 OID 22106)
--- Dependencies: 209
+-- TOC entry 3493 (class 0 OID 23984)
+-- Dependencies: 210
 -- Data for Name: hotel; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
@@ -3438,45 +3668,40 @@ INSERT INTO tpp.hotel (id_hotel, name, id_hotel_franchise, address, category, te
 
 
 --
--- TOC entry 3467 (class 0 OID 22120)
--- Dependencies: 213
+-- TOC entry 3497 (class 0 OID 23998)
+-- Dependencies: 214
 -- Data for Name: modality_transport_hr_km; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
-INSERT INTO tpp.modality_transport_hr_km (id_modality_transport_hr_km, cost_traveled_km, cost_km_extras, cost_hr_extras, id_contract, cost_hr, id_vehicle) VALUES (4, 50, 60, 1200, NULL, 1000, 5);
-INSERT INTO tpp.modality_transport_hr_km (id_modality_transport_hr_km, cost_traveled_km, cost_km_extras, cost_hr_extras, id_contract, cost_hr, id_vehicle) VALUES (2, 40, 50, 1000, NULL, 800, 7);
-INSERT INTO tpp.modality_transport_hr_km (id_modality_transport_hr_km, cost_traveled_km, cost_km_extras, cost_hr_extras, id_contract, cost_hr, id_vehicle) VALUES (1, 40, 50, 1000, 5, 800, 3);
-INSERT INTO tpp.modality_transport_hr_km (id_modality_transport_hr_km, cost_traveled_km, cost_km_extras, cost_hr_extras, id_contract, cost_hr, id_vehicle) VALUES (3, 50, 60, 1200, 5, 1000, 12);
+INSERT INTO tpp.modality_transport_hr_km (id_modality_transport_hr_km, cost_traveled_km, cost_km_extras, cost_hr_extras, id_contract, cost_hr, id_vehicle) VALUES (5, 15, 15, 15, 4, 15, 9);
 
 
 --
--- TOC entry 3469 (class 0 OID 22126)
--- Dependencies: 215
+-- TOC entry 3499 (class 0 OID 24004)
+-- Dependencies: 216
 -- Data for Name: modality_transport_km; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
-INSERT INTO tpp.modality_transport_km (id_modality_transport_km, cost_km, cost_km_round_trip, cost_hr_wait, id_contract, id_vehicle) VALUES (1, 40, 35, 100, NULL, 11);
-INSERT INTO tpp.modality_transport_km (id_modality_transport_km, cost_km, cost_km_round_trip, cost_hr_wait, id_contract, id_vehicle) VALUES (2, 50, 45, 100, NULL, 6);
-INSERT INTO tpp.modality_transport_km (id_modality_transport_km, cost_km, cost_km_round_trip, cost_hr_wait, id_contract, id_vehicle) VALUES (4, 70, 65, 150, NULL, 8);
-INSERT INTO tpp.modality_transport_km (id_modality_transport_km, cost_km, cost_km_round_trip, cost_hr_wait, id_contract, id_vehicle) VALUES (3, 40, 35, 100, 5, 2);
+INSERT INTO tpp.modality_transport_km (id_modality_transport_km, cost_km, cost_km_round_trip, cost_hr_wait, id_contract, id_vehicle) VALUES (1, 40, 35, 100, 4, 11);
+INSERT INTO tpp.modality_transport_km (id_modality_transport_km, cost_km, cost_km_round_trip, cost_hr_wait, id_contract, id_vehicle) VALUES (4, 70, 65, 150, 4, 8);
+INSERT INTO tpp.modality_transport_km (id_modality_transport_km, cost_km, cost_km_round_trip, cost_hr_wait, id_contract, id_vehicle) VALUES (2, 50, 45, 100, 5, 6);
 
 
 --
--- TOC entry 3471 (class 0 OID 22132)
--- Dependencies: 217
+-- TOC entry 3501 (class 0 OID 24010)
+-- Dependencies: 218
 -- Data for Name: modality_transport_rt; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
-INSERT INTO tpp.modality_transport_rt (id_modality_transport_rt, rt_description, cost_rt, cost_round_trip, id_contract, id_vehicle) VALUES (1, '"Jose Marti" airport-National Hotel', 800, 1400, NULL, 7);
-INSERT INTO tpp.modality_transport_rt (id_modality_transport_rt, rt_description, cost_rt, cost_round_trip, id_contract, id_vehicle) VALUES (5, '"Jose Marti" airport-"Los Frailes"', 800, 1400, NULL, 8);
-INSERT INTO tpp.modality_transport_rt (id_modality_transport_rt, rt_description, cost_rt, cost_round_trip, id_contract, id_vehicle) VALUES (3, 'Caibarien City-"Abel Santamaria" airport', 700, 1200, NULL, 10);
-INSERT INTO tpp.modality_transport_rt (id_modality_transport_rt, rt_description, cost_rt, cost_round_trip, id_contract, id_vehicle) VALUES (2, 'Caribe Beach Resort-Caibarien City', 1500, 2300, NULL, 10);
-INSERT INTO tpp.modality_transport_rt (id_modality_transport_rt, rt_description, cost_rt, cost_round_trip, id_contract, id_vehicle) VALUES (4, '"Balcon a la Sierra"_Granma City', 1300, 2400, 5, 3);
+INSERT INTO tpp.modality_transport_rt (id_modality_transport_rt, rt_description, cost_rt, cost_round_trip, id_contract, id_vehicle) VALUES (5, '"Jose Marti" airport-"Los Frailes"', 800, 1400, 5, 8);
+INSERT INTO tpp.modality_transport_rt (id_modality_transport_rt, rt_description, cost_rt, cost_round_trip, id_contract, id_vehicle) VALUES (1, '"Jose Marti" airport-National Hotel', 800, 1400, 5, 7);
+INSERT INTO tpp.modality_transport_rt (id_modality_transport_rt, rt_description, cost_rt, cost_round_trip, id_contract, id_vehicle) VALUES (2, 'Caribe Beach Resort-Caibarien City', 1500, 2300, 5, 10);
+INSERT INTO tpp.modality_transport_rt (id_modality_transport_rt, rt_description, cost_rt, cost_round_trip, id_contract, id_vehicle) VALUES (3, 'Caibarien City-"Abel Santamaria" airport', 700, 1200, 5, 10);
 
 
 --
--- TOC entry 3472 (class 0 OID 22139)
--- Dependencies: 218
+-- TOC entry 3502 (class 0 OID 24017)
+-- Dependencies: 219
 -- Data for Name: n_company_service; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
@@ -3484,12 +3709,11 @@ INSERT INTO tpp.n_company_service (id_company_service, name) VALUES (7, 'Habagua
 INSERT INTO tpp.n_company_service (id_company_service, name) VALUES (8, 'Artex');
 INSERT INTO tpp.n_company_service (id_company_service, name) VALUES (9, 'Patrimonio');
 INSERT INTO tpp.n_company_service (id_company_service, name) VALUES (10, 'Pálmares');
-INSERT INTO tpp.n_company_service (id_company_service, name) VALUES (11, 'sda');
 
 
 --
--- TOC entry 3474 (class 0 OID 22147)
--- Dependencies: 220
+-- TOC entry 3504 (class 0 OID 24025)
+-- Dependencies: 221
 -- Data for Name: n_company_transport; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
@@ -3500,8 +3724,8 @@ INSERT INTO tpp.n_company_transport (name, id_company_transport) VALUES ('TransG
 
 
 --
--- TOC entry 3476 (class 0 OID 22152)
--- Dependencies: 222
+-- TOC entry 3506 (class 0 OID 24030)
+-- Dependencies: 223
 -- Data for Name: n_contract_type; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
@@ -3514,8 +3738,8 @@ INSERT INTO tpp.n_contract_type (name, id_contract_type) VALUES ('Commercial con
 
 
 --
--- TOC entry 3478 (class 0 OID 22157)
--- Dependencies: 224
+-- TOC entry 3508 (class 0 OID 24035)
+-- Dependencies: 225
 -- Data for Name: n_daily_activity; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
@@ -3529,8 +3753,8 @@ INSERT INTO tpp.n_daily_activity (id_daily_activity, name) VALUES (7, 'Visit to 
 
 
 --
--- TOC entry 3480 (class 0 OID 22165)
--- Dependencies: 226
+-- TOC entry 3510 (class 0 OID 24043)
+-- Dependencies: 227
 -- Data for Name: n_food_plan; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
@@ -3538,13 +3762,11 @@ INSERT INTO tpp.n_food_plan (name, id_food_plan) VALUES ('All In', 1);
 INSERT INTO tpp.n_food_plan (name, id_food_plan) VALUES ('Only Breakfast', 2);
 INSERT INTO tpp.n_food_plan (name, id_food_plan) VALUES ('Only Lodging', 3);
 INSERT INTO tpp.n_food_plan (name, id_food_plan) VALUES ('Breakfast and Dinner', 4);
-INSERT INTO tpp.n_food_plan (name, id_food_plan) VALUES ('XDXDXDXXXXXXXXXXXXX', 5);
-INSERT INTO tpp.n_food_plan (name, id_food_plan) VALUES ('XDXDXDXXXXXXXXXXXXX', 6);
 
 
 --
--- TOC entry 3464 (class 0 OID 22113)
--- Dependencies: 210
+-- TOC entry 3494 (class 0 OID 23991)
+-- Dependencies: 211
 -- Data for Name: n_hotel_franchise; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
@@ -3562,8 +3784,8 @@ INSERT INTO tpp.n_hotel_franchise (id_hotel_franchise, name) VALUES (11, 'Be Liv
 
 
 --
--- TOC entry 3482 (class 0 OID 22170)
--- Dependencies: 228
+-- TOC entry 3512 (class 0 OID 24048)
+-- Dependencies: 229
 -- Data for Name: n_localization; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
@@ -3578,29 +3800,27 @@ INSERT INTO tpp.n_localization (name, id_localization) VALUES ('La Habana', 5);
 INSERT INTO tpp.n_localization (name, id_localization) VALUES ('Santiago de Cuba', 4);
 INSERT INTO tpp.n_localization (name, id_localization) VALUES ('Cayo las Brujas', 6);
 INSERT INTO tpp.n_localization (name, id_localization) VALUES ('Cayo Santa Maria', 3);
-INSERT INTO tpp.n_localization (name, id_localization) VALUES ('XDXDXDXXX', 12);
 
 
 --
--- TOC entry 3484 (class 0 OID 22175)
--- Dependencies: 230
+-- TOC entry 3514 (class 0 OID 24053)
+-- Dependencies: 231
 -- Data for Name: n_modality_hotel_comertial; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
-INSERT INTO tpp.n_modality_hotel_comertial (name, id_modality_hotel_comertial) VALUES ('All in', 1);
-INSERT INTO tpp.n_modality_hotel_comertial (name, id_modality_hotel_comertial) VALUES ('Nature', 2);
-INSERT INTO tpp.n_modality_hotel_comertial (name, id_modality_hotel_comertial) VALUES ('Honey Moon', 3);
-INSERT INTO tpp.n_modality_hotel_comertial (name, id_modality_hotel_comertial) VALUES ('Economic', 4);
-INSERT INTO tpp.n_modality_hotel_comertial (name, id_modality_hotel_comertial) VALUES ('City', 5);
-INSERT INTO tpp.n_modality_hotel_comertial (name, id_modality_hotel_comertial) VALUES ('Only Adults', 6);
-INSERT INTO tpp.n_modality_hotel_comertial (name, id_modality_hotel_comertial) VALUES ('Golf', 7);
-INSERT INTO tpp.n_modality_hotel_comertial (name, id_modality_hotel_comertial) VALUES ('Business', 8);
-INSERT INTO tpp.n_modality_hotel_comertial (name, id_modality_hotel_comertial) VALUES ('XDXDXDXXXXXXXXXXXXX', 9);
+INSERT INTO tpp.n_modality_hotel_comertial (id_modality_hotel_comertial, name) VALUES (7, 'Inn');
+INSERT INTO tpp.n_modality_hotel_comertial (id_modality_hotel_comertial, name) VALUES (4, 'Apart-Hotel');
+INSERT INTO tpp.n_modality_hotel_comertial (id_modality_hotel_comertial, name) VALUES (5, 'Guest House');
+INSERT INTO tpp.n_modality_hotel_comertial (id_modality_hotel_comertial, name) VALUES (2, 'Resort');
+INSERT INTO tpp.n_modality_hotel_comertial (id_modality_hotel_comertial, name) VALUES (6, 'Lodge');
+INSERT INTO tpp.n_modality_hotel_comertial (id_modality_hotel_comertial, name) VALUES (1, 'Bed and Breakfast');
+INSERT INTO tpp.n_modality_hotel_comertial (id_modality_hotel_comertial, name) VALUES (3, 'Boutique');
+INSERT INTO tpp.n_modality_hotel_comertial (id_modality_hotel_comertial, name) VALUES (8, 'Business');
 
 
 --
--- TOC entry 3486 (class 0 OID 22180)
--- Dependencies: 232
+-- TOC entry 3516 (class 0 OID 24061)
+-- Dependencies: 233
 -- Data for Name: n_province; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
@@ -3622,8 +3842,8 @@ INSERT INTO tpp.n_province (name, id_province) VALUES ('Guantánamo', 15);
 
 
 --
--- TOC entry 3489 (class 0 OID 22187)
--- Dependencies: 235
+-- TOC entry 3519 (class 0 OID 24068)
+-- Dependencies: 236
 -- Data for Name: n_room_type; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
@@ -3637,12 +3857,11 @@ INSERT INTO tpp.n_room_type (name, id_room_type) VALUES ('Suite', 7);
 INSERT INTO tpp.n_room_type (name, id_room_type) VALUES ('Double Room', 8);
 INSERT INTO tpp.n_room_type (name, id_room_type) VALUES ('Imperial Suite', 9);
 INSERT INTO tpp.n_room_type (name, id_room_type) VALUES ('Senior Suite', 10);
-INSERT INTO tpp.n_room_type (name, id_room_type) VALUES ('XDXDXDXXX', 11);
 
 
 --
--- TOC entry 3491 (class 0 OID 22192)
--- Dependencies: 237
+-- TOC entry 3521 (class 0 OID 24073)
+-- Dependencies: 238
 -- Data for Name: n_service_type; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
@@ -3650,28 +3869,26 @@ INSERT INTO tpp.n_service_type (name, id_service_type) VALUES ('Entertaiment', 2
 INSERT INTO tpp.n_service_type (name, id_service_type) VALUES ('Commerce', 4);
 INSERT INTO tpp.n_service_type (name, id_service_type) VALUES ('Historical-Cultural', 3);
 INSERT INTO tpp.n_service_type (name, id_service_type) VALUES ('Gastronomic', 1);
-INSERT INTO tpp.n_service_type (name, id_service_type) VALUES ('XDXDXDXXX', 5);
-INSERT INTO tpp.n_service_type (name, id_service_type) VALUES ('XDXDXDXXX', 6);
 
 
 --
--- TOC entry 3494 (class 0 OID 22199)
--- Dependencies: 240
+-- TOC entry 3524 (class 0 OID 24080)
+-- Dependencies: 241
 -- Data for Name: n_vehicle_brand; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
-INSERT INTO tpp.n_vehicle_brand (id_vehicle_brand, name) VALUES (1, 'Kia');
-INSERT INTO tpp.n_vehicle_brand (id_vehicle_brand, name) VALUES (2, 'Hyundai');
-INSERT INTO tpp.n_vehicle_brand (id_vehicle_brand, name) VALUES (3, 'Lada');
-INSERT INTO tpp.n_vehicle_brand (id_vehicle_brand, name) VALUES (4, 'Geely');
-INSERT INTO tpp.n_vehicle_brand (id_vehicle_brand, name) VALUES (5, 'Volvo');
-INSERT INTO tpp.n_vehicle_brand (id_vehicle_brand, name) VALUES (6, 'Audi');
-INSERT INTO tpp.n_vehicle_brand (id_vehicle_brand, name) VALUES (7, 'Mercedes-Benz');
+INSERT INTO tpp.n_vehicle_brand (id_vehicle_brand, name) VALUES (4, 'Kia');
+INSERT INTO tpp.n_vehicle_brand (id_vehicle_brand, name) VALUES (5, 'Hyundai');
+INSERT INTO tpp.n_vehicle_brand (id_vehicle_brand, name) VALUES (6, 'Lada');
+INSERT INTO tpp.n_vehicle_brand (id_vehicle_brand, name) VALUES (7, 'Geely');
+INSERT INTO tpp.n_vehicle_brand (id_vehicle_brand, name) VALUES (8, 'Volvo');
+INSERT INTO tpp.n_vehicle_brand (id_vehicle_brand, name) VALUES (9, 'Audi');
+INSERT INTO tpp.n_vehicle_brand (id_vehicle_brand, name) VALUES (10, 'Mercedes-Benz');
 
 
 --
--- TOC entry 3495 (class 0 OID 22206)
--- Dependencies: 241
+-- TOC entry 3525 (class 0 OID 24087)
+-- Dependencies: 242
 -- Data for Name: r_contract_service_n_company_service; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
@@ -3681,8 +3898,8 @@ INSERT INTO tpp.r_contract_service_n_company_service (id_contract, id_company_se
 
 
 --
--- TOC entry 3496 (class 0 OID 22209)
--- Dependencies: 242
+-- TOC entry 3526 (class 0 OID 24090)
+-- Dependencies: 243
 -- Data for Name: r_contract_service_n_daily_activity; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
@@ -3696,8 +3913,8 @@ INSERT INTO tpp.r_contract_service_n_daily_activity (id_contract, id_daily_activ
 
 
 --
--- TOC entry 3497 (class 0 OID 22212)
--- Dependencies: 243
+-- TOC entry 3527 (class 0 OID 24093)
+-- Dependencies: 244
 -- Data for Name: r_contract_service_n_service_type; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
@@ -3710,8 +3927,8 @@ INSERT INTO tpp.r_contract_service_n_service_type (id_contract, id_service_type)
 
 
 --
--- TOC entry 3498 (class 0 OID 22215)
--- Dependencies: 244
+-- TOC entry 3528 (class 0 OID 24096)
+-- Dependencies: 245
 -- Data for Name: r_contract_transport-vehicle; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
@@ -3722,8 +3939,8 @@ INSERT INTO tpp."r_contract_transport-vehicle" (id_contract, id_vehicle) VALUES 
 
 
 --
--- TOC entry 3499 (class 0 OID 22218)
--- Dependencies: 245
+-- TOC entry 3529 (class 0 OID 24099)
+-- Dependencies: 246
 -- Data for Name: r_hotel-food_plan; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
@@ -3770,12 +3987,11 @@ INSERT INTO tpp."r_hotel-food_plan" (id_hotel, id_food_plan) VALUES (24, 3);
 INSERT INTO tpp."r_hotel-food_plan" (id_hotel, id_food_plan) VALUES (25, 2);
 INSERT INTO tpp."r_hotel-food_plan" (id_hotel, id_food_plan) VALUES (25, 3);
 INSERT INTO tpp."r_hotel-food_plan" (id_hotel, id_food_plan) VALUES (26, 1);
-INSERT INTO tpp."r_hotel-food_plan" (id_hotel, id_food_plan) VALUES (27, 1);
 
 
 --
--- TOC entry 3500 (class 0 OID 22221)
--- Dependencies: 246
+-- TOC entry 3530 (class 0 OID 24102)
+-- Dependencies: 247
 -- Data for Name: r_hotel-modality_hotel_comertial; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
@@ -3828,8 +4044,8 @@ INSERT INTO tpp."r_hotel-modality_hotel_comertial" (id_hotel, id_modality_hotel_
 
 
 --
--- TOC entry 3501 (class 0 OID 22224)
--- Dependencies: 247
+-- TOC entry 3531 (class 0 OID 24105)
+-- Dependencies: 248
 -- Data for Name: r_hotel-room_type; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
@@ -3902,8 +4118,8 @@ INSERT INTO tpp."r_hotel-room_type" (id_hotel, id_room_type) VALUES (27, 7);
 
 
 --
--- TOC entry 3502 (class 0 OID 22227)
--- Dependencies: 248
+-- TOC entry 3532 (class 0 OID 24108)
+-- Dependencies: 249
 -- Data for Name: r_season-room_type-food_plan; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
@@ -3915,8 +4131,8 @@ INSERT INTO tpp."r_season-room_type-food_plan" (price, id_food_plan, id_season, 
 
 
 --
--- TOC entry 3503 (class 0 OID 22230)
--- Dependencies: 249
+-- TOC entry 3533 (class 0 OID 24111)
+-- Dependencies: 250
 -- Data for Name: r_season_contract_hotel; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
@@ -3926,17 +4142,18 @@ INSERT INTO tpp.r_season_contract_hotel (id_season, id_contract) VALUES (2, 8);
 
 
 --
--- TOC entry 3504 (class 0 OID 22233)
--- Dependencies: 250
+-- TOC entry 3534 (class 0 OID 24114)
+-- Dependencies: 251
 -- Data for Name: r_touristic_package-contract; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
 INSERT INTO tpp."r_touristic_package-contract" (id_contract, id_touristic_package) VALUES (8, 2);
+INSERT INTO tpp."r_touristic_package-contract" (id_contract, id_touristic_package) VALUES (7, 12);
 
 
 --
--- TOC entry 3505 (class 0 OID 22236)
--- Dependencies: 251
+-- TOC entry 3535 (class 0 OID 24117)
+-- Dependencies: 252
 -- Data for Name: season; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
@@ -3946,37 +4163,37 @@ INSERT INTO tpp.season (start_date, finish_date, name, description, id_season) V
 
 
 --
--- TOC entry 3508 (class 0 OID 22246)
--- Dependencies: 254
+-- TOC entry 3538 (class 0 OID 24127)
+-- Dependencies: 255
 -- Data for Name: touristic_package; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
 INSERT INTO tpp.touristic_package (id_touristic_package, promotional_name, days_amount, nights_amount, pax_amount, cost_hotel, cost_transport, cost_transport_hotel_airport, cost_total, price) VALUES (2, 'Vacate in paradise', 7, 6, 2, 6000, 2300, 1000, 9500, 9500);
-INSERT INTO tpp.touristic_package (id_touristic_package, promotional_name, days_amount, nights_amount, pax_amount, cost_hotel, cost_transport, cost_transport_hotel_airport, cost_total, price) VALUES (4, 'Beautifull Beach', 1, 1, -2, 5, 5, 5, 20, 20);
+INSERT INTO tpp.touristic_package (id_touristic_package, promotional_name, days_amount, nights_amount, pax_amount, cost_hotel, cost_transport, cost_transport_hotel_airport, cost_total, price) VALUES (12, 'adasdax', 1, 11, 1, 1, 1, 1, 1, 1);
 
 
 --
--- TOC entry 3509 (class 0 OID 22253)
--- Dependencies: 255
+-- TOC entry 3539 (class 0 OID 24134)
+-- Dependencies: 256
 -- Data for Name: vehicle; Type: TABLE DATA; Schema: tpp; Owner: -
 --
 
-INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle_brand, id_vehicle, chapa) VALUES (3, 1, 4, '2012-06-08', 2, 11, 'B912874');
-INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle_brand, id_vehicle, chapa) VALUES (2, 2, 4, '2013-05-01', 1, 2, 'B123742');
-INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle_brand, id_vehicle, chapa) VALUES (2, 2, 4, '2021-03-18', 7, 10, 'B976092');
-INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle_brand, id_vehicle, chapa) VALUES (5, 3, 8, '2017-10-09', 2, 8, 'B289103');
-INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle_brand, id_vehicle, chapa) VALUES (3, 2, 5, '2019-10-02', 3, 6, 'B132653');
-INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle_brand, id_vehicle, chapa) VALUES (1, 3, 4, '2018-10-17', 4, 3, 'B278478');
-INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle_brand, id_vehicle, chapa) VALUES (2, 2, 4, '2017-10-05', 1, 7, 'B766712');
-INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle_brand, id_vehicle, chapa) VALUES (3, 2, 5, '2021-02-19', 5, 12, 'B834342');
-INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle_brand, id_vehicle, chapa) VALUES (3, 2, 5, '2008-10-03', 2, 5, 'B822583');
-INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle_brand, id_vehicle, chapa) VALUES (3, 2, 5, '2014-07-10', 6, 9, 'B823894');
-INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle_brand, id_vehicle, chapa) VALUES (5, 4, 9, '2020-10-15', 2, 4, 'B928345');
-INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle_brand, id_vehicle, chapa) VALUES (3, 2, 5, '2010-10-27', 1, 1, 'B004562');
+INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle, chapa, id_vehicle_brand) VALUES (3, 2, 5, '2010-10-27', 1, 'B004562', 7);
+INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle, chapa, id_vehicle_brand) VALUES (2, 2, 4, '2013-05-01', 2, 'B123742', 8);
+INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle, chapa, id_vehicle_brand) VALUES (5, 4, 9, '2020-10-15', 4, 'B928345', 10);
+INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle, chapa, id_vehicle_brand) VALUES (2, 2, 4, '2017-10-05', 7, 'B766712', 7);
+INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle, chapa, id_vehicle_brand) VALUES (3, 2, 5, '2008-10-03', 5, 'B822583', 4);
+INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle, chapa, id_vehicle_brand) VALUES (3, 1, 4, '2012-06-08', 11, 'B912874', 4);
+INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle, chapa, id_vehicle_brand) VALUES (3, 2, 5, '2019-10-02', 6, 'B132653', 6);
+INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle, chapa, id_vehicle_brand) VALUES (5, 3, 8, '2017-10-09', 8, 'B289103', 10);
+INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle, chapa, id_vehicle_brand) VALUES (3, 2, 5, '2014-07-10', 9, 'B823894', 5);
+INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle, chapa, id_vehicle_brand) VALUES (2, 2, 4, '2021-03-18', 10, 'B976092', 5);
+INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle, chapa, id_vehicle_brand) VALUES (3, 2, 5, '2021-02-19', 12, 'B834342', 10);
+INSERT INTO tpp.vehicle (capacity_without_baggage, capacity_with_baggage, capacity_total, production_date, id_vehicle, chapa, id_vehicle_brand) VALUES (1, 3, 4, '2018-10-17', 3, 'B278478', 9);
 
 
 --
--- TOC entry 3531 (class 0 OID 0)
+-- TOC entry 3563 (class 0 OID 0)
 -- Dependencies: 201
 -- Name: company_transport_id_company_transport_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
@@ -3985,44 +4202,53 @@ SELECT pg_catalog.setval('tpp.company_transport_id_company_transport_seq', 1, fa
 
 
 --
--- TOC entry 3532 (class 0 OID 0)
+-- TOC entry 3564 (class 0 OID 0)
 -- Dependencies: 202
 -- Name: contract_id_contract_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
-SELECT pg_catalog.setval('tpp.contract_id_contract_seq', 11, true);
+SELECT pg_catalog.setval('tpp.contract_id_contract_seq', 12, true);
 
 
 --
--- TOC entry 3533 (class 0 OID 0)
--- Dependencies: 211
+-- TOC entry 3565 (class 0 OID 0)
+-- Dependencies: 259
+-- Name: f_user_id_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
+--
+
+SELECT pg_catalog.setval('tpp.f_user_id_seq', 8, true);
+
+
+--
+-- TOC entry 3566 (class 0 OID 0)
+-- Dependencies: 212
 -- Name: hotel_franchise_id_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
-SELECT pg_catalog.setval('tpp.hotel_franchise_id_seq', 11, true);
+SELECT pg_catalog.setval('tpp.hotel_franchise_id_seq', 30, true);
 
 
 --
--- TOC entry 3534 (class 0 OID 0)
--- Dependencies: 208
+-- TOC entry 3567 (class 0 OID 0)
+-- Dependencies: 209
 -- Name: hotel_id_hotel_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
-SELECT pg_catalog.setval('tpp.hotel_id_hotel_seq', 27, true);
+SELECT pg_catalog.setval('tpp.hotel_id_hotel_seq', 30, true);
 
 
 --
--- TOC entry 3535 (class 0 OID 0)
--- Dependencies: 212
+-- TOC entry 3568 (class 0 OID 0)
+-- Dependencies: 213
 -- Name: modality_transport_hr_km_id_modality_transport_hr_km_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
-SELECT pg_catalog.setval('tpp.modality_transport_hr_km_id_modality_transport_hr_km_seq', 4, true);
+SELECT pg_catalog.setval('tpp.modality_transport_hr_km_id_modality_transport_hr_km_seq', 6, true);
 
 
 --
--- TOC entry 3536 (class 0 OID 0)
--- Dependencies: 214
+-- TOC entry 3569 (class 0 OID 0)
+-- Dependencies: 215
 -- Name: modality_transport_km_id_modality_transport_km_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
@@ -4030,8 +4256,8 @@ SELECT pg_catalog.setval('tpp.modality_transport_km_id_modality_transport_km_seq
 
 
 --
--- TOC entry 3537 (class 0 OID 0)
--- Dependencies: 216
+-- TOC entry 3570 (class 0 OID 0)
+-- Dependencies: 217
 -- Name: modality_transport_rt_id_modality_transport_rt_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
@@ -4039,26 +4265,26 @@ SELECT pg_catalog.setval('tpp.modality_transport_rt_id_modality_transport_rt_seq
 
 
 --
--- TOC entry 3538 (class 0 OID 0)
--- Dependencies: 219
+-- TOC entry 3571 (class 0 OID 0)
+-- Dependencies: 220
 -- Name: n_company_service_id_company_service_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
-SELECT pg_catalog.setval('tpp.n_company_service_id_company_service_seq', 14, true);
+SELECT pg_catalog.setval('tpp.n_company_service_id_company_service_seq', 15, true);
 
 
 --
--- TOC entry 3539 (class 0 OID 0)
--- Dependencies: 221
+-- TOC entry 3572 (class 0 OID 0)
+-- Dependencies: 222
 -- Name: n_company_transport_id_company_transport_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
-SELECT pg_catalog.setval('tpp.n_company_transport_id_company_transport_seq', 5, true);
+SELECT pg_catalog.setval('tpp.n_company_transport_id_company_transport_seq', 7, true);
 
 
 --
--- TOC entry 3540 (class 0 OID 0)
--- Dependencies: 223
+-- TOC entry 3573 (class 0 OID 0)
+-- Dependencies: 224
 -- Name: n_contract_type_id_contract_type_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
@@ -4066,44 +4292,44 @@ SELECT pg_catalog.setval('tpp.n_contract_type_id_contract_type_seq', 1, false);
 
 
 --
--- TOC entry 3541 (class 0 OID 0)
--- Dependencies: 225
+-- TOC entry 3574 (class 0 OID 0)
+-- Dependencies: 226
 -- Name: n_daily_activity_id_daily_activity_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
-SELECT pg_catalog.setval('tpp.n_daily_activity_id_daily_activity_seq', 11, true);
+SELECT pg_catalog.setval('tpp.n_daily_activity_id_daily_activity_seq', 13, true);
 
 
 --
--- TOC entry 3542 (class 0 OID 0)
--- Dependencies: 227
+-- TOC entry 3575 (class 0 OID 0)
+-- Dependencies: 228
 -- Name: n_food_plan_id_food_plan_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
-SELECT pg_catalog.setval('tpp.n_food_plan_id_food_plan_seq', 6, true);
+SELECT pg_catalog.setval('tpp.n_food_plan_id_food_plan_seq', 7, true);
 
 
 --
--- TOC entry 3543 (class 0 OID 0)
--- Dependencies: 229
+-- TOC entry 3576 (class 0 OID 0)
+-- Dependencies: 230
 -- Name: n_localization_id_localization_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
-SELECT pg_catalog.setval('tpp.n_localization_id_localization_seq', 12, true);
+SELECT pg_catalog.setval('tpp.n_localization_id_localization_seq', 25, true);
 
 
 --
--- TOC entry 3544 (class 0 OID 0)
--- Dependencies: 231
+-- TOC entry 3577 (class 0 OID 0)
+-- Dependencies: 232
 -- Name: n_modality_hotel_comertial_id_modality_hotel_comertial_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
-SELECT pg_catalog.setval('tpp.n_modality_hotel_comertial_id_modality_hotel_comertial_seq', 9, true);
+SELECT pg_catalog.setval('tpp.n_modality_hotel_comertial_id_modality_hotel_comertial_seq', 10, true);
 
 
 --
--- TOC entry 3545 (class 0 OID 0)
--- Dependencies: 233
+-- TOC entry 3578 (class 0 OID 0)
+-- Dependencies: 234
 -- Name: n_province_id_province_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
@@ -4111,8 +4337,8 @@ SELECT pg_catalog.setval('tpp.n_province_id_province_seq', 1, false);
 
 
 --
--- TOC entry 3546 (class 0 OID 0)
--- Dependencies: 234
+-- TOC entry 3579 (class 0 OID 0)
+-- Dependencies: 235
 -- Name: n_province_id_province_seq1; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
@@ -4120,53 +4346,53 @@ SELECT pg_catalog.setval('tpp.n_province_id_province_seq1', 16, true);
 
 
 --
--- TOC entry 3547 (class 0 OID 0)
--- Dependencies: 236
+-- TOC entry 3580 (class 0 OID 0)
+-- Dependencies: 237
 -- Name: n_room_type_id_room_type_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
-SELECT pg_catalog.setval('tpp.n_room_type_id_room_type_seq', 11, true);
+SELECT pg_catalog.setval('tpp.n_room_type_id_room_type_seq', 12, true);
 
 
 --
--- TOC entry 3548 (class 0 OID 0)
--- Dependencies: 238
+-- TOC entry 3581 (class 0 OID 0)
+-- Dependencies: 239
 -- Name: n_service_type_id_service_type_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
-SELECT pg_catalog.setval('tpp.n_service_type_id_service_type_seq', 6, true);
+SELECT pg_catalog.setval('tpp.n_service_type_id_service_type_seq', 8, true);
 
 
 --
--- TOC entry 3549 (class 0 OID 0)
--- Dependencies: 252
+-- TOC entry 3582 (class 0 OID 0)
+-- Dependencies: 253
 -- Name: season_id_season_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
-SELECT pg_catalog.setval('tpp.season_id_season_seq', 7, true);
+SELECT pg_catalog.setval('tpp.season_id_season_seq', 8, true);
 
 
 --
--- TOC entry 3550 (class 0 OID 0)
--- Dependencies: 253
+-- TOC entry 3583 (class 0 OID 0)
+-- Dependencies: 254
 -- Name: touristic_package_id_touristic_package_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
-SELECT pg_catalog.setval('tpp.touristic_package_id_touristic_package_seq', 10, true);
+SELECT pg_catalog.setval('tpp.touristic_package_id_touristic_package_seq', 12, true);
 
 
 --
--- TOC entry 3551 (class 0 OID 0)
--- Dependencies: 239
+-- TOC entry 3584 (class 0 OID 0)
+-- Dependencies: 240
 -- Name: vehicle_brand_id_vehicle_brand_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
-SELECT pg_catalog.setval('tpp.vehicle_brand_id_vehicle_brand_seq', 1, false);
+SELECT pg_catalog.setval('tpp.vehicle_brand_id_vehicle_brand_seq', 10, true);
 
 
 --
--- TOC entry 3552 (class 0 OID 0)
--- Dependencies: 256
+-- TOC entry 3585 (class 0 OID 0)
+-- Dependencies: 257
 -- Name: vehicle_id_vehicle_seq; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
@@ -4174,16 +4400,16 @@ SELECT pg_catalog.setval('tpp.vehicle_id_vehicle_seq', 1, false);
 
 
 --
--- TOC entry 3553 (class 0 OID 0)
--- Dependencies: 257
+-- TOC entry 3586 (class 0 OID 0)
+-- Dependencies: 258
 -- Name: vehicle_id_vehicle_seq1; Type: SEQUENCE SET; Schema: tpp; Owner: -
 --
 
-SELECT pg_catalog.setval('tpp.vehicle_id_vehicle_seq1', 12, true);
+SELECT pg_catalog.setval('tpp.vehicle_id_vehicle_seq1', 16, true);
 
 
 --
--- TOC entry 3228 (class 2606 OID 22274)
+-- TOC entry 3255 (class 2606 OID 24156)
 -- Name: n_company_service company_service_pkey; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4192,7 +4418,7 @@ ALTER TABLE ONLY tpp.n_company_service
 
 
 --
--- TOC entry 3208 (class 2606 OID 22276)
+-- TOC entry 3232 (class 2606 OID 24158)
 -- Name: contract_hotel contract_hotel_pkey; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4201,7 +4427,7 @@ ALTER TABLE ONLY tpp.contract_hotel
 
 
 --
--- TOC entry 3206 (class 2606 OID 22278)
+-- TOC entry 3230 (class 2606 OID 24160)
 -- Name: contract contract_pkey; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4210,7 +4436,7 @@ ALTER TABLE ONLY tpp.contract
 
 
 --
--- TOC entry 3210 (class 2606 OID 22280)
+-- TOC entry 3234 (class 2606 OID 24162)
 -- Name: contract_service contract_service_pkey; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4219,7 +4445,7 @@ ALTER TABLE ONLY tpp.contract_service
 
 
 --
--- TOC entry 3213 (class 2606 OID 22282)
+-- TOC entry 3237 (class 2606 OID 24164)
 -- Name: contract_transport contract_transport_pkey; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4228,16 +4454,25 @@ ALTER TABLE ONLY tpp.contract_transport
 
 
 --
--- TOC entry 3215 (class 2606 OID 22284)
+-- TOC entry 3240 (class 2606 OID 24166)
+-- Name: f_role f_role_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
+--
+
+ALTER TABLE ONLY tpp.f_role
+    ADD CONSTRAINT f_role_pk PRIMARY KEY (id_role);
+
+
+--
+-- TOC entry 3243 (class 2606 OID 24460)
 -- Name: f_user f_user_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp.f_user
-    ADD CONSTRAINT f_user_pk PRIMARY KEY (username);
+    ADD CONSTRAINT f_user_pk PRIMARY KEY (id);
 
 
 --
--- TOC entry 3220 (class 2606 OID 22286)
+-- TOC entry 3247 (class 2606 OID 24170)
 -- Name: n_hotel_franchise hotel_franchise_pkey; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4246,7 +4481,7 @@ ALTER TABLE ONLY tpp.n_hotel_franchise
 
 
 --
--- TOC entry 3218 (class 2606 OID 22288)
+-- TOC entry 3245 (class 2606 OID 24172)
 -- Name: hotel hotel_pkey; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4255,7 +4490,7 @@ ALTER TABLE ONLY tpp.hotel
 
 
 --
--- TOC entry 3222 (class 2606 OID 22290)
+-- TOC entry 3249 (class 2606 OID 24174)
 -- Name: modality_transport_hr_km modality_transport_hr_km_pkey; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4264,7 +4499,7 @@ ALTER TABLE ONLY tpp.modality_transport_hr_km
 
 
 --
--- TOC entry 3224 (class 2606 OID 22292)
+-- TOC entry 3251 (class 2606 OID 24176)
 -- Name: modality_transport_km modality_transport_km_pkey; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4273,7 +4508,7 @@ ALTER TABLE ONLY tpp.modality_transport_km
 
 
 --
--- TOC entry 3226 (class 2606 OID 22294)
+-- TOC entry 3253 (class 2606 OID 24178)
 -- Name: modality_transport_rt modality_transport_rt_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4282,7 +4517,7 @@ ALTER TABLE ONLY tpp.modality_transport_rt
 
 
 --
--- TOC entry 3230 (class 2606 OID 22296)
+-- TOC entry 3257 (class 2606 OID 24180)
 -- Name: n_company_transport n_company_transport_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4291,7 +4526,7 @@ ALTER TABLE ONLY tpp.n_company_transport
 
 
 --
--- TOC entry 3233 (class 2606 OID 22298)
+-- TOC entry 3260 (class 2606 OID 24182)
 -- Name: n_contract_type n_contract_type_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4300,7 +4535,7 @@ ALTER TABLE ONLY tpp.n_contract_type
 
 
 --
--- TOC entry 3235 (class 2606 OID 22300)
+-- TOC entry 3262 (class 2606 OID 24184)
 -- Name: n_daily_activity n_daily_activity_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4309,7 +4544,7 @@ ALTER TABLE ONLY tpp.n_daily_activity
 
 
 --
--- TOC entry 3238 (class 2606 OID 22302)
+-- TOC entry 3265 (class 2606 OID 24186)
 -- Name: n_food_plan n_food_plan_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4318,7 +4553,7 @@ ALTER TABLE ONLY tpp.n_food_plan
 
 
 --
--- TOC entry 3241 (class 2606 OID 22304)
+-- TOC entry 3268 (class 2606 OID 24188)
 -- Name: n_localization n_localization_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4327,7 +4562,7 @@ ALTER TABLE ONLY tpp.n_localization
 
 
 --
--- TOC entry 3244 (class 2606 OID 22306)
+-- TOC entry 3271 (class 2606 OID 24190)
 -- Name: n_modality_hotel_comertial n_modality_hotel_comertial_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4336,7 +4571,7 @@ ALTER TABLE ONLY tpp.n_modality_hotel_comertial
 
 
 --
--- TOC entry 3247 (class 2606 OID 22308)
+-- TOC entry 3274 (class 2606 OID 24192)
 -- Name: n_province n_province_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4345,7 +4580,7 @@ ALTER TABLE ONLY tpp.n_province
 
 
 --
--- TOC entry 3250 (class 2606 OID 22310)
+-- TOC entry 3277 (class 2606 OID 24194)
 -- Name: n_room_type n_room_type_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4354,7 +4589,7 @@ ALTER TABLE ONLY tpp.n_room_type
 
 
 --
--- TOC entry 3253 (class 2606 OID 22312)
+-- TOC entry 3280 (class 2606 OID 24196)
 -- Name: n_service_type n_service_type_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4363,7 +4598,7 @@ ALTER TABLE ONLY tpp.n_service_type
 
 
 --
--- TOC entry 3277 (class 2606 OID 22314)
+-- TOC entry 3304 (class 2606 OID 24198)
 -- Name: r_touristic_package-contract r_contract-touristic_package_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4372,7 +4607,7 @@ ALTER TABLE ONLY tpp."r_touristic_package-contract"
 
 
 --
--- TOC entry 3257 (class 2606 OID 22316)
+-- TOC entry 3284 (class 2606 OID 24200)
 -- Name: r_contract_service_n_company_service r_contract_service_n_company_service_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4381,7 +4616,7 @@ ALTER TABLE ONLY tpp.r_contract_service_n_company_service
 
 
 --
--- TOC entry 3259 (class 2606 OID 22318)
+-- TOC entry 3286 (class 2606 OID 24202)
 -- Name: r_contract_service_n_daily_activity r_contract_service_n_daily_activity_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4390,7 +4625,7 @@ ALTER TABLE ONLY tpp.r_contract_service_n_daily_activity
 
 
 --
--- TOC entry 3261 (class 2606 OID 22320)
+-- TOC entry 3288 (class 2606 OID 24204)
 -- Name: r_contract_service_n_service_type r_contract_service_n_service_type_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4399,7 +4634,7 @@ ALTER TABLE ONLY tpp.r_contract_service_n_service_type
 
 
 --
--- TOC entry 3263 (class 2606 OID 22322)
+-- TOC entry 3290 (class 2606 OID 24206)
 -- Name: r_contract_transport-vehicle r_contract_transport-vehicle_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4408,7 +4643,7 @@ ALTER TABLE ONLY tpp."r_contract_transport-vehicle"
 
 
 --
--- TOC entry 3265 (class 2606 OID 22324)
+-- TOC entry 3292 (class 2606 OID 24208)
 -- Name: r_hotel-food_plan r_hotel-food_plan_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4417,7 +4652,7 @@ ALTER TABLE ONLY tpp."r_hotel-food_plan"
 
 
 --
--- TOC entry 3267 (class 2606 OID 22326)
+-- TOC entry 3294 (class 2606 OID 24210)
 -- Name: r_hotel-modality_hotel_comertial r_hotel-modality_hotel_comertial_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4426,7 +4661,7 @@ ALTER TABLE ONLY tpp."r_hotel-modality_hotel_comertial"
 
 
 --
--- TOC entry 3269 (class 2606 OID 22328)
+-- TOC entry 3296 (class 2606 OID 24212)
 -- Name: r_hotel-room_type r_hotel-room_type_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4435,7 +4670,7 @@ ALTER TABLE ONLY tpp."r_hotel-room_type"
 
 
 --
--- TOC entry 3271 (class 2606 OID 22330)
+-- TOC entry 3298 (class 2606 OID 24214)
 -- Name: r_season-room_type-food_plan r_season-room_type-food_plan_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4444,7 +4679,7 @@ ALTER TABLE ONLY tpp."r_season-room_type-food_plan"
 
 
 --
--- TOC entry 3273 (class 2606 OID 22332)
+-- TOC entry 3300 (class 2606 OID 24216)
 -- Name: r_season_contract_hotel r_season_contract_hotel_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4453,7 +4688,7 @@ ALTER TABLE ONLY tpp.r_season_contract_hotel
 
 
 --
--- TOC entry 3279 (class 2606 OID 22334)
+-- TOC entry 3306 (class 2606 OID 24218)
 -- Name: season season_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4462,7 +4697,7 @@ ALTER TABLE ONLY tpp.season
 
 
 --
--- TOC entry 3281 (class 2606 OID 22336)
+-- TOC entry 3308 (class 2606 OID 24220)
 -- Name: touristic_package touristic_pakage_pkey; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4471,7 +4706,7 @@ ALTER TABLE ONLY tpp.touristic_package
 
 
 --
--- TOC entry 3255 (class 2606 OID 22338)
+-- TOC entry 3282 (class 2606 OID 24222)
 -- Name: n_vehicle_brand vehicle_brand_pkey; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4480,7 +4715,7 @@ ALTER TABLE ONLY tpp.n_vehicle_brand
 
 
 --
--- TOC entry 3284 (class 2606 OID 22340)
+-- TOC entry 3311 (class 2606 OID 24224)
 -- Name: vehicle vehicle_pk; Type: CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4489,7 +4724,7 @@ ALTER TABLE ONLY tpp.vehicle
 
 
 --
--- TOC entry 3211 (class 1259 OID 22341)
+-- TOC entry 3235 (class 1259 OID 24225)
 -- Name: contract_transport_id_company_transport_uindex; Type: INDEX; Schema: tpp; Owner: -
 --
 
@@ -4497,15 +4732,23 @@ CREATE UNIQUE INDEX contract_transport_id_company_transport_uindex ON tpp.contra
 
 
 --
--- TOC entry 3216 (class 1259 OID 22342)
--- Name: f_user_username_uindex; Type: INDEX; Schema: tpp; Owner: -
+-- TOC entry 3238 (class 1259 OID 24226)
+-- Name: f_role_id_role_uindex; Type: INDEX; Schema: tpp; Owner: -
 --
 
-CREATE UNIQUE INDEX f_user_username_uindex ON tpp.f_user USING btree (username);
+CREATE UNIQUE INDEX f_role_id_role_uindex ON tpp.f_role USING btree (id_role);
 
 
 --
--- TOC entry 3231 (class 1259 OID 22343)
+-- TOC entry 3241 (class 1259 OID 24458)
+-- Name: f_user_id_uindex; Type: INDEX; Schema: tpp; Owner: -
+--
+
+CREATE UNIQUE INDEX f_user_id_uindex ON tpp.f_user USING btree (id);
+
+
+--
+-- TOC entry 3258 (class 1259 OID 24228)
 -- Name: n_contract_type_id_company_transport_uindex; Type: INDEX; Schema: tpp; Owner: -
 --
 
@@ -4513,7 +4756,7 @@ CREATE UNIQUE INDEX n_contract_type_id_company_transport_uindex ON tpp.n_contrac
 
 
 --
--- TOC entry 3236 (class 1259 OID 22344)
+-- TOC entry 3263 (class 1259 OID 24229)
 -- Name: n_food_plan_id_food_plan_uindex; Type: INDEX; Schema: tpp; Owner: -
 --
 
@@ -4521,7 +4764,7 @@ CREATE UNIQUE INDEX n_food_plan_id_food_plan_uindex ON tpp.n_food_plan USING btr
 
 
 --
--- TOC entry 3239 (class 1259 OID 22345)
+-- TOC entry 3266 (class 1259 OID 24230)
 -- Name: n_localization_id_localization_uindex; Type: INDEX; Schema: tpp; Owner: -
 --
 
@@ -4529,7 +4772,7 @@ CREATE UNIQUE INDEX n_localization_id_localization_uindex ON tpp.n_localization 
 
 
 --
--- TOC entry 3242 (class 1259 OID 22346)
+-- TOC entry 3269 (class 1259 OID 24231)
 -- Name: n_modality_hotel_comertial_id_modality_hotel_commercial_uindex; Type: INDEX; Schema: tpp; Owner: -
 --
 
@@ -4537,7 +4780,7 @@ CREATE UNIQUE INDEX n_modality_hotel_comertial_id_modality_hotel_commercial_uind
 
 
 --
--- TOC entry 3245 (class 1259 OID 22347)
+-- TOC entry 3272 (class 1259 OID 24232)
 -- Name: n_province_id_province_uindex; Type: INDEX; Schema: tpp; Owner: -
 --
 
@@ -4545,7 +4788,7 @@ CREATE UNIQUE INDEX n_province_id_province_uindex ON tpp.n_province USING btree 
 
 
 --
--- TOC entry 3248 (class 1259 OID 22348)
+-- TOC entry 3275 (class 1259 OID 24233)
 -- Name: n_room_type_id_room_type_uindex; Type: INDEX; Schema: tpp; Owner: -
 --
 
@@ -4553,7 +4796,7 @@ CREATE UNIQUE INDEX n_room_type_id_room_type_uindex ON tpp.n_room_type USING btr
 
 
 --
--- TOC entry 3251 (class 1259 OID 22349)
+-- TOC entry 3278 (class 1259 OID 24234)
 -- Name: n_service_type_id_service_type_uindex; Type: INDEX; Schema: tpp; Owner: -
 --
 
@@ -4561,7 +4804,7 @@ CREATE UNIQUE INDEX n_service_type_id_service_type_uindex ON tpp.n_service_type 
 
 
 --
--- TOC entry 3274 (class 1259 OID 22350)
+-- TOC entry 3301 (class 1259 OID 24235)
 -- Name: r_contract-touristic_package_id_contract_uindex; Type: INDEX; Schema: tpp; Owner: -
 --
 
@@ -4569,7 +4812,7 @@ CREATE UNIQUE INDEX "r_contract-touristic_package_id_contract_uindex" ON tpp."r_
 
 
 --
--- TOC entry 3275 (class 1259 OID 22351)
+-- TOC entry 3302 (class 1259 OID 24236)
 -- Name: r_contract-touristic_package_id_touristic_package_uindex; Type: INDEX; Schema: tpp; Owner: -
 --
 
@@ -4577,7 +4820,7 @@ CREATE UNIQUE INDEX "r_contract-touristic_package_id_touristic_package_uindex" O
 
 
 --
--- TOC entry 3282 (class 1259 OID 22352)
+-- TOC entry 3309 (class 1259 OID 24237)
 -- Name: vehicle_id_vehicle_uindex; Type: INDEX; Schema: tpp; Owner: -
 --
 
@@ -4585,7 +4828,23 @@ CREATE UNIQUE INDEX vehicle_id_vehicle_uindex ON tpp.vehicle USING btree (id_veh
 
 
 --
--- TOC entry 3324 (class 2620 OID 22353)
+-- TOC entry 3351 (class 2620 OID 24238)
+-- Name: hotel tgg_cheq_hotel_insert_cheq_hotel_insert_dist_to_city; Type: TRIGGER; Schema: tpp; Owner: -
+--
+
+CREATE TRIGGER tgg_cheq_hotel_insert_cheq_hotel_insert_dist_to_city BEFORE INSERT ON tpp.hotel FOR EACH ROW EXECUTE FUNCTION tpp.cheq_hotel_insert_dist_to_city();
+
+
+--
+-- TOC entry 3352 (class 2620 OID 24239)
+-- Name: hotel tgg_cheq_hotel_insert_dist_to_airport; Type: TRIGGER; Schema: tpp; Owner: -
+--
+
+CREATE TRIGGER tgg_cheq_hotel_insert_dist_to_airport BEFORE INSERT ON tpp.hotel FOR EACH ROW EXECUTE FUNCTION tpp.cheq_hotel_insert_dist_to_airport();
+
+
+--
+-- TOC entry 3353 (class 2620 OID 24240)
 -- Name: touristic_package tgg_cheq_insertar_touristic_package; Type: TRIGGER; Schema: tpp; Owner: -
 --
 
@@ -4593,7 +4852,7 @@ CREATE TRIGGER tgg_cheq_insertar_touristic_package BEFORE INSERT ON tpp.touristi
 
 
 --
--- TOC entry 3285 (class 2606 OID 22354)
+-- TOC entry 3312 (class 2606 OID 24241)
 -- Name: contract contract_n_contract_type_id_contract_type_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4602,7 +4861,7 @@ ALTER TABLE ONLY tpp.contract
 
 
 --
--- TOC entry 3288 (class 2606 OID 22359)
+-- TOC entry 3315 (class 2606 OID 24246)
 -- Name: contract_service contract_service_n_province_id_province_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4611,16 +4870,16 @@ ALTER TABLE ONLY tpp.contract_service
 
 
 --
--- TOC entry 3290 (class 2606 OID 22364)
+-- TOC entry 3317 (class 2606 OID 24251)
 -- Name: contract_transport contract_transport_n_company_transport_id_company_transport_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp.contract_transport
-    ADD CONSTRAINT contract_transport_n_company_transport_id_company_transport_fk FOREIGN KEY (id_company_transport) REFERENCES tpp.n_company_transport(id_company_transport);
+    ADD CONSTRAINT contract_transport_n_company_transport_id_company_transport_fk FOREIGN KEY (id_company_transport) REFERENCES tpp.n_company_transport(id_company_transport) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3286 (class 2606 OID 22369)
+-- TOC entry 3313 (class 2606 OID 24256)
 -- Name: contract_hotel fk_contract_hotel_contract; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4629,7 +4888,7 @@ ALTER TABLE ONLY tpp.contract_hotel
 
 
 --
--- TOC entry 3287 (class 2606 OID 22374)
+-- TOC entry 3314 (class 2606 OID 24261)
 -- Name: contract_hotel fk_contract_hotel_hotel; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4638,16 +4897,16 @@ ALTER TABLE ONLY tpp.contract_hotel
 
 
 --
--- TOC entry 3289 (class 2606 OID 22379)
+-- TOC entry 3316 (class 2606 OID 24266)
 -- Name: contract_service fk_contract_service_contract; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp.contract_service
-    ADD CONSTRAINT fk_contract_service_contract FOREIGN KEY (id_contract) REFERENCES tpp.contract(id_contract);
+    ADD CONSTRAINT fk_contract_service_contract FOREIGN KEY (id_contract) REFERENCES tpp.contract(id_contract) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3291 (class 2606 OID 22384)
+-- TOC entry 3318 (class 2606 OID 24271)
 -- Name: contract_transport fk_contract_transport_contract; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4656,7 +4915,7 @@ ALTER TABLE ONLY tpp.contract_transport
 
 
 --
--- TOC entry 3292 (class 2606 OID 22389)
+-- TOC entry 3319 (class 2606 OID 24276)
 -- Name: hotel hotel_hotel_franchise_id_hotel_franchise_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4665,7 +4924,7 @@ ALTER TABLE ONLY tpp.hotel
 
 
 --
--- TOC entry 3293 (class 2606 OID 22394)
+-- TOC entry 3320 (class 2606 OID 24281)
 -- Name: hotel hotel_n_localization_id_localization_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4674,7 +4933,7 @@ ALTER TABLE ONLY tpp.hotel
 
 
 --
--- TOC entry 3294 (class 2606 OID 22399)
+-- TOC entry 3321 (class 2606 OID 24286)
 -- Name: hotel hotel_n_province_id_province_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4683,61 +4942,61 @@ ALTER TABLE ONLY tpp.hotel
 
 
 --
--- TOC entry 3295 (class 2606 OID 22404)
+-- TOC entry 3322 (class 2606 OID 24291)
 -- Name: modality_transport_hr_km modality_transport_hr_km_contract_transport_id_contract_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp.modality_transport_hr_km
-    ADD CONSTRAINT modality_transport_hr_km_contract_transport_id_contract_fk FOREIGN KEY (id_contract) REFERENCES tpp.contract_transport(id_contract);
+    ADD CONSTRAINT modality_transport_hr_km_contract_transport_id_contract_fk FOREIGN KEY (id_contract) REFERENCES tpp.contract_transport(id_contract) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3296 (class 2606 OID 22409)
+-- TOC entry 3323 (class 2606 OID 24296)
 -- Name: modality_transport_hr_km modality_transport_hr_km_vehicle_id_vehicle_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp.modality_transport_hr_km
-    ADD CONSTRAINT modality_transport_hr_km_vehicle_id_vehicle_fk FOREIGN KEY (id_vehicle) REFERENCES tpp.vehicle(id_vehicle);
+    ADD CONSTRAINT modality_transport_hr_km_vehicle_id_vehicle_fk FOREIGN KEY (id_vehicle) REFERENCES tpp.vehicle(id_vehicle) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3297 (class 2606 OID 22414)
+-- TOC entry 3324 (class 2606 OID 24301)
 -- Name: modality_transport_km modality_transport_km_contract_transport_id_contract_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp.modality_transport_km
-    ADD CONSTRAINT modality_transport_km_contract_transport_id_contract_fk FOREIGN KEY (id_contract) REFERENCES tpp.contract_transport(id_contract);
+    ADD CONSTRAINT modality_transport_km_contract_transport_id_contract_fk FOREIGN KEY (id_contract) REFERENCES tpp.contract_transport(id_contract) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3298 (class 2606 OID 22419)
+-- TOC entry 3325 (class 2606 OID 24306)
 -- Name: modality_transport_km modality_transport_km_vehicle_id_vehicle_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp.modality_transport_km
-    ADD CONSTRAINT modality_transport_km_vehicle_id_vehicle_fk FOREIGN KEY (id_vehicle) REFERENCES tpp.vehicle(id_vehicle);
+    ADD CONSTRAINT modality_transport_km_vehicle_id_vehicle_fk FOREIGN KEY (id_vehicle) REFERENCES tpp.vehicle(id_vehicle) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3299 (class 2606 OID 22424)
+-- TOC entry 3326 (class 2606 OID 24311)
 -- Name: modality_transport_rt modality_transport_rt_contract_transport_id_contract_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp.modality_transport_rt
-    ADD CONSTRAINT modality_transport_rt_contract_transport_id_contract_fk FOREIGN KEY (id_contract) REFERENCES tpp.contract_transport(id_contract);
+    ADD CONSTRAINT modality_transport_rt_contract_transport_id_contract_fk FOREIGN KEY (id_contract) REFERENCES tpp.contract_transport(id_contract) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3300 (class 2606 OID 22429)
+-- TOC entry 3327 (class 2606 OID 24316)
 -- Name: modality_transport_rt modality_transport_rt_vehicle_id_vehicle_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp.modality_transport_rt
-    ADD CONSTRAINT modality_transport_rt_vehicle_id_vehicle_fk FOREIGN KEY (id_vehicle) REFERENCES tpp.vehicle(id_vehicle);
+    ADD CONSTRAINT modality_transport_rt_vehicle_id_vehicle_fk FOREIGN KEY (id_vehicle) REFERENCES tpp.vehicle(id_vehicle) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3321 (class 2606 OID 22434)
+-- TOC entry 3348 (class 2606 OID 24321)
 -- Name: r_touristic_package-contract r_contract-touristic_package_contract_id_contract_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4746,7 +5005,7 @@ ALTER TABLE ONLY tpp."r_touristic_package-contract"
 
 
 --
--- TOC entry 3322 (class 2606 OID 22439)
+-- TOC entry 3349 (class 2606 OID 24326)
 -- Name: r_touristic_package-contract r_contract-touristic_package_touristic_package_id_touristic_pac; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4755,34 +5014,34 @@ ALTER TABLE ONLY tpp."r_touristic_package-contract"
 
 
 --
--- TOC entry 3303 (class 2606 OID 22444)
+-- TOC entry 3330 (class 2606 OID 24331)
 -- Name: r_contract_service_n_daily_activity r_contract_service_id_contract_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp.r_contract_service_n_daily_activity
-    ADD CONSTRAINT r_contract_service_id_contract_fk FOREIGN KEY (id_contract) REFERENCES tpp.contract_service(id_contract);
+    ADD CONSTRAINT r_contract_service_id_contract_fk FOREIGN KEY (id_contract) REFERENCES tpp.contract_service(id_contract) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3301 (class 2606 OID 22449)
+-- TOC entry 3328 (class 2606 OID 24336)
 -- Name: r_contract_service_n_company_service r_contract_service_n_company_service_contract_service_id_contra; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp.r_contract_service_n_company_service
-    ADD CONSTRAINT r_contract_service_n_company_service_contract_service_id_contra FOREIGN KEY (id_contract) REFERENCES tpp.contract_service(id_contract);
+    ADD CONSTRAINT r_contract_service_n_company_service_contract_service_id_contra FOREIGN KEY (id_contract) REFERENCES tpp.contract_service(id_contract) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3302 (class 2606 OID 22454)
+-- TOC entry 3329 (class 2606 OID 24341)
 -- Name: r_contract_service_n_company_service r_contract_service_n_company_service_n_company_service_id_compa; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp.r_contract_service_n_company_service
-    ADD CONSTRAINT r_contract_service_n_company_service_n_company_service_id_compa FOREIGN KEY (id_company_service) REFERENCES tpp.n_company_service(id_company_service);
+    ADD CONSTRAINT r_contract_service_n_company_service_n_company_service_id_compa FOREIGN KEY (id_company_service) REFERENCES tpp.n_company_service(id_company_service) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3305 (class 2606 OID 22459)
+-- TOC entry 3332 (class 2606 OID 24346)
 -- Name: r_contract_service_n_service_type r_contract_service_n_service_type_contract_service_id_contract_; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4791,7 +5050,7 @@ ALTER TABLE ONLY tpp.r_contract_service_n_service_type
 
 
 --
--- TOC entry 3306 (class 2606 OID 22464)
+-- TOC entry 3333 (class 2606 OID 24351)
 -- Name: r_contract_service_n_service_type r_contract_service_n_service_type_n_service_type_id_service_typ; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4800,34 +5059,34 @@ ALTER TABLE ONLY tpp.r_contract_service_n_service_type
 
 
 --
--- TOC entry 3307 (class 2606 OID 22469)
+-- TOC entry 3334 (class 2606 OID 24356)
 -- Name: r_contract_transport-vehicle r_contract_transport-vehicle_contract_transport_id_contract_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp."r_contract_transport-vehicle"
-    ADD CONSTRAINT "r_contract_transport-vehicle_contract_transport_id_contract_fk" FOREIGN KEY (id_contract) REFERENCES tpp.contract_transport(id_contract);
+    ADD CONSTRAINT "r_contract_transport-vehicle_contract_transport_id_contract_fk" FOREIGN KEY (id_contract) REFERENCES tpp.contract_transport(id_contract) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3308 (class 2606 OID 22474)
+-- TOC entry 3335 (class 2606 OID 24361)
 -- Name: r_contract_transport-vehicle r_contract_transport-vehicle_vehicle_id_vehicle_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp."r_contract_transport-vehicle"
-    ADD CONSTRAINT "r_contract_transport-vehicle_vehicle_id_vehicle_fk" FOREIGN KEY (id_vehicle) REFERENCES tpp.vehicle(id_vehicle);
+    ADD CONSTRAINT "r_contract_transport-vehicle_vehicle_id_vehicle_fk" FOREIGN KEY (id_vehicle) REFERENCES tpp.vehicle(id_vehicle) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3309 (class 2606 OID 22479)
+-- TOC entry 3336 (class 2606 OID 24366)
 -- Name: r_hotel-food_plan r_hotel-food_plan_hotel_id_hotel_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp."r_hotel-food_plan"
-    ADD CONSTRAINT "r_hotel-food_plan_hotel_id_hotel_fk" FOREIGN KEY (id_hotel) REFERENCES tpp.hotel(id_hotel);
+    ADD CONSTRAINT "r_hotel-food_plan_hotel_id_hotel_fk" FOREIGN KEY (id_hotel) REFERENCES tpp.hotel(id_hotel) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3310 (class 2606 OID 22484)
+-- TOC entry 3337 (class 2606 OID 24371)
 -- Name: r_hotel-food_plan r_hotel-food_plan_n_food_plan_id_food_plan_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4836,16 +5095,16 @@ ALTER TABLE ONLY tpp."r_hotel-food_plan"
 
 
 --
--- TOC entry 3311 (class 2606 OID 22489)
+-- TOC entry 3338 (class 2606 OID 24376)
 -- Name: r_hotel-modality_hotel_comertial r_hotel-modality_hotel_comertial_hotel_id_hotel_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp."r_hotel-modality_hotel_comertial"
-    ADD CONSTRAINT "r_hotel-modality_hotel_comertial_hotel_id_hotel_fk" FOREIGN KEY (id_hotel) REFERENCES tpp.hotel(id_hotel);
+    ADD CONSTRAINT "r_hotel-modality_hotel_comertial_hotel_id_hotel_fk" FOREIGN KEY (id_hotel) REFERENCES tpp.hotel(id_hotel) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3312 (class 2606 OID 22494)
+-- TOC entry 3339 (class 2606 OID 24381)
 -- Name: r_hotel-modality_hotel_comertial r_hotel-modality_hotel_comertial_n_modality_hotel_comertial_id_; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4854,88 +5113,88 @@ ALTER TABLE ONLY tpp."r_hotel-modality_hotel_comertial"
 
 
 --
--- TOC entry 3313 (class 2606 OID 22499)
+-- TOC entry 3340 (class 2606 OID 24386)
 -- Name: r_hotel-room_type r_hotel-room_type_hotel_id_hotel_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp."r_hotel-room_type"
-    ADD CONSTRAINT "r_hotel-room_type_hotel_id_hotel_fk" FOREIGN KEY (id_hotel) REFERENCES tpp.hotel(id_hotel);
+    ADD CONSTRAINT "r_hotel-room_type_hotel_id_hotel_fk" FOREIGN KEY (id_hotel) REFERENCES tpp.hotel(id_hotel) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3314 (class 2606 OID 22504)
+-- TOC entry 3341 (class 2606 OID 24391)
 -- Name: r_hotel-room_type r_hotel-room_type_n_room_type_id_room_type_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp."r_hotel-room_type"
-    ADD CONSTRAINT "r_hotel-room_type_n_room_type_id_room_type_fk" FOREIGN KEY (id_room_type) REFERENCES tpp.n_room_type(id_room_type);
+    ADD CONSTRAINT "r_hotel-room_type_n_room_type_id_room_type_fk" FOREIGN KEY (id_room_type) REFERENCES tpp.n_room_type(id_room_type) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3304 (class 2606 OID 22509)
+-- TOC entry 3331 (class 2606 OID 24396)
 -- Name: r_contract_service_n_daily_activity r_n_daily_activity_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp.r_contract_service_n_daily_activity
-    ADD CONSTRAINT r_n_daily_activity_fk FOREIGN KEY (id_daily_activity) REFERENCES tpp.n_daily_activity(id_daily_activity);
+    ADD CONSTRAINT r_n_daily_activity_fk FOREIGN KEY (id_daily_activity) REFERENCES tpp.n_daily_activity(id_daily_activity) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3315 (class 2606 OID 22514)
+-- TOC entry 3342 (class 2606 OID 24401)
 -- Name: r_season-room_type-food_plan r_season-room_type-food_plan_contract_hotel_id_contract_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp."r_season-room_type-food_plan"
-    ADD CONSTRAINT "r_season-room_type-food_plan_contract_hotel_id_contract_fk" FOREIGN KEY (id_contract) REFERENCES tpp.contract_hotel(id_contract);
+    ADD CONSTRAINT "r_season-room_type-food_plan_contract_hotel_id_contract_fk" FOREIGN KEY (id_contract) REFERENCES tpp.contract_hotel(id_contract) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3316 (class 2606 OID 22519)
+-- TOC entry 3343 (class 2606 OID 24406)
 -- Name: r_season-room_type-food_plan r_season-room_type-food_plan_n_food_plan_id_food_plan_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp."r_season-room_type-food_plan"
-    ADD CONSTRAINT "r_season-room_type-food_plan_n_food_plan_id_food_plan_fk" FOREIGN KEY (id_food_plan) REFERENCES tpp.n_food_plan(id_food_plan);
+    ADD CONSTRAINT "r_season-room_type-food_plan_n_food_plan_id_food_plan_fk" FOREIGN KEY (id_food_plan) REFERENCES tpp.n_food_plan(id_food_plan) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3317 (class 2606 OID 22524)
+-- TOC entry 3344 (class 2606 OID 24411)
 -- Name: r_season-room_type-food_plan r_season-room_type-food_plan_n_room_type_id_room_type_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp."r_season-room_type-food_plan"
-    ADD CONSTRAINT "r_season-room_type-food_plan_n_room_type_id_room_type_fk" FOREIGN KEY (id_room_type) REFERENCES tpp.n_room_type(id_room_type);
+    ADD CONSTRAINT "r_season-room_type-food_plan_n_room_type_id_room_type_fk" FOREIGN KEY (id_room_type) REFERENCES tpp.n_room_type(id_room_type) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3318 (class 2606 OID 22529)
+-- TOC entry 3345 (class 2606 OID 24416)
 -- Name: r_season-room_type-food_plan r_season-room_type-food_plan_season_id_season_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp."r_season-room_type-food_plan"
-    ADD CONSTRAINT "r_season-room_type-food_plan_season_id_season_fk" FOREIGN KEY (id_season) REFERENCES tpp.season(id_season);
+    ADD CONSTRAINT "r_season-room_type-food_plan_season_id_season_fk" FOREIGN KEY (id_season) REFERENCES tpp.season(id_season) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3319 (class 2606 OID 22534)
+-- TOC entry 3346 (class 2606 OID 24421)
 -- Name: r_season_contract_hotel r_season_contract_hotel_contract_hotel_id_contract_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp.r_season_contract_hotel
-    ADD CONSTRAINT r_season_contract_hotel_contract_hotel_id_contract_fk FOREIGN KEY (id_contract) REFERENCES tpp.contract_hotel(id_contract);
+    ADD CONSTRAINT r_season_contract_hotel_contract_hotel_id_contract_fk FOREIGN KEY (id_contract) REFERENCES tpp.contract_hotel(id_contract) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3320 (class 2606 OID 22539)
+-- TOC entry 3347 (class 2606 OID 24426)
 -- Name: r_season_contract_hotel r_season_contract_hotel_season_id_season_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
 ALTER TABLE ONLY tpp.r_season_contract_hotel
-    ADD CONSTRAINT r_season_contract_hotel_season_id_season_fk FOREIGN KEY (id_season) REFERENCES tpp.season(id_season);
+    ADD CONSTRAINT r_season_contract_hotel_season_id_season_fk FOREIGN KEY (id_season) REFERENCES tpp.season(id_season) ON DELETE CASCADE;
 
 
 --
--- TOC entry 3323 (class 2606 OID 22544)
+-- TOC entry 3350 (class 2606 OID 24431)
 -- Name: vehicle vehicle_n_vehicle_brand_id_vehicle_brand_fk; Type: FK CONSTRAINT; Schema: tpp; Owner: -
 --
 
@@ -4943,7 +5202,7 @@ ALTER TABLE ONLY tpp.vehicle
     ADD CONSTRAINT vehicle_n_vehicle_brand_id_vehicle_brand_fk FOREIGN KEY (id_vehicle_brand) REFERENCES tpp.n_vehicle_brand(id_vehicle_brand);
 
 
--- Completed on 2021-11-22 23:34:57 CST
+-- Completed on 2021-11-24 23:43:25 CST
 
 --
 -- PostgreSQL database dump complete

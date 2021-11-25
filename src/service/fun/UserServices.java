@@ -2,6 +2,7 @@ package service.fun;
 
 import dto.fun.UserDto;
 import service.Services;
+import service.ServicesLocator;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -33,9 +34,11 @@ public class UserServices implements Services<UserDto> {
 
         while (resultSet.next()) {
            users.add(new UserDto(
+                    resultSet.getInt("id"),
                     resultSet.getString("username"),
+                    resultSet.getString("name"),
                     resultSet.getString("password"),
-                    resultSet.getBoolean("is_admin")
+                    ServicesLocator.getRoleServices().load(resultSet.getInt("id_role"))
             ));
         }
 
@@ -45,7 +48,16 @@ public class UserServices implements Services<UserDto> {
 
     @Override
     public void insert(UserDto dto) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.f_user_insert(?,?,?,?)}");
+        callableStatement.setString(1, dto.getUsername());
+        callableStatement.setString(2, dto.getName());
+        callableStatement.setString(3, dto.getPassword());
+        callableStatement.setInt(4, dto.getRole().getId());
 
+        callableStatement.execute();
+
+        connection.close();
     }
 
     @Override
@@ -55,7 +67,12 @@ public class UserServices implements Services<UserDto> {
 
     @Override
     public void delete(int id) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.f_user_delete(?)}");
+        callableStatement.setInt(1, id);
+        callableStatement.execute();
 
+        connection.close();
     }
 
     @Override

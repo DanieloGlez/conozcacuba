@@ -1,5 +1,6 @@
 package util;
 
+import dto.fun.UserDto;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -13,6 +14,9 @@ public class ConfigurationUtils {
     private static String database;
     private static String user;
     private static String password;
+
+    // Active User
+    private static UserDto activeUser;
 
     public static void initializeDatabaseHost(boolean remoteConnection) throws IOException, ParseException {
         // Create parser
@@ -46,5 +50,13 @@ public class ConfigurationUtils {
 
     public static String getPassword() {
         return password;
+    }
+
+    public static UserDto getActiveUser() {
+        return activeUser;
+    }
+
+    public static void setActiveUser(UserDto activeUser) {
+        ConfigurationUtils.activeUser = activeUser;
     }
 }

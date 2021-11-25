@@ -15,6 +15,8 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MainMenu implements Initializable {
+    private HamburgerBasicCloseTransition hamburgerBasicCloseTransition;
+
     @FXML
     private AnchorPane container_anchorpane;
 
@@ -33,24 +35,35 @@ public class MainMenu implements Initializable {
 
         try {
             setDrawerSidePane();
+            dynamiccontainer_anchorpane.setVisible(true);
+            dynamiccontainer_anchorpane.getChildren().add(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/ui/view/home.fxml"))));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        handleDrawerEvent(true);
     }
 
     private void setHamburgerTransition() {
-        HamburgerBasicCloseTransition hamburgerBasicCloseTransition = new HamburgerBasicCloseTransition(hamburger_jfxhamburger);
+        hamburgerBasicCloseTransition = new HamburgerBasicCloseTransition(hamburger_jfxhamburger);
         hamburgerBasicCloseTransition.setRate(-1);
 
-        hamburger_jfxhamburger.setOnMouseClicked(event -> {
+        hamburger_jfxhamburger.setOnMouseClicked(event -> handleDrawerEvent(true));
+    }
+
+    private void handleDrawerEvent(boolean autoTransition) {
+        if (autoTransition) {
             hamburgerBasicCloseTransition.setRate(hamburgerBasicCloseTransition.getRate() * -1);
             hamburgerBasicCloseTransition.play();
 
-            if(drawer_jfxdrawer.isOpened())
+            if (drawer_jfxdrawer.isOpened()) {
                 drawer_jfxdrawer.close();
-            else
+                drawer_jfxdrawer.setDisable(true);
+            } else {
+                drawer_jfxdrawer.setDisable(false);
                 drawer_jfxdrawer.open();
-        });
+            }
+        }
     }
 
     private void setDrawerSidePane() throws IOException {
@@ -61,25 +74,36 @@ public class MainMenu implements Initializable {
         container_vbox.getChildren().forEach(node -> {
             node.setOnMouseClicked(event -> {
                 switch (node.getId()) {
-                    case "datamanager_jfxbutton":
-                        dynamiccontainer_anchorpane.setVisible(true);
-                        dynamiccontainer_anchorpane.getChildren().clear();
-                        drawer_jfxdrawer.close();
-
-
+                    case "home_jfxbutton":
                         try {
-                            dynamiccontainer_anchorpane.getChildren().add(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/ui/view/datamanager/data_manager.fxml"))));
+                            switchView("/ui/view/home.fxml", false);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+
+                    case "datamanager_jfxbutton":
+                        try {
+                            switchView("/ui/view/datamanager/data_manager.fxml", true);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+
+                    case "report_jfxbutton":
+                        try {
+                            switchView("/ui/view/report/report_menu.fxml", true);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                         break;
 
                     case "settings_jfxbutton":
-                        System.out.println("Settings");
-                        break;
-
-                    case "aboutus_jfxbutton":
-                        System.out.println("About Us");
+                        try {
+                            switchView("/ui/view/settings/settings_menu.fxml", true);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         break;
 
                     default:
@@ -87,5 +111,11 @@ public class MainMenu implements Initializable {
                 }
             });
         });
+    }
+
+    private void switchView(String url, boolean autoTransition) throws IOException {
+        dynamiccontainer_anchorpane.getChildren().clear();
+        dynamiccontainer_anchorpane.getChildren().add(FXMLLoader.load(Objects.requireNonNull(getClass().getResource(url))));
+        handleDrawerEvent(autoTransition);
     }
 }

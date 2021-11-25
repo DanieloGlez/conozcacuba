@@ -1,4 +1,4 @@
-package ui.controller;
+package ui.controller.datamanager;
 
 
 import com.jfoenix.controls.JFXButton;
@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
 import dto.Dto;
 import dto.nom.NomenclatorDto;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,7 +14,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import service.Services;
 import service.ServicesLocator;
 import util.ConstantUtils;
@@ -25,9 +29,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 public class DataManager implements Initializable {
     private String selectedTableName;
+    private Services currentlyInUseServices;
     private Class selectedTableClass;
 
     @FXML
@@ -35,6 +41,12 @@ public class DataManager implements Initializable {
 
     @FXML
     private TableView datamanager_tableview;
+
+    @FXML
+    private StackPane loadingdialog_stackpane;
+
+    @FXML
+    private VBox crudcontrolscontainer_vbox;
 
     @FXML
     private JFXButton insert_jfxbutton;
@@ -47,8 +59,6 @@ public class DataManager implements Initializable {
 
     @FXML
     private JFXListView<String> tables_jfxlistview;
-
-    Services currentlyInUseServices;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -95,6 +105,7 @@ public class DataManager implements Initializable {
 
     void initializeTablesJfxListView() throws SQLException, ClassNotFoundException {
         fillTablesJfxListView();
+
         tables_jfxlistview.setOnMouseClicked(event -> {
             JFXListCell<?> jfxListCell = (JFXListCell<?>) event.getTarget();
             selectedTableName = jfxListCell.getText();
@@ -124,26 +135,64 @@ public class DataManager implements Initializable {
     }
 
     void showContentInDataManagerTableView(String tableName) throws ClassNotFoundException, SQLException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        Map<String, Class> tableNames = ConstantUtils.getTableNames();
+       Task<List<?>> callServiceContentTask = new Task<List<?>>() {
+           @Override
+           protected List<?> call() throws Exception {
+               // Show loading dialog
+               crudcontrolscontainer_vbox.setVisible(false);
+               loadingdialog_stackpane.setVisible(true);
 
-        // Clear Table
-        datamanager_tableview.getColumns().clear();
-        datamanager_tableview.getItems().clear();
+               // Disable views
+               datamanager_tableview.setDisable(true);
+               tables_jfxlistview.setDisable(true);
 
-        // Add Columns
-        getColumnsFromClass(tableNames.get(tableName)).forEach(tableColumn -> {
-            datamanager_tableview.getColumns().add(tableColumn);
+               // Add Objects
+               return getDtosFromServices(tableName);
+               /*getDtosFromServices(tableName).forEach(dto -> {
+                   datamanager_tableview.getItems().add(dto);
+               });*/
+           }
+       };
+
+        callServiceContentTask.setOnSucceeded(event -> {
+            Map<String, Class> tableNames = ConstantUtils.getTableNames();
+
+            // Clear Table
+            datamanager_tableview.getColumns().clear();
+            datamanager_tableview.getItems().clear();
+
+            // Add Columns
+            getColumnsFromClass(tableNames.get(tableName)).forEach(tableColumn -> {
+                datamanager_tableview.getColumns().add(tableColumn);
+            });
+
+            // Add Objects
+            try {
+                callServiceContentTask.get().forEach(dto -> {
+                    datamanager_tableview.getItems().add(dto);
+                });
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+
+            // Resize Columns
+            datamanager_tableview.setColumnResizePolicy(new Callback<TableView.ResizeFeatures, Boolean>() {
+                @Override
+                public Boolean call(TableView.ResizeFeatures param) {
+                    return true;
+                }
+            });
+
+            // Show crud controls
+            crudcontrolscontainer_vbox.setVisible(true);
+            loadingdialog_stackpane.setVisible(false);
+
+            // Enable views
+            datamanager_tableview.setDisable(false);
+            tables_jfxlistview.setDisable(false);
         });
 
-        // Resize Columns
-        datamanager_tableview.getColumns().forEach(tableColumn -> {
-            ((TableColumn) tableColumn).prefWidthProperty().bind(datamanager_tableview.widthProperty().divide(datamanager_tableview.getColumns().size()));
-        });
-
-        // Add Objects
-        getDtosFromServices(tableName).forEach(dto -> {
-            datamanager_tableview.getItems().add(dto);
-        });
+        new Thread(callServiceContentTask).start();
     }
 
     List<TableColumn> getColumnsFromClass(Class dtoClass) {
@@ -171,8 +220,6 @@ public class DataManager implements Initializable {
     }
 
     void refreshChanges() {
-        tables_jfxlistview.getSelectionModel().selectFirst();
-        tables_jfxlistview.getSelectionModel().selectLast();
         tables_jfxlistview.getSelectionModel().select(selectedTableName);
     }
 }
