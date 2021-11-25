@@ -74,9 +74,4 @@ public class UserServices implements Services<UserDto> {
 
         connection.close();
     }
-
-    @Override
-    public String getGenericType() {
-        return UserDto.class.getSimpleName();
-    }
 }

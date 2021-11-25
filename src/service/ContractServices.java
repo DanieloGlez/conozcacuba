@@ -24,6 +24,7 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        callableStatement.close();
         connection.close();
         return new ContractDto(
                 resultSet.getInt("id_contract"),
@@ -58,6 +59,7 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
             });
         }
 
+        callableStatement.close();
         connection.close();
         return contractDtos;
     }
@@ -81,6 +83,8 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
         resultSet.next();
         dto.setId(resultSet.getInt(1));
         System.out.println(dto.getId());
+
+        callableStatement.close();
         connection.close();
     }
 
@@ -96,6 +100,7 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
         callableStatement.setInt(6, dto.getContractTypeDto().getId());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -106,12 +111,8 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
         callableStatement.setInt(1, id);
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
-    }
-
-    @Override
-    public String getGenericType() {
-        return null;
     }
 
     @Override
@@ -131,6 +132,7 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
             contractDtoLinkedList.add(ServicesLocator.getContractServices().load(idContract));
         }
 
+        connection.close();
         connection.close();
         return contractDtoLinkedList;
     }

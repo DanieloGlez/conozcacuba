@@ -14,13 +14,16 @@ public class ContractHotelServices implements Services<ContractHotelDto> {
     public ContractHotelDto load(int id) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
+
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.contract_hotel_load_by_id(?)}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
         callableStatement.setInt(2, id);
         callableStatement.execute();
+
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        callableStatement.close();
         connection.close();
 
         return new ContractHotelDto(
@@ -64,6 +67,7 @@ public class ContractHotelServices implements Services<ContractHotelDto> {
             });
         }
 
+        callableStatement.close();
         connection.close();
         return contractHotelDtos;
     }
@@ -83,6 +87,7 @@ public class ContractHotelServices implements Services<ContractHotelDto> {
         callableStatement.setInt(2, dto.getHotel().getId());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -101,31 +106,12 @@ public class ContractHotelServices implements Services<ContractHotelDto> {
         callableStatement.setInt(2, dto.getHotel().getId());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
     @Override
     public void delete(int id) throws SQLException {
         ServicesLocator.getContractServices().delete(id);
-    }
-
-    @Override
-    public String getGenericType() {
-        return null;
-    }
-
-    private void insertInContract(ContractHotelDto contractHotelDto) throws SQLException {
-        ContractDto contractDto = new ContractDto(
-                contractHotelDto.getId(),
-                ServicesLocator.getContractTypeServices().load(contractHotelDto.getContractTypeDto().getId()),
-                contractHotelDto.getStartDate(),
-                contractHotelDto.getFinishDate(),
-                contractHotelDto.getConciliationDate(),
-                contractHotelDto.getDescription());
-        try {
-            ServicesLocator.getContractServices().insert(contractDto);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 }

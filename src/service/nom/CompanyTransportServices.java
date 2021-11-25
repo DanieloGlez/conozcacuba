@@ -24,6 +24,7 @@ public class CompanyTransportServices implements Services<CompanyTransportDto> {
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        callableStatement.close();
         connection.close();
         return new CompanyTransportDto(
                 resultSet.getInt("id_company_transport"),
@@ -51,6 +52,7 @@ public class CompanyTransportServices implements Services<CompanyTransportDto> {
             ));
         }
 
+        callableStatement.close();
         connection.close();
         return companyTransportDtos;
     }
@@ -62,6 +64,7 @@ public class CompanyTransportServices implements Services<CompanyTransportDto> {
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -73,6 +76,7 @@ public class CompanyTransportServices implements Services<CompanyTransportDto> {
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -83,11 +87,7 @@ public class CompanyTransportServices implements Services<CompanyTransportDto> {
         callableStatement.setInt(1, id_company_transport);
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
-    }
-
-    @Override
-    public String getGenericType() {
-        return null;
     }
 }

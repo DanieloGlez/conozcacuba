@@ -35,7 +35,7 @@ public class SettingsMenu implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (ConfigurationUtils.getActiveUser().getRole().getName().equals("admin")) {
+        if (ConfigurationUtils.getActiveUser().isAdministrator()) {
             usercontrolcontainer_anchorpane.setDisable(false);
 
             try {

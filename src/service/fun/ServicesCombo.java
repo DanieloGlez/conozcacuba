@@ -13,13 +13,13 @@ public class ServicesCombo implements Services<ComboBoxDto> {
 
 
     //Este método ejecuta una función creada en el postgres
-    public LinkedList<String> getTablesNames() throws SQLException, ClassNotFoundException {
+    /*public LinkedList<String> getTablesNames() throws SQLException, ClassNotFoundException {
         LinkedList<String> tableNameList = new LinkedList<String>();
-        String function = "{?= call get_table_name}"; /*se establece con el primer ? que la función tiene valor de retorno, con el segundo ? se está especificando que es un parámetro que será pasado */
+        String function = "{ ? = call get_table_name}"; *//*se establece con el primer ? que la función tiene valor de retorno, con el segundo ? se está especificando que es un parámetro que será pasado *//*
         java.sql.Connection connection = service.ServicesLocator.getConnection();
         connection.setAutoCommit(false);
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.registerOutParameter(1, java.sql.Types.OTHER); /*Se especifica que el primer ? es de tipo varchar, es decir que el valor de retorno es un varchar */
+        preparedFunction.registerOutParameter(1, java.sql.Types.OTHER); *//*Se especifica que el primer ? es de tipo varchar, es decir que el valor de retorno es un varchar *//*
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         while (resultSet.next()){
@@ -31,7 +31,7 @@ public class ServicesCombo implements Services<ComboBoxDto> {
 
         return tableNameList;
     }
-
+    */
     @Override
     public ComboBoxDto load(int id) throws SQLException {
         return null;
@@ -56,10 +56,5 @@ public class ServicesCombo implements Services<ComboBoxDto> {
     @Override
     public void delete(int id) throws SQLException {
 
-    }
-
-    @Override
-    public String getGenericType() {
-        return null;
     }
 }

@@ -24,6 +24,7 @@ public class LocalizationServices implements Services<LocalizationDto> {
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        callableStatement.close();
         connection.close();
         return new LocalizationDto(
                 resultSet.getInt("id_localization"),
@@ -51,6 +52,7 @@ public class LocalizationServices implements Services<LocalizationDto> {
             ));
         }
 
+        callableStatement.close();
         connection.close();
         return localizationDtos;
     }
@@ -62,6 +64,7 @@ public class LocalizationServices implements Services<LocalizationDto> {
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -73,6 +76,7 @@ public class LocalizationServices implements Services<LocalizationDto> {
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -83,11 +87,7 @@ public class LocalizationServices implements Services<LocalizationDto> {
         callableStatement.setInt(1, id_localization);
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
-    }
-
-    @Override
-    public String getGenericType() {
-        return null;
     }
 }

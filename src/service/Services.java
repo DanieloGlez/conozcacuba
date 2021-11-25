@@ -12,7 +12,4 @@ public interface Services<T> {
     void insert(T dto) throws SQLException;
     void update(T dto) throws SQLException;
     void delete(int id) throws SQLException;
-
-    // Dynamic JFXTreeTableView related
-    String getGenericType();
 }

@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
 import dto.Dto;
+import dto.fun.UserDto;
 import dto.nom.NomenclatorDto;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -20,6 +21,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import service.Services;
 import service.ServicesLocator;
+import util.ConfigurationUtils;
 import util.ConstantUtils;
 import util.UserInterfaceUtils;
 
@@ -62,10 +64,16 @@ public class DataManager implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try {
-            initializeTablesJfxListView();
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+        UserDto activeUser = ConfigurationUtils.getActiveUser();
+
+        if(activeUser.isAdministrator() || activeUser.isResponsable()) {
+            container_anchorpane.setDisable(false);
+
+            try {
+                initializeTablesJfxListView();
+            } catch (SQLException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 

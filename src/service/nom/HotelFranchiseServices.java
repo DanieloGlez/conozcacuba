@@ -24,6 +24,7 @@ public class HotelFranchiseServices implements Services<HotelFranchiseDto> {
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        callableStatement.close();
         connection.close();
         return new HotelFranchiseDto(
                 resultSet.getInt("id_hotel_franchise"),
@@ -51,6 +52,7 @@ public class HotelFranchiseServices implements Services<HotelFranchiseDto> {
             ));
         }
 
+        callableStatement.close();
         connection.close();
         return hotelFranchiseDtos;
     }
@@ -62,6 +64,7 @@ public class HotelFranchiseServices implements Services<HotelFranchiseDto> {
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -73,6 +76,7 @@ public class HotelFranchiseServices implements Services<HotelFranchiseDto> {
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -83,11 +87,7 @@ public class HotelFranchiseServices implements Services<HotelFranchiseDto> {
         callableStatement.setInt(1, id_hotel_franchise);
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
-    }
-
-    @Override
-    public String getGenericType() {
-        return null;
     }
 }

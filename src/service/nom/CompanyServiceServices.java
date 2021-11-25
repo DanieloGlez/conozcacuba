@@ -26,6 +26,7 @@ public class CompanyServiceServices implements Services<CompanyServiceDto>, Rela
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        callableStatement.close();
         connection.close();
         return new CompanyServiceDto(
                 resultSet.getInt("id_company_service"),
@@ -53,6 +54,7 @@ public class CompanyServiceServices implements Services<CompanyServiceDto>, Rela
             ));
         }
 
+        callableStatement.close();
         connection.close();
         return companiesService;
     }
@@ -64,6 +66,7 @@ public class CompanyServiceServices implements Services<CompanyServiceDto>, Rela
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -75,6 +78,7 @@ public class CompanyServiceServices implements Services<CompanyServiceDto>, Rela
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -85,12 +89,8 @@ public class CompanyServiceServices implements Services<CompanyServiceDto>, Rela
         callableStatement.setInt(1, id_company_service);
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
-    }
-
-    @Override
-    public String getGenericType() {
-        return null;
     }
 
     @Override
@@ -110,6 +110,7 @@ public class CompanyServiceServices implements Services<CompanyServiceDto>, Rela
             );
         }
 
+        callableStatement.close();
         connection.close();
         return companyServiceDtoLinkedList;
     }

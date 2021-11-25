@@ -19,6 +19,7 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        callableStatement.close();
         connection.close();
 
         return new ModalityTransportKmDto(
@@ -53,6 +54,7 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
             });
         }
 
+        callableStatement.close();
         connection.close();
         return modalityTransportKmDtos;
     }
@@ -67,7 +69,7 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
         callableStatement.setInt(4, dto.getContractTransport().getId());
         callableStatement.setInt(5, dto.getVehicle().getId());
         callableStatement.execute();
-
+        callableStatement.close();
         connection.close();
     }
 
@@ -82,7 +84,7 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
         callableStatement.setInt(5, dto.getContractTransport().getId());
         callableStatement.setInt(6, dto.getVehicle().getId());
         callableStatement.execute();
-
+        callableStatement.close();
         connection.close();
     }
 
@@ -92,12 +94,7 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
         CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_km_delete(?)}");
         callableStatement.setInt(1, id);
         callableStatement.execute();
-
+        callableStatement.close();
         connection.close();
-    }
-
-    @Override
-    public String getGenericType() {
-        return null;
     }
 }

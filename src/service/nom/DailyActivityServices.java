@@ -26,6 +26,7 @@ public class DailyActivityServices implements Services<DailyActivityDto>, Relati
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        callableStatement.close();
         connection.close();
         return new DailyActivityDto(
                 resultSet.getInt("id_daily_activity"),
@@ -54,6 +55,7 @@ public class DailyActivityServices implements Services<DailyActivityDto>, Relati
             });
         }
 
+        callableStatement.close();
         connection.close();
         return dailyActivityDtos;
     }
@@ -65,6 +67,7 @@ public class DailyActivityServices implements Services<DailyActivityDto>, Relati
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -76,6 +79,7 @@ public class DailyActivityServices implements Services<DailyActivityDto>, Relati
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -86,12 +90,8 @@ public class DailyActivityServices implements Services<DailyActivityDto>, Relati
         callableStatement.setInt(1, id_daily_activity);
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
-    }
-
-    @Override
-    public String getGenericType() {
-        return null;
     }
 
     @Override
@@ -109,6 +109,7 @@ public class DailyActivityServices implements Services<DailyActivityDto>, Relati
             activityDtoLinkedList.add(load(resultSet.getInt("id_daily_activity")));
         }
 
+        callableStatement.close();
         connection.close();
         return activityDtoLinkedList;
     }

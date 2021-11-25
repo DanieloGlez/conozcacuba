@@ -22,6 +22,7 @@ public class VehicleBrandServices implements Services<VehicleBrandDto> {
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        callableStatement.close();
         connection.close();
         return new VehicleBrandDto(
                 resultSet.getInt("id_vehicle_brand"),
@@ -46,6 +47,7 @@ public class VehicleBrandServices implements Services<VehicleBrandDto> {
                     resultSet.getString("name")));
         }
 
+        callableStatement.close();
         connection.close();
         return vehicleBrandlist;
     }
@@ -57,6 +59,7 @@ public class VehicleBrandServices implements Services<VehicleBrandDto> {
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -68,6 +71,7 @@ public class VehicleBrandServices implements Services<VehicleBrandDto> {
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -78,11 +82,7 @@ public class VehicleBrandServices implements Services<VehicleBrandDto> {
         callableStatement.setInt(1, id);
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
-    }
-
-    @Override
-    public String getGenericType() {
-        return null;
     }
 }

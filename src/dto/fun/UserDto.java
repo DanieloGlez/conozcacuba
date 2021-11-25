@@ -62,4 +62,12 @@ public class UserDto implements Dto {
     public String toString() {
         return name + " / " + role;
     }
+
+    public boolean isAdministrator() {
+        return role.getName().equals("administrator");
+    }
+
+    public boolean isResponsable() {
+        return role.getName().equals("responsable");
+    }
 }

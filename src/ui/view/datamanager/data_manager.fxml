@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="container_anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../../asset/css/global.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.datamanager.DataManager">
+<AnchorPane fx:id="container_anchorpane" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../../asset/css/global.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.datamanager.DataManager">
    <children>
       <TableView fx:id="datamanager_tableview" layoutX="298.0" layoutY="106.0" style="-fx-border-color: #468c82; -fx-border-radius: 5; -fx-background-radius: 5;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="256.0" AnchorPane.topAnchor="54.0" />
       <VBox fx:id="crudcontrolscontainer_vbox" alignment="CENTER" layoutX="1038.0" layoutY="54.0" minWidth="-Infinity" prefHeight="200.0" prefWidth="228.0" spacing="14.0" style="-fx-border-color: #468c82; -fx-border-radius: 5; -fx-background-radius: 5; -fx-background-color: #ffffff;" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="54.0">

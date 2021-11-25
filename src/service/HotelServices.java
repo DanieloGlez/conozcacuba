@@ -21,8 +21,8 @@ public class HotelServices implements Services<HotelDto> {
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        callableStatement.close();
         connection.close();
-
         return new HotelDto(
                 resultSet.getInt("id_hotel"),
                 resultSet.getString("name"),
@@ -77,6 +77,7 @@ public class HotelServices implements Services<HotelDto> {
             });
         }
 
+        callableStatement.close();
         connection.close();
         return hotelDtos;
     }
@@ -123,6 +124,7 @@ public class HotelServices implements Services<HotelDto> {
         callableStatement.setInt(14, dto.getLocalization().getId());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -133,11 +135,7 @@ public class HotelServices implements Services<HotelDto> {
         callableStatement.setInt(1,id);
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
-    }
-
-    @Override
-    public String getGenericType() {
-        return null;
     }
 }

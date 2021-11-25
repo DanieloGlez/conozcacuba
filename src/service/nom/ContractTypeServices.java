@@ -22,6 +22,7 @@ public class ContractTypeServices implements Services <ContractTypeDto> {
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        callableStatement.close();
         connection.close();
         return new ContractTypeDto(resultSet.getInt("id_contract_type"), resultSet.getString("name"));
     }
@@ -46,6 +47,7 @@ public class ContractTypeServices implements Services <ContractTypeDto> {
             ));
         }
 
+        callableStatement.close();
         connection.close();
         return contractTypeDtos;
     }
@@ -57,6 +59,7 @@ public class ContractTypeServices implements Services <ContractTypeDto> {
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -68,6 +71,7 @@ public class ContractTypeServices implements Services <ContractTypeDto> {
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -78,11 +82,7 @@ public class ContractTypeServices implements Services <ContractTypeDto> {
         callableStatement.setInt(1, id_contract_type);
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
-    }
-
-    @Override
-    public String getGenericType() {
-        return null;
     }
 }

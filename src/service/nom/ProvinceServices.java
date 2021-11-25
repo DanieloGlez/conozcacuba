@@ -24,6 +24,7 @@ public class ProvinceServices implements Services<ProvinceDto> {
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        callableStatement.close();
         connection.close();
         return new ProvinceDto(
                 resultSet.getInt("id_province"),
@@ -51,6 +52,7 @@ public class ProvinceServices implements Services<ProvinceDto> {
             ));
         }
 
+        callableStatement.close();
         connection.close();
         return provinceDtos;
     }
@@ -62,6 +64,7 @@ public class ProvinceServices implements Services<ProvinceDto> {
         callableStatement.setString("name", dto.getName());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -73,10 +76,5 @@ public class ProvinceServices implements Services<ProvinceDto> {
     @Override
     public void delete(int id) throws SQLException {
 
-    }
-
-    @Override
-    public String getGenericType() {
-        return null;
     }
 }

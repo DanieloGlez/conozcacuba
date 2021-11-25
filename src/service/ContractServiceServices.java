@@ -25,6 +25,7 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        callableStatement.close();
         connection.close();
         return new ContractServiceDto(
                 id,
@@ -66,6 +67,7 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
             });
         }
 
+        callableStatement.close();
         connection.close();
         return contractServiceDtos;
     }
@@ -86,6 +88,7 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
         callableStatement.setInt(3, contractDto.getId());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -105,17 +108,13 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
         callableStatement.setInt(3, dto.getId());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
     @Override
     public void delete(int id) throws SQLException {
         ServicesLocator.getContractServices().delete(id);
-    }
-
-    @Override
-    public String getGenericType() {
-        return null;
     }
 }
 

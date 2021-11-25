@@ -22,6 +22,7 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
         ContractDto contractDto = null;
         resultSet.next();
 
+        callableStatement.close();
         connection.close();
         return new VehicleDto(
                 resultSet.getInt("id_vehicle"),
@@ -57,6 +58,7 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
             ));
         }
 
+        callableStatement.close();
         connection.close();
         return vehicles;
     }
@@ -74,6 +76,7 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
         callableStatement.setInt(6, dto.getBrand().getId());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -90,6 +93,7 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
         callableStatement.setInt(7, dto.getBrand().getId());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -100,12 +104,8 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
         callableStatement.setInt(1, id);
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
-    }
-
-    @Override
-    public String getGenericType() {
-        return null;
     }
 
     @Override
@@ -127,6 +127,7 @@ public class VehicleServices implements Services<VehicleDto>, Relation<VehicleDt
             vehicleDtoLinkedList.add(vehicleDto);
         }
 
+        callableStatement.close();
         connection.close();
         return vehicleDtoLinkedList;
     }

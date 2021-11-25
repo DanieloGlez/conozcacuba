@@ -70,9 +70,4 @@ public class RoleServices implements Services<RoleDto> {
     public void delete(int id) throws SQLException {
 
     }
-
-    @Override
-    public String getGenericType() {
-        return null;
-    }
 }

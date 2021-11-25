@@ -17,7 +17,7 @@ public class TouristicPackageServices implements Services<TouristicPackageDto>{
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
-
+        callableStatement.close();
         connection.close();
         return new TouristicPackageDto(
                 resultSet.getInt("id_touristic_package"),
@@ -45,7 +45,6 @@ public class TouristicPackageServices implements Services<TouristicPackageDto>{
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         int idTourPack;
 
-
         while (resultSet.next()) {
             idTourPack = resultSet.getInt("id_touristic_package");
             touristicPackageDtos.add(new TouristicPackageDto(
@@ -64,6 +63,7 @@ public class TouristicPackageServices implements Services<TouristicPackageDto>{
             });
         }
 
+        callableStatement.close();
         connection.close();
         return touristicPackageDtos;
     }
@@ -82,7 +82,7 @@ public class TouristicPackageServices implements Services<TouristicPackageDto>{
         callableStatement.setFloat(8, dto.getCostTotal());
         callableStatement.setFloat(9, dto.getPrice());
         callableStatement.execute();
-
+        callableStatement.close();
         connection.close();
     }
 
@@ -101,7 +101,7 @@ public class TouristicPackageServices implements Services<TouristicPackageDto>{
         callableStatement.setFloat(9, dto.getCostTotal());
         callableStatement.setFloat(10, dto.getPrice());
         callableStatement.execute();
-
+        callableStatement.close();
         connection.close();
     }
 
@@ -111,13 +111,7 @@ public class TouristicPackageServices implements Services<TouristicPackageDto>{
         CallableStatement callableStatement = connection.prepareCall("{ call tpp.touristic_package_delete(?)}");
         callableStatement.setInt(1, id);
         callableStatement.execute();
-
+        callableStatement.close();
         connection.close();
-    }
-
-
-    @Override
-    public String getGenericType() {
-        return null;
     }
 }

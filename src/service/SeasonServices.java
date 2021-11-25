@@ -14,16 +14,13 @@ public class SeasonServices implements Services<SeasonDto>, Relation<SeasonDto>{
     public SeasonDto load(int id) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-
         CallableStatement callableStatement = connection.prepareCall("{ ? = call tpp.season_load_by_id(?)}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
         callableStatement.setInt(2, id);
-
         callableStatement.execute();
-
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
-
+        callableStatement.close();
         connection.close();
         return new SeasonDto(
                 id,
@@ -58,6 +55,7 @@ public class SeasonServices implements Services<SeasonDto>, Relation<SeasonDto>{
             });
         }
 
+        callableStatement.close();
         connection.close();
         return seasonDtos;
     }
@@ -78,13 +76,8 @@ public class SeasonServices implements Services<SeasonDto>, Relation<SeasonDto>{
         CallableStatement callableStatement = connection.prepareCall("{call tpp.season_delete(?)}");
         callableStatement.setInt(1, id);
         callableStatement.execute();
-
+        callableStatement.close();
         connection.close();
-    }
-
-    @Override
-    public String getGenericType() {
-        return null;
     }
 
     public List<SeasonDto> loadRelated(int id) throws SQLException {
@@ -113,6 +106,7 @@ public class SeasonServices implements Services<SeasonDto>, Relation<SeasonDto>{
             );
         }
 
+        callableStatement.close();
         connection.close();
         return seasonDtoLinkedList;
     }

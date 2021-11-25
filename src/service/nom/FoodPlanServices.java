@@ -26,6 +26,7 @@ public class FoodPlanServices implements Services<FoodPlanDto>, Relation<FoodPla
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        callableStatement.close();
         connection.close();
         return new FoodPlanDto(
                 resultSet.getInt("id_food_plan"),
@@ -53,6 +54,7 @@ public class FoodPlanServices implements Services<FoodPlanDto>, Relation<FoodPla
             ));
         }
 
+        callableStatement.close();
         connection.close();
         return foodPlanDtos;
     }
@@ -64,6 +66,7 @@ public class FoodPlanServices implements Services<FoodPlanDto>, Relation<FoodPla
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -75,6 +78,7 @@ public class FoodPlanServices implements Services<FoodPlanDto>, Relation<FoodPla
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -85,12 +89,8 @@ public class FoodPlanServices implements Services<FoodPlanDto>, Relation<FoodPla
         callableStatement.setInt(1, id_food_plan);
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
-    }
-
-    @Override
-    public String getGenericType() {
-        return null;
     }
 
     @Override
@@ -108,6 +108,7 @@ public class FoodPlanServices implements Services<FoodPlanDto>, Relation<FoodPla
             foodPlanDtoLinkedList.add(load(resultSet.getInt("id_food_plan")));
         }
 
+        callableStatement.close();
         connection.close();
         return foodPlanDtoLinkedList;
     }

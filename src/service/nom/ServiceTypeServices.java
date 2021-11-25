@@ -25,6 +25,7 @@ public class ServiceTypeServices implements Services<ServiceTypeDto>, Relation<S
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        callableStatement.close();
         connection.close();
         return new ServiceTypeDto(
                 resultSet.getInt("id_service_type"),
@@ -52,6 +53,7 @@ public class ServiceTypeServices implements Services<ServiceTypeDto>, Relation<S
             ));
         }
 
+        callableStatement.close();
         connection.close();
         return serviceTypeDtos;
     }
@@ -63,6 +65,7 @@ public class ServiceTypeServices implements Services<ServiceTypeDto>, Relation<S
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -74,6 +77,7 @@ public class ServiceTypeServices implements Services<ServiceTypeDto>, Relation<S
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -84,12 +88,8 @@ public class ServiceTypeServices implements Services<ServiceTypeDto>, Relation<S
         callableStatement.setInt(1, id_service_type);
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
-    }
-
-    @Override
-    public String getGenericType() {
-        return null;
     }
 
     @Override
@@ -97,7 +97,7 @@ public class ServiceTypeServices implements Services<ServiceTypeDto>, Relation<S
         LinkedList<ServiceTypeDto> servicesTypesDto=new LinkedList<>();
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-        CallableStatement callableStatement = connection.prepareCall("{?=call tpp.r_contract_service_n_service_type_load_by_id(?)}");
+        CallableStatement callableStatement = connection.prepareCall("{ ? = call tpp.r_contract_service_n_service_type_load_by_id(?)}");
         callableStatement.registerOutParameter(1,Types.REF_CURSOR);
         callableStatement.setInt(2,id);
         ResultSet resultSet= (ResultSet) callableStatement.getObject(1);

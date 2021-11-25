@@ -23,6 +23,7 @@ public class ModalityCommercialServices implements Services<ModalityCommercialDt
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        callableStatement.close();
         connection.close();
         return new ModalityCommercialDto(
                 id_modality_comertial,
@@ -50,6 +51,7 @@ public class ModalityCommercialServices implements Services<ModalityCommercialDt
             ));
         }
 
+        callableStatement.close();
         connection.close();
         return modalityCommercialDtos;
     }
@@ -61,6 +63,7 @@ public class ModalityCommercialServices implements Services<ModalityCommercialDt
         callableStatement.setString(1, dto.getName());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -72,6 +75,7 @@ public class ModalityCommercialServices implements Services<ModalityCommercialDt
         callableStatement.setString(2, dto.getName());
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
     }
 
@@ -82,12 +86,8 @@ public class ModalityCommercialServices implements Services<ModalityCommercialDt
         callableStatement.setInt(1, id_modality_hotel_comertial);
         callableStatement.execute();
 
+        callableStatement.close();
         connection.close();
-    }
-
-    @Override
-    public String getGenericType() {
-        return null;
     }
 
     @Override
@@ -105,6 +105,7 @@ public class ModalityCommercialServices implements Services<ModalityCommercialDt
             modalityCommercialDtos.add(load(resultSet.getInt("id_modality_hotel_comertial")));
         }
 
+        callableStatement.close();
         connection.close();
         return modalityCommercialDtos;
     }
