@@ -2,7 +2,9 @@ package dto;
 
 import dto.nom.*;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 public class HotelDto implements Dto {
     private int id;
@@ -41,9 +43,32 @@ public class HotelDto implements Dto {
         this.hotelFranchise = hotelFranchise;
         this.province = province;
         this.localization = localization;
-        this.roomTypes = roomTypes;
-        this.foodPlans = foodPlans;
-        this.commercialModalities = commercialModalities;
+        this.roomTypes = new LinkedList<>();
+        this.foodPlans = new LinkedList<>();
+        this.commercialModalities = new LinkedList<>();
+
+        ListIterator<RoomTypeDto> listIteratorRoom = roomTypes.listIterator();
+
+        while (listIteratorRoom.hasNext()){
+            RoomTypeDto currentRoomType = listIteratorRoom.next();
+            this.roomTypes.add(currentRoomType);
+        }
+
+
+        ListIterator<FoodPlanDto> listIteratorFood = foodPlans.listIterator();
+
+        while (listIteratorFood.hasNext()){
+            FoodPlanDto currentFoodPlan = listIteratorFood.next();
+            this.foodPlans.add(currentFoodPlan);
+        }
+
+
+        ListIterator<ModalityCommercialDto> listIteratorModalities = commercialModalities.listIterator();
+
+        while (listIteratorModalities.hasNext()){
+            ModalityCommercialDto currentModality = listIteratorModalities.next();
+            this.commercialModalities.add(currentModality);
+        }
     }
 
     // Getters & Setters
@@ -160,7 +185,7 @@ public class HotelDto implements Dto {
     }
 
     public List<RoomTypeDto> getRoomTypes() {
-        return roomTypes;
+        return this.roomTypes;
     }
 
     public void setRoomTypes(List<RoomTypeDto> roomTypes) {
@@ -168,7 +193,7 @@ public class HotelDto implements Dto {
     }
 
     public List<FoodPlanDto> getFoodPlans() {
-        return foodPlans;
+        return this.foodPlans;
     }
 
     public void setFoodPlans(List<FoodPlanDto> foodPlans) {
@@ -176,7 +201,7 @@ public class HotelDto implements Dto {
     }
 
     public List<ModalityCommercialDto> getCommercialModalities() {
-        return commercialModalities;
+        return this.commercialModalities;
     }
 
     public void setCommercialModalities(List<ModalityCommercialDto> commercialModalities) {
