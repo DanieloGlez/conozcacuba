@@ -1,6 +1,8 @@
 package dto;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 public class TouristicPackageDto {
     private int id;
@@ -18,9 +20,7 @@ public class TouristicPackageDto {
     private List<ContractDto> contracts;
 
     // Constructors
-
-
-    public TouristicPackageDto(int id, String promotionalName, int daysAmount, int nightsAmount, int paxAmount, float costHotel, float costTransport, float costTransportHA, float costTotal, float price, List<ContractDto> contracts) {
+    public TouristicPackageDto(int id, String promotionalName, int daysAmount, int nightsAmount, int paxAmount, float costHotel, float costTransport, float costTransportHA, float costTotal, float price) {
         this.id = id;
         this.promotionalName = promotionalName;
         this.daysAmount = daysAmount;
@@ -31,7 +31,7 @@ public class TouristicPackageDto {
         this.costTransportHA = costTransportHA;
         this.costTotal = costTotal;
         this.price = price;
-        this.contracts = contracts;
+        this.contracts = new LinkedList<>();
     }
 
     // Getters & Setters
@@ -120,10 +120,15 @@ public class TouristicPackageDto {
     }
 
     public void setContracts(List<ContractDto> contracts) {
-        this.contracts = contracts;
+        ListIterator<ContractDto> listIterator = contracts.listIterator();
+
+        while (listIterator.hasNext()) {
+            ContractDto currentContractDto = listIterator.next();
+            this.contracts.add(currentContractDto);
+        }
     }
 
-    public String toString(){
+    public String toString() {
         return this.getPromotionalName();
     }
 }

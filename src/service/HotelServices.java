@@ -1,6 +1,5 @@
 package service;
 
-import dto.ContractDto;
 import dto.HotelDto;
 import dto.nom.FoodPlanDto;
 import dto.nom.ModalityCommercialDto;
@@ -13,8 +12,15 @@ import java.util.List;
 public class HotelServices implements Services<HotelDto> {
     @Override
     public HotelDto load(int id) throws SQLException {
+        HotelDto hotelDto;
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
+        int idRoomType;
+        int idFoodPlan;
+        int idModalities;
+        List<Integer> idContainerRoomType = new LinkedList<>();
+        List<Integer> idContainerFoodPlan = new LinkedList<>();
+        List<Integer> idContainerModalities = new LinkedList<>();
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.hotel_load_by_id(?)}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
         callableStatement.setInt(2, id);
@@ -22,10 +28,8 @@ public class HotelServices implements Services<HotelDto> {
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
-        callableStatement.close();
-        connection.close();
-        return new HotelDto(
-                resultSet.getInt("id_hotel"),
+        hotelDto = new HotelDto(
+                id,
                 resultSet.getString("name"),
                 resultSet.getString("address"),
                 resultSet.getString("category"),
@@ -38,17 +42,38 @@ public class HotelServices implements Services<HotelDto> {
                 resultSet.getInt("floors_amount"),
                 ServicesLocator.getHotelFranchiseServices().load(resultSet.getInt("id_hotel_franchise")),
                 ServicesLocator.getProvinceServices().load(resultSet.getInt("id_province")),
-                ServicesLocator.getLocalizationServices().load(resultSet.getInt("id_localization")),
-                ServicesLocator.getRoomTypeServices().loadRelated(resultSet.getInt("id_hotel")),
-                ServicesLocator.getFoodPlanServices().loadRelated(resultSet.getInt("id_hotel")),
-                ServicesLocator.getModalityCommercialServices().loadRelated(resultSet.getInt("id_hotel"))
-        );
+                ServicesLocator.getLocalizationServices().load(resultSet.getInt("id_localization")));
+
+        while (resultSet.next()) {
+            idRoomType = resultSet.getInt("id_room_type");
+            idFoodPlan = resultSet.getInt("id_food_plan");
+            idModalities = resultSet.getInt("id_modality_hotel_comertial");
+
+            if (!idContainerRoomType.contains(idRoomType)) {
+                hotelDto.getRoomTypes().add(ServicesLocator.getRoomTypeServices().load(idRoomType));
+                idContainerRoomType.add(idRoomType);
+            }
+
+            if (!idContainerFoodPlan.contains(idFoodPlan)) {
+                hotelDto.getFoodPlans().add(ServicesLocator.getFoodPlanServices().load(idFoodPlan));
+                idContainerFoodPlan.add(idFoodPlan);
+            }
+
+            if (!idContainerModalities.contains(idModalities)) {
+                hotelDto.getCommercialModalities().add(ServicesLocator.getModalityCommercialServices().load(idModalities));
+                idContainerModalities.add(idModalities);
+            }
+        }
+
+        callableStatement.close();
+        connection.close();
+        return hotelDto;
     }
 
     @Override
     public List<HotelDto> loadAll() throws SQLException {
         List<HotelDto> ListHotelDtos = new LinkedList<>();
-        HotelDto hotelDto;
+        HotelDto hotelDto = null;
         RoomTypeDto roomTypeDto;
         FoodPlanDto foodPlanDto;
         ModalityCommercialDto modalityCommercialDto;
@@ -92,7 +117,7 @@ public class HotelServices implements Services<HotelDto> {
                 idContainerFoodPlan.add(idFoodPlan);
                 idContainerModalities.add(idModalities);
 
-                ListHotelDtos.add(new HotelDto(
+                hotelDto = new HotelDto(
                         idHotel,
                         resultSet.getString("name"),
                         resultSet.getString("address"),
@@ -106,15 +131,13 @@ public class HotelServices implements Services<HotelDto> {
                         resultSet.getInt("floors_amount"),
                         ServicesLocator.getHotelFranchiseServices().load(resultSet.getInt("id_hotel_franchise")),
                         ServicesLocator.getProvinceServices().load(resultSet.getInt("id_province")),
-                        ServicesLocator.getLocalizationServices().load(resultSet.getInt("id_localization")),
-                        ListRoomTypeInsert,
-                        ListFoodPlanInsert,
-                        ListModalityCommercialInsert
-                ));
+                        ServicesLocator.getLocalizationServices().load(resultSet.getInt("id_localization"))
+                );
+                hotelDto.setRoomTypes(ListRoomTypeInsert);
+                hotelDto.setFoodPlans(ListFoodPlanInsert);
+                hotelDto.setCommercialModalities(ListModalityCommercialInsert);
+                ListHotelDtos.add(hotelDto);
             } else {//inserto para el mismo id los tipos de hab, planes alim y modalidades diferentes
-                int size = ListHotelDtos.size();
-                hotelDto = ListHotelDtos.get(size - 1);
-
                 if (!idContainerRoomType.contains(idRoomType)) {
                     hotelDto.getRoomTypes().add(ServicesLocator.getRoomTypeServices().load(idRoomType));
                     idContainerRoomType.add(idRoomType);
@@ -124,6 +147,11 @@ public class HotelServices implements Services<HotelDto> {
                     hotelDto.getFoodPlans().add(ServicesLocator.getFoodPlanServices().load(idFoodPlan));
                     idContainerFoodPlan.add(idFoodPlan);
                 }
+
+                if (!idContainerModalities.contains(idModalities)) {
+                    hotelDto.getCommercialModalities().add(ServicesLocator.getModalityCommercialServices().load(idModalities));
+                    idContainerModalities.add(idModalities);
+                }
             }
         }
 
@@ -132,7 +160,7 @@ public class HotelServices implements Services<HotelDto> {
         return ListHotelDtos;
     }
 
-            @Override
+    @Override
     public void insert(HotelDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.hotel_insert(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
@@ -158,10 +186,10 @@ public class HotelServices implements Services<HotelDto> {
     public void update(HotelDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.hotel_update(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
-        callableStatement.setInt(1,dto.getId());
-        callableStatement.setString(2,dto.getName());
-        callableStatement.setString(3,dto.getAddress());
-        callableStatement.setString(4,dto.getCategory());
+        callableStatement.setInt(1, dto.getId());
+        callableStatement.setString(2, dto.getName());
+        callableStatement.setString(3, dto.getAddress());
+        callableStatement.setString(4, dto.getCategory());
         callableStatement.setString(5, dto.getTelephoneNumber());
         callableStatement.setString(6, dto.getFax());
         callableStatement.setString(7, dto.getEmail());
@@ -182,7 +210,7 @@ public class HotelServices implements Services<HotelDto> {
     public void delete(int id) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.hotel_delete(?)}");
-        callableStatement.setInt(1,id);
+        callableStatement.setInt(1, id);
         callableStatement.execute();
 
         callableStatement.close();

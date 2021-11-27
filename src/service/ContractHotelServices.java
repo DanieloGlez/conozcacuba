@@ -12,36 +12,50 @@ import java.util.List;
 public class ContractHotelServices implements Services<ContractHotelDto> {
     @Override
     public ContractHotelDto load(int id) throws SQLException {
+        ContractHotelDto contractHotelDto;
+        ContractDto contractDto;
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-
+        int idContract;
+        int idSeason;
+        List<Integer> idContainerSeason = new LinkedList<>();
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.contract_hotel_load_by_id(?)}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
         callableStatement.setInt(2, id);
         callableStatement.execute();
-
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
 
+        idContract = resultSet.getInt("id_contract");
+        contractDto = ServicesLocator.getContractServices().load(idContract);
+
+        contractHotelDto = new ContractHotelDto(
+                idContract,
+                contractDto.getStartDate(),
+                contractDto.getFinishDate(),
+                contractDto.getConciliationDate(),
+                contractDto.getDescription(),
+                contractDto.getContractTypeDto(),
+                ServicesLocator.getHotelServices().load(resultSet.getInt("id_hotel")));
+
+        while (resultSet.next()) {
+            idSeason = resultSet.getInt("id_season");
+
+            if (!idContainerSeason.contains(idSeason)) {
+                contractHotelDto.getSeasons().add(ServicesLocator.getSeasonServices().load(idSeason));
+                idContainerSeason.add(idSeason);
+            }
+        }
+
         callableStatement.close();
         connection.close();
-
-        return new ContractHotelDto(
-                id,
-                resultSet.getDate("start_date"),
-                resultSet.getDate("finish_date"),
-                resultSet.getDate("conciliation_date"),
-                resultSet.getString("description"),
-                ServicesLocator.getContractServices().load(id).getContractTypeDto(),
-                ServicesLocator.getSeasonServices().loadRelated(id),
-                ServicesLocator.getHotelServices().load(resultSet.getInt("id_hotel"))
-        );
+        return contractHotelDto;
     }
 
     @Override
     public List<ContractHotelDto> loadAll() throws SQLException {
         List<ContractHotelDto> ListContractHotelDto = new LinkedList<>();
-        ContractHotelDto contractHotelDto;
+        ContractHotelDto contractHotelDto = null;
         SeasonDto seasonDto;
         Connection connection = ServicesLocator.getConnection();
         int idContractHotel;
@@ -59,7 +73,7 @@ public class ContractHotelServices implements Services<ContractHotelDto> {
             idContractHotel = resultSet.getInt("id_contract");
             idSeason = resultSet.getInt("id_season");
 
-            if(!idContainerContractHotel.contains(idContractHotel)){//inserto los elementos de la primera aparicion de un identificador
+            if (!idContainerContractHotel.contains(idContractHotel)) {//inserto los elementos de la primera aparicion de un identificador
                 ContractDto contractDto = ServicesLocator.getContractServices().load(idContractHotel);
                 idContainerContractHotel.add(idContractHotel);
                 idContainerSeason.clear();
@@ -68,21 +82,18 @@ public class ContractHotelServices implements Services<ContractHotelDto> {
                 ListSeasonInsert.add(seasonDto);
                 idContainerSeason.add(idSeason);
 
-                ListContractHotelDto.add(new ContractHotelDto(
+                contractHotelDto = new ContractHotelDto(
                         idContractHotel,
                         contractDto.getStartDate(),
                         contractDto.getFinishDate(),
                         contractDto.getConciliationDate(),
                         contractDto.getDescription(),
                         contractDto.getContractTypeDto(),
-                        ListSeasonInsert,
-                        ServicesLocator.getHotelServices().load(resultSet.getInt("id_hotel"))
-                ));
-            }else {//inserto para el mismo id los tipos de hab, planes alim y modalidades diferentes
-                int size = ListContractHotelDto.size();
-                contractHotelDto = ListContractHotelDto.get(size - 1);
-
-                if(!idContainerSeason.contains(idSeason)){
+                        ServicesLocator.getHotelServices().load(resultSet.getInt("id_hotel")));
+                contractHotelDto.setSeasons(ListSeasonInsert);
+                ListContractHotelDto.add(contractHotelDto);
+            } else {//inserto para el mismo id los tipos de hab, planes alim y modalidades diferentes
+                if (!idContainerSeason.contains(idSeason)) {
                     contractHotelDto.getSeasons().add(ServicesLocator.getSeasonServices().load(idSeason));
                     idContainerSeason.add(idSeason);
                 }

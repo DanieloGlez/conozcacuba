@@ -28,7 +28,7 @@ public class HotelDto implements Dto {
     private List<ModalityCommercialDto> commercialModalities;
 
     // Constructors
-    public HotelDto(int id, String name, String address, String category, String telephoneNumber, String fax, String email, float distToCity, float distToAirport, int roomsAmount, int floorsAmount, HotelFranchiseDto hotelFranchise, ProvinceDto province, LocalizationDto localization, List<RoomTypeDto> roomTypes, List<FoodPlanDto> foodPlans, List<ModalityCommercialDto> commercialModalities) {
+    public HotelDto(int id, String name, String address, String category, String telephoneNumber, String fax, String email, float distToCity, float distToAirport, int roomsAmount, int floorsAmount, HotelFranchiseDto hotelFranchise, ProvinceDto province, LocalizationDto localization) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -46,29 +46,6 @@ public class HotelDto implements Dto {
         this.roomTypes = new LinkedList<>();
         this.foodPlans = new LinkedList<>();
         this.commercialModalities = new LinkedList<>();
-
-        ListIterator<RoomTypeDto> listIteratorRoom = roomTypes.listIterator();
-
-        while (listIteratorRoom.hasNext()){
-            RoomTypeDto currentRoomType = listIteratorRoom.next();
-            this.roomTypes.add(currentRoomType);
-        }
-
-
-        ListIterator<FoodPlanDto> listIteratorFood = foodPlans.listIterator();
-
-        while (listIteratorFood.hasNext()){
-            FoodPlanDto currentFoodPlan = listIteratorFood.next();
-            this.foodPlans.add(currentFoodPlan);
-        }
-
-
-        ListIterator<ModalityCommercialDto> listIteratorModalities = commercialModalities.listIterator();
-
-        while (listIteratorModalities.hasNext()){
-            ModalityCommercialDto currentModality = listIteratorModalities.next();
-            this.commercialModalities.add(currentModality);
-        }
     }
 
     // Getters & Setters
@@ -189,7 +166,12 @@ public class HotelDto implements Dto {
     }
 
     public void setRoomTypes(List<RoomTypeDto> roomTypes) {
-        this.roomTypes = roomTypes;
+        ListIterator<RoomTypeDto> listIteratorRoom = roomTypes.listIterator();
+
+        while (listIteratorRoom.hasNext()) {
+            RoomTypeDto currentRoomType = listIteratorRoom.next();
+            this.roomTypes.add(currentRoomType);
+        }
     }
 
     public List<FoodPlanDto> getFoodPlans() {
@@ -197,7 +179,12 @@ public class HotelDto implements Dto {
     }
 
     public void setFoodPlans(List<FoodPlanDto> foodPlans) {
-        this.foodPlans = foodPlans;
+        ListIterator<FoodPlanDto> listIteratorFood = foodPlans.listIterator();
+
+        while (listIteratorFood.hasNext()) {
+            FoodPlanDto currentFoodPlan = listIteratorFood.next();
+            this.foodPlans.add(currentFoodPlan);
+        }
     }
 
     public List<ModalityCommercialDto> getCommercialModalities() {
@@ -205,10 +192,15 @@ public class HotelDto implements Dto {
     }
 
     public void setCommercialModalities(List<ModalityCommercialDto> commercialModalities) {
-        this.commercialModalities = commercialModalities;
+        ListIterator<ModalityCommercialDto> listIteratorModalities = commercialModalities.listIterator();
+
+        while (listIteratorModalities.hasNext()) {
+            ModalityCommercialDto currentModality = listIteratorModalities.next();
+            this.commercialModalities.add(currentModality);
+        }
     }
 
-    public String toString(){
+    public String toString() {
         return this.getName();
     }
 }
