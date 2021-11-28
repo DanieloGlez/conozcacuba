@@ -3,11 +3,12 @@ package util;
 import dto.*;
 import dto.fun.*;
 import dto.nom.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableListBase;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.swing.text.html.ListView;
+import java.util.*;
 
 public class ConstantUtils {
     private static final List<Class> tableClasses = Arrays.asList(
@@ -37,6 +38,11 @@ public class ConstantUtils {
             VehicleBrandDto.class
     );
 
+    public static final ArrayList<String> categories = new ArrayList<>(Arrays.asList("Contracts Tables","Hotels Tables","Transport Tables", "Services Tables","Touristic Packages"));
+
+
+
+
     private static Map<String, Class> tableNames = null;
 
     public static Map<String, Class> getTableNames() {
@@ -50,4 +56,12 @@ public class ConstantUtils {
 
         return tableNames;
     }
+
+    /*public static ArrayList<String> getCategories(){
+        return categories;
+
+    }*/
+
+
+
 }
