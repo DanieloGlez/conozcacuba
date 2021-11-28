@@ -1,27 +1,30 @@
 package service;
 
+import dto.ContractDto;
 import dto.TouristicPackageDto;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TouristicPackageServices implements Services<TouristicPackageDto>{
+public class TouristicPackageServices implements Services<TouristicPackageDto> {
     @Override
     public TouristicPackageDto load(int id) throws SQLException {
+        TouristicPackageDto touristicPackageDto;
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
-        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.touristic_package_load_by_id(?)}");
+        int idContract;
+        List<Integer> idContainerContract = new LinkedList<>();
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.contract_transport_load_by_id(?)}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
         callableStatement.setInt(2, id);
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
-        callableStatement.close();
-        connection.close();
-        return new TouristicPackageDto(
+
+        touristicPackageDto = new TouristicPackageDto(
                 resultSet.getInt("id_touristic_package"),
-                resultSet.getString("promotionla_name"),
+                resultSet.getString("promotional_name"),
                 resultSet.getInt("days_amount"),
                 resultSet.getInt("nights_amount"),
                 resultSet.getInt("pax_amount"),
@@ -29,43 +32,76 @@ public class TouristicPackageServices implements Services<TouristicPackageDto>{
                 resultSet.getFloat("cost_transport"),
                 resultSet.getFloat("cost_transport_hotel_airport"),
                 resultSet.getFloat("cost_total"),
-                resultSet.getFloat("price"),
-                ServicesLocator.getContractServices().loadRelated(id)
-        );
+                resultSet.getFloat("price"));
+
+        while (resultSet.next()) {
+            idContract = resultSet.getInt("id_contract");
+
+            if (!idContainerContract.contains(idContract)) {
+                touristicPackageDto.getContracts().add(ServicesLocator.getContractServices().load(idContract));
+                idContainerContract.add(idContract);
+            }
+        }
+
+        callableStatement.close();
+        connection.close();
+        return touristicPackageDto;
     }
+
 
     @Override
     public List<TouristicPackageDto> loadAll() throws SQLException {
-        List<TouristicPackageDto> touristicPackageDtos = new LinkedList<>();
+        List<TouristicPackageDto> ListTouristicPackageDtos = new LinkedList<>();
+        TouristicPackageDto touristicPackageDto = null;
+        ContractDto contractDto;
         Connection connection = ServicesLocator.getConnection();
+        int idTouristicPackage;
+        int idContract;
+        List<Integer> idContainerTouristicPackage = new LinkedList<>();
+        List<Integer> idContainerContract = new LinkedList<>();
+
         connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.touristic_package_load()}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
         callableStatement.execute();
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
-        int idTourPack;
 
         while (resultSet.next()) {
-            idTourPack = resultSet.getInt("id_touristic_package");
-            touristicPackageDtos.add(new TouristicPackageDto(
-                    idTourPack,
-                    resultSet.getString("promotional_name"),
-                    resultSet.getInt("days_amount"),
-                    resultSet.getInt("nights_amount"),
-                    resultSet.getInt("pax_amount"),
-                    resultSet.getFloat("cost_hotel"),
-                    resultSet.getFloat("cost_transport"),
-                    resultSet.getFloat("cost_transport_hotel_airport"),
-                    resultSet.getFloat("cost_total"),
-                    resultSet.getFloat("price"),
-                    ServicesLocator.getContractServices().loadRelated(idTourPack)
-            ) {
-            });
+            idTouristicPackage = resultSet.getInt("id_touristic_package");
+            idContract = resultSet.getInt("id_contract");
+
+            if (!idContainerTouristicPackage.contains(idTouristicPackage)) {
+                idContainerTouristicPackage.add(idTouristicPackage);
+                idContainerContract.clear();
+                contractDto = ServicesLocator.getContractServices().load(idContract);
+                List<ContractDto> ListContractInsert = new LinkedList<>();
+                ListContractInsert.add(contractDto);
+                idContainerContract.add(idContract);
+
+                touristicPackageDto = new TouristicPackageDto(
+                        idTouristicPackage,
+                        resultSet.getString("promotional_name"),
+                        resultSet.getInt("days_amount"),
+                        resultSet.getInt("nights_amount"),
+                        resultSet.getInt("pax_amount"),
+                        resultSet.getFloat("cost_hotel"),
+                        resultSet.getFloat("cost_transport"),
+                        resultSet.getFloat("cost_transport_hotel_airport"),
+                        resultSet.getFloat("cost_total"),
+                        resultSet.getFloat("price"));
+                touristicPackageDto.setContracts(ListContractInsert);
+                ListTouristicPackageDtos.add(touristicPackageDto);
+            } else {
+                if (!idContainerContract.contains(idContract)) {
+                    touristicPackageDto.getContracts().add(ServicesLocator.getContractServices().load(idContract));
+                    idContainerContract.add(idContract);
+                }
+            }
         }
 
         callableStatement.close();
         connection.close();
-        return touristicPackageDtos;
+        return ListTouristicPackageDtos;
     }
 
     @Override

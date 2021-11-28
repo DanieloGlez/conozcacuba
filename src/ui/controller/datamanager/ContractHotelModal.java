@@ -45,7 +45,6 @@ public class ContractHotelModal extends DataManagerFormController{
                 contractDto.getConciliationDate(),
                 contractDto.getDescription(),
                 contractDto.getContractTypeDto(),
-                ServicesLocator.getSeasonServices().loadRelated(contractDto.getId()),
                 hotelDto
         ));
 
@@ -64,7 +63,6 @@ public class ContractHotelModal extends DataManagerFormController{
                 contractDto.getConciliationDate(),
                 contractDto.getDescription(),
                 contractDto.getContractTypeDto(),
-                ServicesLocator.getSeasonServices().loadRelated(contractDto.getId()),
                 hotelDto
         ));
     }
