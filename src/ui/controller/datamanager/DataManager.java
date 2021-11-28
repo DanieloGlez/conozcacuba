@@ -88,11 +88,10 @@ public class DataManager implements Initializable {
     }
 
     @FXML
-    void insert(ActionEvent event) {
+    void insert(ActionEvent event){
         try {
             Stage dataManagerFormStage = UserInterfaceUtils.showDataManagerForm(selectedTableName, null, (Stage) container_anchorpane.getScene().getWindow());
             dataManagerFormStage.showAndWait();
-
             refreshChanges();
         } catch (IOException e) {
             System.out.println(selectedTableName + " is not a datamanager form fxml file");
@@ -284,11 +283,13 @@ public class DataManager implements Initializable {
 
         for (Field declaredField : dtoClass.getDeclaredFields()) {
             String declaredFieldName = declaredField.getName();
+            if(!declaredFieldName.contains("id")) {
 
-            TableColumn<?, ?> currentTableColumn = new TableColumn<>(declaredFieldName);
-            currentTableColumn.setCellValueFactory(new PropertyValueFactory<>(declaredFieldName));
+                TableColumn<?, ?> currentTableColumn = new TableColumn<>(declaredFieldName);
+                currentTableColumn.setCellValueFactory(new PropertyValueFactory<>(declaredFieldName));
 
-            tableColumns.add(currentTableColumn);
+                tableColumns.add(currentTableColumn);
+            }
         }
 
         return tableColumns;
@@ -300,8 +301,8 @@ public class DataManager implements Initializable {
     }
 
     void refreshChanges() {
-        treeView_jfx.getSelectionModel().select(Integer.parseInt(selectedTableName));
-        //treeView_jfx.getSelectionModel().select(selectedTableName);
+        int p=treeView_jfx.getSelectionModel().selectedIndexProperty().get();
+        treeView_jfx.getSelectionModel().select(p);
     }
 }
 
