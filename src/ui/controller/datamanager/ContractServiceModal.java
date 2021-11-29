@@ -114,10 +114,11 @@ public class ContractServiceModal extends DataManagerFormController {
                 description_jfxtextarea.getText(),
                 contract_jfxcombobox.getValue(),
                 Float.parseFloat(paxcost_spinner.getValue().toString()),
-                province_jfxcombobox.getValue());
-        contractServiceDto.setCompaniesService(servicecompanies_checkcombobox.getCheckModel().getCheckedItems());
-        contractServiceDto.setServiceType(servicetypes_checkcombobox.getCheckModel().getCheckedItems());
-        contractServiceDto.setDailyActivities(dailyactivities_checkcombobox.getCheckModel().getCheckedItems());
+                province_jfxcombobox.getValue(),
+                dailyactivities_checkcombobox.getCheckModel().getCheckedItems(),
+                servicecompanies_checkcombobox.getCheckModel().getCheckedItems(),
+                servicetypes_checkcombobox.getCheckModel().getCheckedItems()
+                );
         ServicesLocator.getContractServiceServices().insert(contractServiceDto);
         ((Stage) contract_jfxcombobox.getScene().getWindow()).close();
     }
@@ -129,17 +130,18 @@ public class ContractServiceModal extends DataManagerFormController {
         java.sql.Date startDate=Date.valueOf(startdate_jfxdatepicker.getValue());
         java.sql.Date finishDate=Date.valueOf(finishdate_jfxdatepicker.getValue());
         java.sql.Date conciliationDate=Date.valueOf(conciliationndate_jfxdatepicker.getValue());
-        ContractServiceDto contractServiceDto= new ContractServiceDto(0,
-                startDate,
-                finishDate,
-                conciliationDate,
-                description_jfxtextarea.getText(),
-                contract_jfxcombobox.getValue(),
-                Float.parseFloat(paxcost_spinner.getValue().toString()),
-                province_jfxcombobox.getValue());
-        contractServiceDto.setCompaniesService(servicecompanies_checkcombobox.getItems());
-        contractServiceDto.setServiceType(servicetypes_checkcombobox.getItems());
-        contractServiceDto.setDailyActivities(dailyactivities_checkcombobox.getItems());
+       ContractServiceDto contractServiceDto= (ContractServiceDto)dto;
+       contractServiceDto.setServiceType(servicetypes_checkcombobox.getCheckModel().getCheckedItems());
+       contractServiceDto.setCompaniesService(servicecompanies_checkcombobox.getCheckModel().getCheckedItems());
+       contractServiceDto.setDailyActivities(dailyactivities_checkcombobox.getCheckModel().getCheckedItems());
+       contractServiceDto.setPaxCost(Float.parseFloat(paxcost_spinner.getValue().toString()));
+       contractServiceDto.setIdProvince(province_jfxcombobox.getValue());
+       contractServiceDto.setDescription(description_jfxtextarea.getText());
+       contractServiceDto.setStartDate(startDate);
+       contractServiceDto.setFinishDate(finishDate);
+       contractServiceDto.setConciliationDate(conciliationDate);
+
+
         ServicesLocator.getContractServiceServices().update(contractServiceDto);
         ((Stage) contract_jfxcombobox.getScene().getWindow()).close();
 

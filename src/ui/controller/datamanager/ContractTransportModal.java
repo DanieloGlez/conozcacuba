@@ -79,7 +79,15 @@ public class ContractTransportModal extends DataManagerFormController {
         java.sql.Date startDate= Date.valueOf(startdate_jfxdatepicker.getValue());
         java.sql.Date finishDate=Date.valueOf(finishdate_jfxdatepicker.getValue());
         java.sql.Date conciliationDate=Date.valueOf(conciliationndate_jfxdatepicker.getValue());
-        ContractTransportDto contractTransportDto= new ContractTransportDto(
+        ContractTransportDto contractDto = (ContractTransportDto) dto;
+        contractDto.setVehicles(vehicleslist_combocheckbox.getCheckModel().getCheckedItems());
+        contractDto.setContractTypeDto(contract_jfxcombobox.getValue());
+        contractDto.setStartDate(startDate);
+        contractDto.setFinishDate(finishDate);
+        contractDto.setConciliationDate(conciliationDate);
+        contractDto.setTransportCompany(transportcompany_jfxcombobox.getValue());
+
+       /* ContractTransportDto contractTransportDto= new ContractTransportDto(
                 0,
                 contract_jfxcombobox.getValue(),
                 startDate,
@@ -90,7 +98,7 @@ public class ContractTransportModal extends DataManagerFormController {
         );
         contractTransportDto.setVehicles(vehicleslist_combocheckbox.getCheckModel().getCheckedItems());
         ServicesLocator.getContractTransportServices().insert(contractTransportDto);
-
+*/
 
     }
 
