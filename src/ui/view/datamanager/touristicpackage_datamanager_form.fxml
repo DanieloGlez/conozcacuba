@@ -3,12 +3,15 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import org.controlsfx.control.CheckComboBox?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../../asset/css/global.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.datamanager.TouristicPackageModal">
     <children>
@@ -22,6 +25,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
                 <JFXTextField fx:id="promotionalname_jfxtextfield" promptText="Promotional Name">
@@ -55,6 +59,22 @@
                         <Font size="14.0" />
                     </font>
                 </JFXTextField>
+            <JFXTextField fx:id="totalcost_jfxtextfield" promptText="Total Cost" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="pricepackage_jfxtextfield" promptText="Price Package" GridPane.rowIndex="4">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXTextField>
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <children>
+                  <Label text="Contracts" />
+                  <CheckComboBox fx:id="contracts_checkcombobox" prefHeight="25.0" prefWidth="197.0" />
+               </children>
+            </VBox>
             </children>
         </GridPane>
         <HBox alignment="CENTER" layoutX="111.0" layoutY="167.0" prefHeight="45.0" prefWidth="159.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
