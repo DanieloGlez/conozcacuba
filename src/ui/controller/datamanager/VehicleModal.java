@@ -6,13 +6,13 @@ import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
+import dto.ContractServiceDto;
+import dto.Dto;
 import javafx.scene.Node;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.stage.Stage;
 import util.UserInterfaceUtils;
 import dto.nom.*;
@@ -203,6 +203,21 @@ public class VehicleModal extends DataManagerFormController {
     }
 
 
+    @Override
+    public void setDto(Dto dto) {
+        super.setDto(dto);
+
+        if(dto != null) {
+            VehicleDto vehicleDtoDto = (VehicleDto) dto;
+            chapavehicle_jfxtextfield.setText(vehicleDtoDto.getRegistration());
+            capacitywithoutbaggage_jfxtextfield.setText(String.valueOf(vehicleDtoDto.getCapacityWithoutBaggage()));
+            capacitywithbaggage_jfxtextfield.setText(String.valueOf(vehicleDtoDto.getCapacityWithBaggage()));
+            productiondate_jfxdatepicker.setValue(vehicleDtoDto.getProductionDate());
+            vehiclebrand_jfxcombobox.getSelectionModel().select(vehicleDtoDto.getBrand());
+
+
+        }
+    }
 
 
 }

@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import dto.ContractDto;
 import dto.ContractServiceDto;
+import dto.Dto;
 import dto.nom.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -145,5 +146,36 @@ public class ContractServiceModal extends DataManagerFormController {
         ServicesLocator.getContractServiceServices().update(contractServiceDto);
         ((Stage) contract_jfxcombobox.getScene().getWindow()).close();
 
+    }
+
+    @Override
+    public void setDto(Dto dto) {
+        super.setDto(dto);
+
+        if(dto != null) {
+            ContractServiceDto contractDto = (ContractServiceDto) dto;
+
+            startdate_jfxdatepicker.setValue(contractDto.getStartDate().toLocalDate());
+            finishdate_jfxdatepicker.setValue(contractDto.getFinishDate().toLocalDate());
+            conciliationndate_jfxdatepicker.setValue(contractDto.getConciliationDate().toLocalDate());
+            description_jfxtextarea.setText(contractDto.getDescription());
+            contract_jfxcombobox.getSelectionModel().select(contractDto.getContractTypeDto());
+            province_jfxcombobox.getSelectionModel().select(contractDto.getIdProvince());
+            paxcost_spinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(100,2000, contractDto.getPaxCost()));
+
+            ListIterator<DailyActivityDto> activityDtoListIterator= contractDto.getDailyActivities().listIterator();
+            while (activityDtoListIterator.hasNext()) {
+                dailyactivities_checkcombobox.getCheckModel().check(activityDtoListIterator.next());
+            }
+            ListIterator<CompanyServiceDto> companyServiceDtoListIterator= contractDto.getCompaniesService().listIterator();
+            while (companyServiceDtoListIterator.hasNext()) {
+                servicecompanies_checkcombobox.getCheckModel().check(companyServiceDtoListIterator.next());
+            }
+            ListIterator<ServiceTypeDto> serviceTypeDtoListIterator= contractDto.getServiceType().listIterator();
+            while (serviceTypeDtoListIterator.hasNext()) {
+                servicetypes_checkcombobox.getCheckModel().check(serviceTypeDtoListIterator.next());
+            }
+
+        }
     }
 }

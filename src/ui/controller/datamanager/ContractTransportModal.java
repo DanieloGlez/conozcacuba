@@ -4,14 +4,11 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
-import dto.ContractDto;
-import dto.ContractTransportDto;
-import dto.VehicleDto;
-import dto.nom.CompanyTransportDto;
-import dto.nom.ContractTypeDto;
-import dto.nom.ProvinceDto;
+import dto.*;
+import dto.nom.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.SpinnerValueFactory;
 import org.controlsfx.control.CheckComboBox;
 import service.ServicesLocator;
 
@@ -22,6 +19,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.ResourceBundle;
 
 public class ContractTransportModal extends DataManagerFormController {
@@ -118,6 +116,30 @@ public class ContractTransportModal extends DataManagerFormController {
         vehicleslist_combocheckbox.getItems().addAll(ServicesLocator.getVehicleServices().loadAll());
         transportcompany_jfxcombobox.getItems().addAll(ServicesLocator.getCompanyTransportServices().loadAll());
         contract_jfxcombobox.getItems().addAll(ServicesLocator.getContractTypeServices().loadAll());
+    }
+
+
+
+    @Override
+    public void setDto(Dto dto) {
+        super.setDto(dto);
+
+        if(dto != null) {
+            ContractTransportDto contractDto = (ContractTransportDto) dto;
+
+            startdate_jfxdatepicker.setValue(contractDto.getStartDate().toLocalDate());
+            finishdate_jfxdatepicker.setValue(contractDto.getFinishDate().toLocalDate());
+            conciliationndate_jfxdatepicker.setValue(contractDto.getConciliationDate().toLocalDate());
+            description_jfxtextarea.setText(contractDto.getDescription());
+            contract_jfxcombobox.getSelectionModel().select(contractDto.getContractTypeDto());
+
+            ListIterator<VehicleDto> vehicleDtoListIterator= contractDto.getVehicles().listIterator();
+            while (vehicleDtoListIterator.hasNext()) {
+                vehicleslist_combocheckbox.getCheckModel().check(vehicleDtoListIterator.next());
+            }
+
+
+        }
     }
 
 
