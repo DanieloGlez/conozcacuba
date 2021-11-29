@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ContractServiceServices implements Services<ContractServiceDto> {
-    @Override
+    /*@Override
     public ContractServiceDto load(int id) throws SQLException {
         ContractServiceDto contractServiceDto;
         ContractDto contractDto;
@@ -65,8 +65,67 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
         callableStatement.close();
         connection.close();
         return contractServiceDto;
+    }*/
+    @Override
+    public ContractServiceDto load(int id) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement callableStatement = connection.prepareCall("{? = call tpp.contract_service_load_by_id(?)}");
+        callableStatement.registerOutParameter(1, Types.REF_CURSOR);
+        callableStatement.setInt(2, id);
+        callableStatement.execute();
+        ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
+        resultSet.next();
+
+        connection.close();
+        return new ContractServiceDto(
+                id,
+                resultSet.getDate("start_date"),
+                resultSet.getDate("finish_date"),
+                resultSet.getDate("conciliation_date"),
+                resultSet.getString("description"),
+                ServicesLocator.getContractServices().load(id).getContractTypeDto(),
+                resultSet.getFloat("pax_cost"),
+                ServicesLocator.getProvinceServices().load(resultSet.getInt("id_province")),
+                ServicesLocator.getDailyActivityServices().loadRelated(id),
+                ServicesLocator.getCompanyServiceServices().loadRelated(id),
+                ServicesLocator.getServiceTypeServices().loadRelated(id)
+        );
     }
 
+    @Override
+    public List<ContractServiceDto> loadAll() throws SQLException {
+        List<ContractServiceDto> contractServiceDto = new LinkedList<>();
+        Connection connection = ServicesLocator.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement callableStatement = connection.prepareCall("{ ? = call tpp.contract_service_load()}");
+        callableStatement.registerOutParameter(1, Types.REF_CURSOR);
+        callableStatement.execute();
+        ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
+
+        while (resultSet.next()) {
+            ContractDto contractDto = ServicesLocator.getContractServices().load(resultSet.getInt("id_contract"));
+            contractServiceDto.add(new ContractServiceDto(
+                    contractDto.getId(),
+                    contractDto.getStartDate(),
+                    contractDto.getFinishDate(),
+                    contractDto.getConciliationDate(),
+                    contractDto.getDescription(),
+                    contractDto.getContractTypeDto(),
+                    resultSet.getFloat("pax_cost"),
+                    ServicesLocator.getProvinceServices().load(resultSet.getInt("id_province")),
+                    ServicesLocator.getDailyActivityServices().loadRelated(contractDto.getId()),
+                    ServicesLocator.getCompanyServiceServices().loadRelated(contractDto.getId()),
+                    ServicesLocator.getServiceTypeServices().loadRelated(contractDto.getId())
+            ));
+        }
+
+        callableStatement.close();
+        connection.close();
+        return contractServiceDto;
+    }
+
+/*
     @Override
     public List<ContractServiceDto> loadAll() throws SQLException {
         List<ContractServiceDto> ListContractService = new LinkedList<>();
@@ -102,18 +161,32 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
                 idContainerDailyActivity.clear();
                 idContainerCompany.clear();
                 idContainerServiceType.clear();
+
                 dailyActivityDto = ServicesLocator.getDailyActivityServices().load(idDailyActivity);
                 companyServiceDto = ServicesLocator.getCompanyServiceServices().load(idCompany);
                 serviceTypeDto = ServicesLocator.getServiceTypeServices().load(idServiceType);
+
                 List<DailyActivityDto> ListDailyActivityInsert = new LinkedList<>();
                 List<CompanyServiceDto> ListCompanyInsert = new LinkedList<>();
                 List<ServiceTypeDto> ListServiceTypeInsert = new LinkedList<>();
+
                 ListDailyActivityInsert.add(dailyActivityDto);
                 ListCompanyInsert.add(companyServiceDto);
                 ListServiceTypeInsert.add(serviceTypeDto);
+
                 idContainerDailyActivity.add(idDailyActivity);
                 idContainerCompany.add(idCompany);
                 idContainerServiceType.add(idServiceType);
+
+                CallableStatement callableStatementPr = connection.prepareCall("{? = call tpp.n_province_load_by_id(?)}");
+                callableStatementPr.registerOutParameter(1, Types.REF_CURSOR);
+                int idProvince = resultSet.getInt("id_province");
+                callableStatementPr.setInt(2, idProvince);
+                callableStatementPr.execute();
+                ResultSet resultSetPr = (ResultSet) callableStatementPr.getObject(1);
+                resultSetPr.next();
+                ProvinceDto provinceDto = new ProvinceDto(idProvince, resultSetPr.getString("name"));
+                callableStatementPr.close();
 
                 contractServiceDto = new ContractServiceDto(
                         idContractService,
@@ -123,7 +196,7 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
                         contractDto.getDescription(),
                         contractDto.getContractTypeDto(),
                         resultSet.getFloat("pax_cost"),
-                        ServicesLocator.getProvinceServices().load(resultSet.getInt("id_province")));
+                        provinceDto);
 
                 contractServiceDto.setDailyActivities(ListDailyActivityInsert);
                 contractServiceDto.setCompaniesService(ListCompanyInsert);
@@ -131,18 +204,42 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
                 ListContractService.add(contractServiceDto);
             } else {//inserto para el mismo id los tipos de hab, planes alim y modalidades diferentes
                 if (!idContainerDailyActivity.contains(idDailyActivity)) {
-                    contractServiceDto.getDailyActivities().add(ServicesLocator.getDailyActivityServices().load(idDailyActivity));
+                    CallableStatement callableStatementDailyAct = connection.prepareCall("{? = call tpp.n_daily_activity_load_by_id(?)}");
+                    callableStatementDailyAct.registerOutParameter(1, Types.REF_CURSOR);
+                    callableStatementDailyAct.setInt(2, idDailyActivity);
+                    callableStatementDailyAct.execute();
+                    ResultSet resultSetDailyAct = (ResultSet) callableStatementDailyAct.getObject(1);
+                    resultSetDailyAct.next();
+                    dailyActivityDto = new DailyActivityDto(idDailyActivity, resultSetDailyAct.getString("name"));
+                    contractServiceDto.getDailyActivities().add(dailyActivityDto);
                     idContainerDailyActivity.add(idDailyActivity);
+                    callableStatementDailyAct.close();
                 }
 
                 if (!idContainerCompany.contains(idCompany)) {
-                    contractServiceDto.getCompaniesService().add(ServicesLocator.getCompanyServiceServices().load(idCompany));
+                    CallableStatement callableStatementCompany = connection.prepareCall("{? = call tpp.n_company_service_load_by_id(?)}");
+                    callableStatementCompany.registerOutParameter(1, Types.REF_CURSOR);
+                    callableStatementCompany.setInt(2, idCompany);
+                    callableStatementCompany.execute();
+                    ResultSet resultSetCompany = (ResultSet) callableStatementCompany.getObject(1);
+                    resultSetCompany.next();
+                    companyServiceDto = new CompanyServiceDto(idCompany, resultSetCompany.getString("name"));
+                    contractServiceDto.getCompaniesService().add(companyServiceDto);
                     idContainerCompany.add(idCompany);
+                    callableStatementCompany.close();
                 }
 
                 if (!idContainerServiceType.contains(idServiceType)) {
-                    contractServiceDto.getServiceType().add(ServicesLocator.getServiceTypeServices().load(idServiceType));
+                    CallableStatement callableStatementServiceType = connection.prepareCall("{? = call tpp.n_service_type_load_by_id(?)}");
+                    callableStatementServiceType.registerOutParameter(1, Types.REF_CURSOR);
+                    callableStatementServiceType.setInt(2, idServiceType);
+                    callableStatementServiceType.execute();
+                    ResultSet resultSetServiceType = (ResultSet) callableStatementServiceType.getObject(1);
+                    resultSetServiceType.next();
+                    serviceTypeDto = new ServiceTypeDto(idServiceType, resultSetServiceType.getString("name"));
+                    contractServiceDto.getServiceType().add(serviceTypeDto);
                     idContainerServiceType.add(idServiceType);
+                    callableStatementServiceType.close();
                 }
             }
         }
@@ -150,7 +247,7 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
         callableStatement.close();
         connection.close();
         return ListContractService;
-    }
+    }*/
 
     @Override
     public void insert(ContractServiceDto dto) throws SQLException {

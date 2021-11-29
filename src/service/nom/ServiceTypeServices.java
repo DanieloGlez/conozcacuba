@@ -100,6 +100,7 @@ public class ServiceTypeServices implements Services<ServiceTypeDto>, Relation<S
         CallableStatement callableStatement = connection.prepareCall("{ ? = call tpp.r_contract_service_n_service_type_load_by_id(?)}");
         callableStatement.registerOutParameter(1,Types.REF_CURSOR);
         callableStatement.setInt(2,id);
+        callableStatement.execute();
         ResultSet resultSet= (ResultSet) callableStatement.getObject(1);
 
         while (resultSet.next()){
