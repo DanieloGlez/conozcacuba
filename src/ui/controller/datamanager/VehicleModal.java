@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
+import com.jfoenix.validation.NumberValidator;
+import com.jfoenix.validation.RegexValidator;
 import dto.ContractServiceDto;
 import dto.Dto;
 import javafx.scene.Node;
@@ -30,6 +32,7 @@ import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import service.*;
+import util.Validator;
 
 public class VehicleModal extends DataManagerFormController {
     @FXML
@@ -49,6 +52,8 @@ public class VehicleModal extends DataManagerFormController {
 
     @FXML
     private JFXComboBox<VehicleBrandDto> vehiclebrand_jfxcombobox;
+
+    private Validator p= new Validator();
 
     /*@FXML
     void insertVehicle(ActionEvent event) throws SQLException {
@@ -160,6 +165,43 @@ public class VehicleModal extends DataManagerFormController {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             addComboBoxItems();
+            RegexValidator regexNumericValidator= new RegexValidator("This field is not a number");
+            regexNumericValidator.setRegexPattern("[+-]?\\d*(\\.\\d+)?");
+            RegexValidator regexRegistrationValidator= new RegexValidator("Registration field is incorrect");
+            regexRegistrationValidator.setRegexPattern("^[B,F,M,P]{1}\\[1-9]{5}");
+            RequiredFieldValidator requiredFieldValidator= new RequiredFieldValidator("This field is required");
+
+            capacitywithoutbaggage_jfxtextfield.getValidators().add(regexNumericValidator);
+            capacitywithoutbaggage_jfxtextfield.focusedProperty().addListener((o,oldVal,newVal)->{
+                if(!newVal) capacitywithoutbaggage_jfxtextfield.validate();
+            });
+            capacitywithoutbaggage_jfxtextfield.getValidators().add(requiredFieldValidator);
+
+            capacitywithbaggage_jfxtextfield.getValidators().add(regexNumericValidator);
+            capacitywithbaggage_jfxtextfield.focusedProperty().addListener((o,oldVal,newVal)->{
+                if(!newVal) capacitywithbaggage_jfxtextfield.validate();
+            });
+            capacitywithbaggage_jfxtextfield.getValidators().add(requiredFieldValidator);
+
+            chapavehicle_jfxtextfield.getValidators().add(requiredFieldValidator);
+            //chapavehicle_jfxtextfield.getValidators().add(regexRegistrationValidator);
+            chapavehicle_jfxtextfield.focusedProperty().addListener((o,oldVal,newVal)->{
+                if(!newVal) chapavehicle_jfxtextfield.validate();
+            });
+
+            productiondate_jfxdatepicker.getValidators().add(requiredFieldValidator);
+            productiondate_jfxdatepicker.focusedProperty().addListener((o,oldVal,newVal)->{
+                if(!newVal) productiondate_jfxdatepicker.validate();
+            });
+
+            vehiclebrand_jfxcombobox.getValidators().add(requiredFieldValidator);
+            vehiclebrand_jfxcombobox.focusedProperty().addListener((o,oldVal,newVal)->{
+                if(!newVal) vehiclebrand_jfxcombobox.validate();
+            });
+
+
+
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -169,27 +211,51 @@ public class VehicleModal extends DataManagerFormController {
     @Override
     public void insert(ActionEvent event) throws SQLException {
 
-        ServicesLocator.getVehicleServices().insert(new VehicleDto(
-                0,
-                chapavehicle_jfxtextfield.getText(),
-                vehiclebrand_jfxcombobox.getValue(),
-                Integer.parseInt(capacitywithoutbaggage_jfxtextfield.getText()),
-                Integer.parseInt(capacitywithbaggage_jfxtextfield.getText()),
-                productiondate_jfxdatepicker.getValue()));
-        ((Stage) chapavehicle_jfxtextfield.getScene().getWindow()).close();
+        Validator p= new Validator();
+
+        ArrayList<JFXTextField> prueba1=new ArrayList<>();
+        prueba1.add(capacitywithoutbaggage_jfxtextfield);
+        ArrayList<JFXTextField> prueba2=new ArrayList<>();
+        prueba2.add(capacitywithbaggage_jfxtextfield);
+        if (p.validateNumber(capacitywithoutbaggage_jfxtextfield) && p.validateNumber(capacitywithbaggage_jfxtextfield) && p.validateRegistration(chapavehicle_jfxtextfield) && p.validateCombobox(vehiclebrand_jfxcombobox)) {
+
+            ServicesLocator.getVehicleServices().insert(new VehicleDto(
+                    0,
+                    chapavehicle_jfxtextfield.getText(),
+                    vehiclebrand_jfxcombobox.getValue(),
+                    Integer.parseInt(capacitywithoutbaggage_jfxtextfield.getText()),
+                    Integer.parseInt(capacitywithbaggage_jfxtextfield.getText()),
+                    productiondate_jfxdatepicker.getValue()));
+            ((Stage) chapavehicle_jfxtextfield.getScene().getWindow()).close();
+        }
+        else{
+
+
+        }
+
+
+
     }
 
     @Override
     public void update(ActionEvent event) throws SQLException {
-        VehicleDto vehicleDto=(VehicleDto) dto;
-        vehicleDto.setRegistration(chapavehicle_jfxtextfield.getText());
-        vehicleDto.setCapacityWithoutBaggage(Integer.parseInt(capacitywithoutbaggage_jfxtextfield.getText()));
-        vehicleDto.setCapacityWithBaggage(Integer.parseInt(capacitywithbaggage_jfxtextfield.getText()));
-        vehicleDto.setProductionDate(productiondate_jfxdatepicker.getValue());
-        vehicleDto.setBrand(vehiclebrand_jfxcombobox.getValue());
+        Validator p= new Validator();
 
-        ServicesLocator.getVehicleServices().update(vehicleDto);
-        ((Stage) chapavehicle_jfxtextfield.getScene().getWindow()).close();
+        if (p.validateNumber(capacitywithoutbaggage_jfxtextfield) && p.validateNumber(capacitywithbaggage_jfxtextfield) && p.validateRegistration(chapavehicle_jfxtextfield) && p.validateCombobox(vehiclebrand_jfxcombobox)) {
+
+            VehicleDto vehicleDto = (VehicleDto) dto;
+            vehicleDto.setRegistration(chapavehicle_jfxtextfield.getText());
+            vehicleDto.setCapacityWithoutBaggage(Integer.parseInt(capacitywithoutbaggage_jfxtextfield.getText()));
+            vehicleDto.setCapacityWithBaggage(Integer.parseInt(capacitywithbaggage_jfxtextfield.getText()));
+            vehicleDto.setProductionDate(productiondate_jfxdatepicker.getValue());
+            vehicleDto.setBrand(vehiclebrand_jfxcombobox.getValue());
+            ServicesLocator.getVehicleServices().update(vehicleDto);
+
+            ((Stage) chapavehicle_jfxtextfield.getScene().getWindow()).close();
+        }else {
+
+        }
+
 
 
 

@@ -15,6 +15,7 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.stage.Stage;
 import org.controlsfx.control.CheckComboBox;
 import service.ServicesLocator;
+import util.Validator;
 
 import java.net.URL;
 import java.sql.Date;

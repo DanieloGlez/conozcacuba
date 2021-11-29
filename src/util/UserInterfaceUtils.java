@@ -51,6 +51,7 @@ public class UserInterfaceUtils {
         Scene scene = null;
         String url = null;
 
+
         if(ConstantUtils.getTableNames().get(dtoClassSimpleName).getSuperclass().equals(NomenclatorDto.class)) {
             url = "/ui/view/datamanager/nomenclator_datamanager_form.fxml";
 

@@ -87,4 +87,9 @@ public class ContractDto implements Dto{
 
         return areEquals;
     }
+
+
+
+
+
 }
