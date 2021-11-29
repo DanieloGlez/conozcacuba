@@ -62,11 +62,11 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
     public void insert(ModalityTransportRtDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_rt_insert(?,?,?,?,?)}");
-        callableStatement.setString(1, dto.getRtDescription());
-        callableStatement.setFloat(2, dto.getCostRt());
-        callableStatement.setFloat(3, dto.getCostRoundTrip());
-        callableStatement.setInt(4, dto.getContractTransport().getId());
-        callableStatement.setInt(5, dto.getVehicle().getId());
+        callableStatement.setInt(1, dto.getContractTransport().getId());
+        callableStatement.setInt(2, dto.getVehicle().getId());
+        callableStatement.setString(3, dto.getRtDescription());
+        callableStatement.setFloat(4, dto.getCostRt());
+        callableStatement.setFloat(5, dto.getCostRoundTrip());
         callableStatement.execute();
         callableStatement.close();
         connection.close();
@@ -77,11 +77,11 @@ public class ModalityTransportRtServices implements Services<ModalityTransportRt
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_rt_update(?,?,?,?,?,?)}");
         callableStatement.setInt(1,dto.getId());
-        callableStatement.setString(2, dto.getRtDescription());
-        callableStatement.setFloat(3, dto.getCostRt());
-        callableStatement.setFloat(4, dto.getCostRoundTrip());
-        callableStatement.setInt(5, dto.getContractTransport().getId());
-        callableStatement.setInt(6, dto.getVehicle().getId());
+        callableStatement.setInt(2, dto.getContractTransport().getId());
+        callableStatement.setInt(3, dto.getVehicle().getId());
+        callableStatement.setString(4, dto.getRtDescription());
+        callableStatement.setFloat(5, dto.getCostRt());
+        callableStatement.setFloat(6, dto.getCostRoundTrip());
         callableStatement.execute();
         callableStatement.close();
         connection.close();

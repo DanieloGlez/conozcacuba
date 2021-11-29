@@ -18,7 +18,7 @@
                   <Insets top="30.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField fx:id="costroundtrip_jfxtextfield" text="Cost Round Trip">
+            <JFXTextField fx:id="costroundtrip_jfxtextfield" promptText ="Cost Round Trip">
                <VBox.margin>
                   <Insets top="30.0" />
                </VBox.margin>

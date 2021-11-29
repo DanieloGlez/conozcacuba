@@ -13,6 +13,11 @@
    <children>
       <VBox layoutX="224.0" layoutY="44.0" prefHeight="268.0" prefWidth="153.0" spacing="24.0">
          <children>
+            <JFXTextField fx:id="costhr_jfxtextfield" labelFloat="true" promptText="Cost Hours">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXTextField>
             <JFXTextField fx:id="travelcost_jfxtextfield" labelFloat="true" promptText="Travel Cost">
                <font>
                   <Font size="14.0" />
