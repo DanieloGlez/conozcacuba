@@ -105,10 +105,7 @@ public class CompanyServiceServices implements Services<CompanyServiceDto>, Rela
         ResultSet resultSet= (ResultSet) callableStatement.getObject(1);
 
         while (resultSet.next()){
-            companyServiceDtoLinkedList.add(
-                    new CompanyServiceDto(resultSet.getInt(1),
-                            resultSet.getString(2))
-            );
+            companyServiceDtoLinkedList.add(load(resultSet.getInt("id_company_service")));
         }
 
         callableStatement.close();

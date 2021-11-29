@@ -104,10 +104,7 @@ public class ServiceTypeServices implements Services<ServiceTypeDto>, Relation<S
         ResultSet resultSet= (ResultSet) callableStatement.getObject(1);
 
         while (resultSet.next()){
-            servicesTypesDto.add(
-                    new ServiceTypeDto(resultSet.getInt(1),
-                            resultSet.getString(2))
-            );
+            servicesTypesDto.add(load(resultSet.getInt("id_service_type")));
         }
 
         connection.close();
