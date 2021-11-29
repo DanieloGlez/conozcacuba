@@ -1,14 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import org.controlsfx.control.CheckComboBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ui.controller.datamanager.ContractTransportModal"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.datamanager.ContractTransportModal">
+   <children>
+      <GridPane hgap="8.0" layoutX="10.0" layoutY="146.0" prefHeight="214.0" prefWidth="576.0" vgap="21.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="49.0">
+         <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <JFXComboBox fx:id="contract_jfxcombobox" focusColor="#468c82" labelFloat="true" prefWidth="150.0" promptText="Contract" />
+            <JFXDatePicker fx:id="startdate_jfxdatepicker" prefHeight="25.0" prefWidth="153.0" promptText="Start Date" GridPane.rowIndex="1" />
+            <JFXDatePicker fx:id="finishdate_jfxdatepicker" prefHeight="25.0" prefWidth="146.0" promptText="Finish Date" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <JFXDatePicker fx:id="conciliationndate_jfxdatepicker" prefHeight="25.0" prefWidth="145.0" promptText="Conciliation Date" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <JFXComboBox fx:id="transportcompany_jfxcombobox" prefHeight="25.0" prefWidth="145.0" promptText="Transport Company" GridPane.columnIndex="2" />
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+               <children>
+                  <Label alignment="TOP_LEFT" text="Vehicles" />
+                  <CheckComboBox fx:id="vehicleslist_combocheckbox" prefHeight="27.0" prefWidth="152.0" />
+               </children>
+               <padding>
+                  <Insets left="17.0" />
+               </padding>
+            </VBox>
+            <JFXTextArea fx:id="description_jfxtextarea" prefHeight="42.0" prefWidth="189.0" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
+      <HBox alignment="CENTER" layoutX="173.0" layoutY="327.0" prefHeight="45.0" prefWidth="288.0">
+         <children>
+            <JFXButton fx:id="insert_jfxbutton" onAction="#insert" prefHeight="30.0" prefWidth="76.0" style="-fx-border-color: #468682; -fx-border-radius: 5; -fx-text-fill: #468682;" text="Insert">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="update_jfxbutton" alignment="CENTER" onAction="#update" prefHeight="41.0" prefWidth="89.0" style="-fx-border-color: #468682; -fx-border-radius: 5; -fx-text-fill: #468682;" text="Update">
+               <HBox.margin>
+                  <Insets left="58.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </HBox>
+   </children>
 </AnchorPane>
