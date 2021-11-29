@@ -10,6 +10,7 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TreeItem;
@@ -84,7 +85,11 @@ public class DataManager implements Initializable {
         Services<?> service = (Services<?>) ServicesLocator.class.getMethod("get" + selectedTableName + "Services").invoke(null);
         Dto selectedDto = (Dto) datamanager_tableview.getSelectionModel().getSelectedItem();
         service.delete(selectedDto.getId());
-        refreshChanges();
+        try {
+            refreshChanges();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -92,7 +97,19 @@ public class DataManager implements Initializable {
         try {
             Stage dataManagerFormStage = UserInterfaceUtils.showDataManagerForm(selectedTableName, null, (Stage) container_anchorpane.getScene().getWindow());
             dataManagerFormStage.showAndWait();
-            refreshChanges();
+            try {
+                refreshChanges();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
         } catch (IOException e) {
             System.out.println(selectedTableName + " is not a datamanager form fxml file");
         }
@@ -106,7 +123,19 @@ public class DataManager implements Initializable {
             Stage dataManagerFormStage = UserInterfaceUtils.showDataManagerForm(selectedTableName, selectedDto, (Stage) container_anchorpane.getScene().getWindow());
             dataManagerFormStage.showAndWait();
 
-            refreshChanges();
+            try {
+                refreshChanges();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
         } catch (IOException e) {
             System.out.println(selectedTableName + " is not a datamanager form fxml file");
         }
@@ -300,9 +329,9 @@ public class DataManager implements Initializable {
         return service.loadAll();
     }
 
-    void refreshChanges() {
-        int p=treeView_jfx.getSelectionModel().selectedIndexProperty().get();
-        treeView_jfx.getSelectionModel().select(p);
+    void refreshChanges() throws SQLException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        selectedTableName = (String) treeView_jfx.getSelectionModel().selectedItemProperty().getValue().getValue();
+        showContentInDataManagerTableView(selectedTableName);
     }
 }
 
