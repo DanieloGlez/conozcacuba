@@ -45,7 +45,6 @@ public class ModalityTransportHrKm extends DataManagerFormController {
             contract_jfxcombobox.getItems().addAll(ServicesLocator.getContractTransportServices().loadAll());
 
 
-
             RegexValidator regexTextValidator = new RegexValidator("This field requires a text");
             RegexValidator regexNumericValidator = new RegexValidator("This field requires a Number");
             RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator("This field is require");
