@@ -39,6 +39,7 @@ public class ContractTransportDto extends ContractDto {
     }
 
     public void setVehicles(List<VehicleDto> vehicles) {
+        this.vehicles.clear();
         ListIterator<VehicleDto> listIterator = vehicles.listIterator();
 
         while (listIterator.hasNext()) {

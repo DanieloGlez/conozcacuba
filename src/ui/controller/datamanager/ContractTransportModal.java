@@ -51,6 +51,20 @@ public class ContractTransportModal extends DataManagerFormController {
     @FXML
     private JFXButton update_jfxbutton;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        try {
+            initializeComboBoxes();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    private void initializeComboBoxes() throws SQLException {
+        vehicleslist_combocheckbox.getItems().addAll(ServicesLocator.getVehicleServices().loadAll());
+        transportcompany_jfxcombobox.getItems().addAll(ServicesLocator.getCompanyTransportServices().loadAll());
+        contract_jfxcombobox.getItems().addAll(ServicesLocator.getContractTypeServices().loadAll());
+    }
 
     @Override
     public void insert(ActionEvent event) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, SQLException, InstantiationException, ParseException {
@@ -69,7 +83,7 @@ public class ContractTransportModal extends DataManagerFormController {
                 );
 
         ServicesLocator.getContractTransportServices().insert(contractTransportDto);
-        ServicesLocator.getRelationContractTransportVehicleServices().insert(contractTransportDto, contractTransportDto.getVehicles());
+        ServicesLocator.getRelationContractTransportVehicleServices().insert(contractTransportDto);
 
         ((Stage) contract_jfxcombobox.getScene().getWindow()).close();
     }
@@ -79,13 +93,17 @@ public class ContractTransportModal extends DataManagerFormController {
         java.sql.Date startDate= Date.valueOf(startdate_jfxdatepicker.getValue());
         java.sql.Date finishDate=Date.valueOf(finishdate_jfxdatepicker.getValue());
         java.sql.Date conciliationDate=Date.valueOf(conciliationndate_jfxdatepicker.getValue());
-        ContractTransportDto contractDto = (ContractTransportDto) dto;
-        contractDto.setVehicles(vehicleslist_combocheckbox.getCheckModel().getCheckedItems());
-        contractDto.setContractTypeDto(contract_jfxcombobox.getValue());
-        contractDto.setStartDate(startDate);
-        contractDto.setFinishDate(finishDate);
-        contractDto.setConciliationDate(conciliationDate);
-        contractDto.setTransportCompany(transportcompany_jfxcombobox.getValue());
+        ContractTransportDto contractTransportDto = (ContractTransportDto) dto;
+        contractTransportDto.setVehicles(vehicleslist_combocheckbox.getCheckModel().getCheckedItems());
+        contractTransportDto.setContractTypeDto(contract_jfxcombobox.getValue());
+        contractTransportDto.setStartDate(startDate);
+        contractTransportDto.setFinishDate(finishDate);
+        contractTransportDto.setConciliationDate(conciliationDate);
+        contractTransportDto.setTransportCompany(transportcompany_jfxcombobox.getValue());
+
+        ServicesLocator.getRelationContractTransportVehicleServices().update(contractTransportDto);
+
+        ((Stage) contract_jfxcombobox.getScene().getWindow()).close();
 
        /* ContractTransportDto contractTransportDto= new ContractTransportDto(
                 0,
@@ -101,24 +119,6 @@ public class ContractTransportModal extends DataManagerFormController {
 */
 
     }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        try {
-            initializeComboBoxes();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-
-    }
-    private void initializeComboBoxes() throws SQLException {
-        vehicleslist_combocheckbox.getItems().addAll(ServicesLocator.getVehicleServices().loadAll());
-        transportcompany_jfxcombobox.getItems().addAll(ServicesLocator.getCompanyTransportServices().loadAll());
-        contract_jfxcombobox.getItems().addAll(ServicesLocator.getContractTypeServices().loadAll());
-    }
-
-
 
     @Override
     public void setDto(Dto dto) {
@@ -137,8 +137,6 @@ public class ContractTransportModal extends DataManagerFormController {
             while (vehicleDtoListIterator.hasNext()) {
                 vehicleslist_combocheckbox.getCheckModel().check(vehicleDtoListIterator.next());
             }
-
-
         }
     }
 
