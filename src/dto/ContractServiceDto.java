@@ -102,5 +102,6 @@ public class ContractServiceDto extends ContractDto implements Dto {
 
    /* public void setServiceType(List<ServiceTypeDto> serviceType) {
         this.serviceType = serviceType;
-    }*/
+    }
+    */
 }
