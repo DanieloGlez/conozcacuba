@@ -13,6 +13,12 @@ public class ContractTransportDto extends ContractDto {
     private List<VehicleDto> vehicles;
 
     // Constructors
+    public ContractTransportDto(int id, ContractTypeDto contractTypeDto, Date startDate, Date finishDate, Date conciliationDate, String description, CompanyTransportDto transportCompany, List<VehicleDto> vehicles) {
+        super(id, contractTypeDto, startDate, finishDate, conciliationDate, description);
+        this.transportCompany = transportCompany;
+        this.vehicles = vehicles;
+    }
+
     public ContractTransportDto(int id, ContractTypeDto contractTypeDto, Date startDate, Date finishDate, Date conciliationDate, String description, CompanyTransportDto transportCompany) {
         super(id, contractTypeDto, startDate, finishDate, conciliationDate, description);
         this.transportCompany = transportCompany;

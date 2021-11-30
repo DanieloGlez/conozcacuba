@@ -17,14 +17,15 @@ public class ContractServiceDto extends ContractDto implements Dto {
     private List<ServiceTypeDto> serviceType;
 
     // Constructors
-    /*public ContractServiceDto(int id, java.sql.Date startDate, java.sql.Date finishDate, java.sql.Date conciliationDate, String description, ContractTypeDto contractTypeDto, float paxCost, ProvinceDto idProvince) {
+    public ContractServiceDto(int id, java.sql.Date startDate, java.sql.Date finishDate, java.sql.Date conciliationDate, String description, ContractTypeDto contractTypeDto, float paxCost, ProvinceDto idProvince) {
         super(id, contractTypeDto, startDate, finishDate, conciliationDate, description);
         this.idProvince = idProvince;
         this.paxCost = paxCost;
         this.dailyActivities = new LinkedList<>();
         this.companiesService = new LinkedList<>();
         this.serviceType = new LinkedList<>();
-    }*/
+    }
+
     public ContractServiceDto(int id, java.sql.Date startDate, java.sql.Date finishDate, java.sql.Date conciliationDate, String description, ContractTypeDto contractTypeDto, float paxCost, ProvinceDto idProvince, List<DailyActivityDto> dailyActivities, List<CompanyServiceDto> companiesService, List<ServiceTypeDto> serviceType) {
         super(id, contractTypeDto, startDate, finishDate, conciliationDate, description);
         this.idProvince = idProvince;
@@ -73,33 +74,33 @@ public class ContractServiceDto extends ContractDto implements Dto {
         return companiesService;
     }
 
-    /*public void setCompaniesService(List<CompanyServiceDto> companiesService) {
+    public void setCompaniesService(List<CompanyServiceDto> companiesService) {
         ListIterator<CompanyServiceDto> listIterator = companiesService.listIterator();
 
         while (listIterator.hasNext()) {
             CompanyServiceDto currentCompanyServiceDto = listIterator.next();
             this.companiesService.add(currentCompanyServiceDto);
         }
-    }*/
-
-    public void setCompaniesService(List<CompanyServiceDto> companiesService) {
-        this.companiesService = companiesService;
     }
+
+    /*public void setCompaniesService(List<CompanyServiceDto> companiesService) {
+        this.companiesService = companiesService;
+    }*/
 
     public List<ServiceTypeDto> getServiceType() {
         return serviceType;
     }
 
-    /*public void setServiceType(List<ServiceTypeDto> serviceType) {
+    public void setServiceType(List<ServiceTypeDto> serviceType) {
         ListIterator<ServiceTypeDto> listIterator = serviceType.listIterator();
 
         while (listIterator.hasNext()) {
             ServiceTypeDto currentServiceTypeDto = listIterator.next();
             this.serviceType.add(currentServiceTypeDto);
         }
-    }*/
-
-    public void setServiceType(List<ServiceTypeDto> serviceType) {
-        this.serviceType = serviceType;
     }
+
+   /* public void setServiceType(List<ServiceTypeDto> serviceType) {
+        this.serviceType = serviceType;
+    }*/
 }

@@ -37,6 +37,10 @@ public class ServicesLocator {
     private static ContractServiceServices contractServiceServices;
     private static ContractHotelServices contractHotelServices;
     private static TouristicPackageServices touristicPackageServices;
+    private static RelationContractServiceDailyActServices relationContractServiceDailyActServices;
+    private static RelationContractServiceServiceTypeServices relationContractServiceServiceTypeServices;
+    private static RelationContractServiceCompanyServiceServices relationContractServiceCompanyServiceServices;
+    private static RelationContractTransportVehicleServices relationContractTransportVehicleServices;
 
     // Connection
     public static Connection getConnection() throws SQLException {
@@ -221,5 +225,29 @@ public class ServicesLocator {
         if (touristicPackageServices == null)
             touristicPackageServices = new TouristicPackageServices();
         return touristicPackageServices;
+    }
+
+    public static RelationContractServiceDailyActServices getRelationContractServiceDailyActServices() {
+        if (relationContractServiceDailyActServices == null)
+            relationContractServiceDailyActServices = new RelationContractServiceDailyActServices();
+        return relationContractServiceDailyActServices;
+    }
+
+    public static RelationContractServiceServiceTypeServices getRelationContractServiceServiceTypeServices() {
+        if (relationContractServiceServiceTypeServices == null)
+            relationContractServiceServiceTypeServices = new RelationContractServiceServiceTypeServices();
+        return relationContractServiceServiceTypeServices;
+    }
+
+    public static RelationContractServiceCompanyServiceServices getRelationContractServiceCompanyServiceServices() {
+        if (relationContractServiceCompanyServiceServices == null)
+            relationContractServiceCompanyServiceServices = new RelationContractServiceCompanyServiceServices();
+        return relationContractServiceCompanyServiceServices;
+    }
+
+    public static RelationContractTransportVehicleServices getRelationContractTransportVehicleServices() {
+        if (relationContractTransportVehicleServices == null)
+            relationContractTransportVehicleServices = new RelationContractTransportVehicleServices();
+        return relationContractTransportVehicleServices;
     }
 }

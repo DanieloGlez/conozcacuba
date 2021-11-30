@@ -82,7 +82,6 @@ public class ContractServices implements Services<ContractDto>, Relation<Contrac
         ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
         resultSet.next();
         dto.setId(resultSet.getInt(1));
-        System.out.println(dto.getId());
 
         callableStatement.close();
         connection.close();

@@ -1,6 +1,5 @@
 package service;
 
-import dto.ContractDto;
 import dto.ModalityTransportHrKmDto;
 
 import java.sql.*;
@@ -64,11 +63,11 @@ public class ModalityTransportHrKmServices implements Services<ModalityTransport
     public void insert(ModalityTransportHrKmDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_hr_km_insert(?,?,?,?,?,?)}");
-        callableStatement.setFloat(1, dto.getCostTraveledKm());
-        callableStatement.setFloat(2, dto.getCostKmExtras());
-        callableStatement.setFloat(3, dto.getCostHrExtras());
-        callableStatement.setInt(4, dto.getContractTransport().getId());
-        callableStatement.setInt(5, (int) dto.getCostHr());
+        callableStatement.setInt(1, dto.getContractTransport().getId());
+        callableStatement.setInt(2, dto.getVehicle().getId());
+        callableStatement.setFloat(3, dto.getCostTraveledKm());
+        callableStatement.setFloat(4, dto.getCostKmExtras());
+        callableStatement.setFloat(5, dto.getCostHrExtras());
         callableStatement.setFloat(6, dto.getCostHr());
         callableStatement.execute();
         callableStatement.close();
@@ -79,13 +78,13 @@ public class ModalityTransportHrKmServices implements Services<ModalityTransport
     public void update(ModalityTransportHrKmDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_hr_km_update(?,?,?,?,?,?,?)}");
-        callableStatement.setInt(1,dto.getId());
-        callableStatement.setFloat(2, dto.getCostTraveledKm());
-        callableStatement.setFloat(3, dto.getCostKmExtras());
-        callableStatement.setFloat(4, dto.getCostHrExtras());
-        callableStatement.setInt(5, dto.getContractTransport().getId());
-        callableStatement.setInt(6, (int) dto.getCostHr());
-        callableStatement.setFloat(7, dto.getCostHr());
+        callableStatement.setInt(1, dto.getId());
+        callableStatement.setInt(2, dto.getContractTransport().getId());
+        callableStatement.setInt(3, dto.getVehicle().getId());
+        callableStatement.setDouble(4, dto.getCostTraveledKm());
+        callableStatement.setDouble(5, dto.getCostKmExtras());
+        callableStatement.setDouble(6, dto.getCostHrExtras());
+        callableStatement.setDouble(7, dto.getCostHr());
         callableStatement.execute();
         callableStatement.close();
         connection.close();

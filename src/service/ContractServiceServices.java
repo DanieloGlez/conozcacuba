@@ -6,9 +6,10 @@ import dto.nom.*;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 public class ContractServiceServices implements Services<ContractServiceDto> {
-    /*@Override
+    @Override
     public ContractServiceDto load(int id) throws SQLException {
         ContractServiceDto contractServiceDto;
         ContractDto contractDto;
@@ -65,8 +66,9 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
         callableStatement.close();
         connection.close();
         return contractServiceDto;
-    }*/
-    @Override
+    }
+
+   /* @Override
     public ContractServiceDto load(int id) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
@@ -91,9 +93,9 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
                 ServicesLocator.getCompanyServiceServices().loadRelated(id),
                 ServicesLocator.getServiceTypeServices().loadRelated(id)
         );
-    }
+    }*/
 
-    @Override
+    /*@Override
     public List<ContractServiceDto> loadAll() throws SQLException {
         List<ContractServiceDto> contractServiceDto = new LinkedList<>();
         Connection connection = ServicesLocator.getConnection();
@@ -123,9 +125,8 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
         callableStatement.close();
         connection.close();
         return contractServiceDto;
-    }
+    }*/
 
-/*
     @Override
     public List<ContractServiceDto> loadAll() throws SQLException {
         List<ContractServiceDto> ListContractService = new LinkedList<>();
@@ -247,7 +248,7 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
         callableStatement.close();
         connection.close();
         return ListContractService;
-    }*/
+    }
 
     @Override
     public void insert(ContractServiceDto dto) throws SQLException {
@@ -264,6 +265,18 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
         callableStatement.setInt(2, dto.getIdProvince().getId());
         callableStatement.setInt(3, contractDto.getId());
         callableStatement.execute();
+        dto.setId(contractDto.getId());
+
+        List<DailyActivityDto> dailyActivityDtoList = dto.getDailyActivities();
+        ListIterator<DailyActivityDto> listIterator = dailyActivityDtoList.listIterator();
+
+        callableStatement = connection.prepareCall("{ call tpp.r_contract_service_n_daily_activity_insert(?,?) }");
+
+        while (listIterator.hasNext()){
+            DailyActivityDto currentDaily = listIterator.next();
+            callableStatement.setInt(1, dto.getId());
+            callableStatement.setInt(1, currentDaily.getId());
+        }
 
         callableStatement.close();
         connection.close();
