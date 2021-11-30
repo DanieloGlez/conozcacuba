@@ -121,6 +121,7 @@ public class ContractTransportServices implements Services<ContractTransportDto>
         callableStatement.setInt(1, contractDto.getId());
         callableStatement.setInt(2, dto.getTransportCompany().getId());
         callableStatement.execute();
+        dto.setId(contractDto.getId());
 
         callableStatement.close();
         connection.close();

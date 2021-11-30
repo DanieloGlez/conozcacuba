@@ -9,6 +9,7 @@ import dto.nom.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.stage.Stage;
 import org.controlsfx.control.CheckComboBox;
 import service.ServicesLocator;
 
@@ -23,8 +24,6 @@ import java.util.ListIterator;
 import java.util.ResourceBundle;
 
 public class ContractTransportModal extends DataManagerFormController {
-
-
     @FXML
     private JFXComboBox<ContractTypeDto> contract_jfxcombobox;
 
@@ -65,11 +64,14 @@ public class ContractTransportModal extends DataManagerFormController {
                 finishDate,
                 conciliationDate,
                 description_jfxtextarea.getText(),
-                transportcompany_jfxcombobox.getValue()
+                transportcompany_jfxcombobox.getValue(),
+                vehicleslist_combocheckbox.getCheckModel().getCheckedItems()
                 );
-        contractTransportDto.setVehicles(vehicleslist_combocheckbox.getItems());
-        ServicesLocator.getContractTransportServices().insert(contractTransportDto);
 
+        ServicesLocator.getContractTransportServices().insert(contractTransportDto);
+        ServicesLocator.getRelationContractTransportVehicleServices().insert(contractTransportDto, contractTransportDto.getVehicles());
+
+        ((Stage) contract_jfxcombobox.getScene().getWindow()).close();
     }
 
     @Override
@@ -110,8 +112,6 @@ public class ContractTransportModal extends DataManagerFormController {
 
 
     }
-
-
     private void initializeComboBoxes() throws SQLException {
         vehicleslist_combocheckbox.getItems().addAll(ServicesLocator.getVehicleServices().loadAll());
         transportcompany_jfxcombobox.getItems().addAll(ServicesLocator.getCompanyTransportServices().loadAll());
