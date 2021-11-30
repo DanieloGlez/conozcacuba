@@ -42,8 +42,8 @@ public class ModalityTransportKm extends DataManagerFormController {
             contract_jfxcombobox.getItems().addAll(ServicesLocator.getContractTransportServices().loadAll());
             vehicle_jfxcombobox.getItems().addAll(ServicesLocator.getVehicleServices().loadAll());
 
-            RegexValidator regexTextValidator = new RegexValidator("This fields requires a text");
-            RegexValidator regexNumericValidator = new RegexValidator("This fields requires a Number");
+            RegexValidator regexTextValidator = new RegexValidator("This field requires a text");
+            RegexValidator regexNumericValidator = new RegexValidator("This field requires a Number");
             RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator("This field is require");
             regexTextValidator.setRegexPattern("[a-zA-Z].*" + "");
             regexNumericValidator.setRegexPattern("[+-]?\\d*(\\.\\d+)?");
