@@ -129,15 +129,14 @@ public class ContractServiceModal extends DataManagerFormController {
         while (listIterator.hasNext()) {
             RelationContractServiceDailyActDto relation = new RelationContractServiceDailyActDto(
                     (float) 45.0,
-                    contractServiceDto,
+                    contractServiceDto.getId(),
                     listIterator.next()
             );
-
             ServicesLocator.getRelationContractServiceDailyActServices().insert(relation);
         }
 
-        ServicesLocator.getRelationContractServiceServiceTypeServices().insert(contractServiceDto, servicetypes_checkcombobox.getCheckModel().getCheckedItems());
-        ServicesLocator.getRelationContractServiceCompanyServiceServices().insert(contractServiceDto, servicecompanies_checkcombobox.getCheckModel().getCheckedItems());
+        ServicesLocator.getRelationContractServiceServiceTypeServices().insert(contractServiceDto);
+        ServicesLocator.getRelationContractServiceCompanyServiceServices().insert(contractServiceDto);
 
         ((Stage) contract_jfxcombobox.getScene().getWindow()).close();
     }
@@ -148,9 +147,9 @@ public class ContractServiceModal extends DataManagerFormController {
         java.sql.Date finishDate = Date.valueOf(finishdate_jfxdatepicker.getValue());
         java.sql.Date conciliationDate = Date.valueOf(conciliationndate_jfxdatepicker.getValue());
         ContractServiceDto contractServiceDto = (ContractServiceDto) dto;
-        servicetypes_checkcombobox.getCheckModel().getCheckedItems().removeAll();
-        servicecompanies_checkcombobox.getCheckModel().getCheckedItems().removeAll();
-        dailyactivities_checkcombobox.getCheckModel().getCheckedItems().removeAll();
+        servicetypes_checkcombobox.getItems().removeAll(((ContractServiceDto) dto).getServiceType());
+        servicecompanies_checkcombobox.getItems().removeAll(((ContractServiceDto) dto).getCompaniesService());
+        dailyactivities_checkcombobox.getItems().removeAll(((ContractServiceDto) dto).getDailyActivities());
         contractServiceDto.setServiceType(servicetypes_checkcombobox.getCheckModel().getCheckedItems());
         contractServiceDto.setCompaniesService(servicecompanies_checkcombobox.getCheckModel().getCheckedItems());
         contractServiceDto.setDailyActivities(dailyactivities_checkcombobox.getCheckModel().getCheckedItems());
@@ -164,6 +163,15 @@ public class ContractServiceModal extends DataManagerFormController {
         ServicesLocator.getContractServiceServices().update(contractServiceDto);
         ServicesLocator.getRelationContractServiceCompanyServiceServices().update(contractServiceDto);
         ServicesLocator.getRelationContractServiceServiceTypeServices().update(contractServiceDto);
+        List<DailyActivityDto> dailyActivities = dailyactivities_checkcombobox.getCheckModel().getCheckedItems();
+        int idContract = contractServiceDto.getId();
+        ServicesLocator.getRelationContractServiceDailyActServices().delete(idContract);
+        ListIterator<DailyActivityDto> listIterator = dailyActivities.listIterator();
+
+        while (listIterator.hasNext()){
+            ServicesLocator.getRelationContractServiceDailyActServices().update(new RelationContractServiceDailyActDto((float) 90.0, idContract, listIterator.next()));
+        }
+
         ((Stage) contract_jfxcombobox.getScene().getWindow()).close();
     }
 

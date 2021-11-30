@@ -4,12 +4,12 @@ import dto.nom.DailyActivityDto;
 
 public class RelationContractServiceDailyActDto{
     private float cost;
-    private ContractServiceDto contractServiceDto;
+    private int idContractService;
     private DailyActivityDto dailyActivityDto;
 
-    public RelationContractServiceDailyActDto(float cost, ContractServiceDto contractServiceDto, DailyActivityDto dailyActivityDto) {
+    public RelationContractServiceDailyActDto(float cost, int idContractService, DailyActivityDto dailyActivityDto) {
         this.cost = cost;
-        this.contractServiceDto = contractServiceDto;
+        this.idContractService = idContractService;
         this.dailyActivityDto = dailyActivityDto;
     }
 
@@ -21,12 +21,12 @@ public class RelationContractServiceDailyActDto{
         this.cost = cost;
     }
 
-    public ContractServiceDto getContractServiceDto() {
-        return contractServiceDto;
+    public int getIdContractService() {
+        return idContractService;
     }
 
-    public void setContractServiceDto(ContractServiceDto contractServiceDto) {
-        this.contractServiceDto = contractServiceDto;
+    public void setIdContractService(int idContractService) {
+        this.idContractService = idContractService;
     }
 
     public DailyActivityDto getDailyActivityDto() {

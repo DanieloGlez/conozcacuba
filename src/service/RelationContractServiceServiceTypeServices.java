@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class RelationContractServiceServiceTypeServices {
-    public void insert(ContractServiceDto contractServiceDto, List<ServiceTypeDto> serviceTypeDtos) throws SQLException {
+    public void insert(ContractServiceDto contractServiceDto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{ call tpp.r_contract_service_n_service_type_insert(?,?)}");
-        ListIterator <ServiceTypeDto> listIterator = serviceTypeDtos.listIterator();
+        ListIterator <ServiceTypeDto> listIterator = contractServiceDto.getServiceType().listIterator();
         int idContract = contractServiceDto.getId();
 
         while (listIterator.hasNext()){
@@ -29,18 +29,11 @@ public class RelationContractServiceServiceTypeServices {
 
     public void update(ContractServiceDto contractServiceDto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        CallableStatement callableStatementD = connection.prepareCall("{ call tpp.r_contract_service_n_company_service_delete(?)}");
-        callableStatementD.setInt(1, contractServiceDto.getId());
-        callableStatementD.execute();
-        CallableStatement callableStatement = connection.prepareCall("{ call tpp.r_contract_service_n_service_type_update(?,?)}");
-        ListIterator<ServiceTypeDto> listIterator = contractServiceDto.getServiceType().listIterator();
-        int idContract = contractServiceDto.getId();
+        CallableStatement callableStatement = connection.prepareCall("{ call tpp.r_contract_service_n_service_type_delete(?)}");
+        callableStatement.setInt(1, contractServiceDto.getId());
+        callableStatement.execute();
 
-        while (listIterator.hasNext()){
-            callableStatement.setInt(1, idContract);
-            callableStatement.setInt(2, listIterator.next().getId());
-            callableStatement.execute();
-        }
+        insert(contractServiceDto);
 
         callableStatement.close();
         connection.close();

@@ -62,6 +62,7 @@ public class ContractServiceDto extends ContractDto implements Dto {
     }
 
     public void setDailyActivities(List<DailyActivityDto> dailyActivities) {
+        this.getDailyActivities().clear();
         ListIterator<DailyActivityDto> listIterator = dailyActivities.listIterator();
 
         while (listIterator.hasNext()) {
@@ -75,6 +76,7 @@ public class ContractServiceDto extends ContractDto implements Dto {
     }
 
     public void setCompaniesService(List<CompanyServiceDto> companiesService) {
+        this.getCompaniesService().clear();
         ListIterator<CompanyServiceDto> listIterator = companiesService.listIterator();
 
         while (listIterator.hasNext()) {
@@ -92,6 +94,7 @@ public class ContractServiceDto extends ContractDto implements Dto {
     }
 
     public void setServiceType(List<ServiceTypeDto> serviceType) {
+        this.getServiceType().clear();
         ListIterator<ServiceTypeDto> listIterator = serviceType.listIterator();
 
         while (listIterator.hasNext()) {
