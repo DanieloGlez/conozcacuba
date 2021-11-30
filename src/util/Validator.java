@@ -37,7 +37,7 @@ public class Validator {
 
     }
 
-    public boolean validateNumber(JFXTextField currentJfxTextField) {
+    public boolean validateNumberInteger(JFXTextField currentJfxTextField) {
         this.jfxTextField=currentJfxTextField;
 
         boolean isEmpty=currentJfxTextField.getText().isEmpty();
@@ -49,6 +49,22 @@ public class Validator {
         return isNumber&&!isEmpty?true:false;
 
     }
+
+
+    public boolean validateNumberFloat(JFXTextField currentJfxTextField) {
+        this.jfxTextField=currentJfxTextField;
+
+        boolean isEmpty=currentJfxTextField.getText().isEmpty();
+        //check if de text from the textfield is numeric or not
+        boolean isNumber = currentJfxTextField.getText().matches("^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$");
+
+
+
+        return isNumber&&!isEmpty?true:false;
+
+    }
+
+
 
     public boolean validateDates(JFXDatePicker jfxStartDatePicker,JFXDatePicker jfxFinishDatePicker, JFXDatePicker jfxConciliationDatePicker){
         int logicDateRange=jfxStartDatePicker.getValue().compareTo(jfxFinishDatePicker.getValue());

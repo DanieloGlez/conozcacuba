@@ -1,22 +1,13 @@
 package ui.controller.datamanager;
 
 
-import com.jfoenix.controls.JFXButton;
-
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 
-import com.jfoenix.validation.NumberValidator;
 import com.jfoenix.validation.RegexValidator;
-import dto.ContractServiceDto;
 import dto.Dto;
-import javafx.scene.Node;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.stage.Stage;
-import util.UserInterfaceUtils;
 import dto.nom.*;
 
 import com.jfoenix.controls.JFXComboBox;
@@ -24,13 +15,9 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
 import dto.VehicleDto;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
-import javafx.scene.paint.Color;
 import service.*;
 import util.Validator;
 
@@ -217,7 +204,7 @@ public class VehicleModal extends DataManagerFormController {
         prueba1.add(capacitywithoutbaggage_jfxtextfield);
         ArrayList<JFXTextField> prueba2=new ArrayList<>();
         prueba2.add(capacitywithbaggage_jfxtextfield);
-        if (p.validateNumber(capacitywithoutbaggage_jfxtextfield) && p.validateNumber(capacitywithbaggage_jfxtextfield) && p.validateRegistration(chapavehicle_jfxtextfield) && p.validateCombobox(vehiclebrand_jfxcombobox)) {
+        if (p.validateNumberInteger(capacitywithoutbaggage_jfxtextfield) && p.validateNumberInteger(capacitywithbaggage_jfxtextfield) && p.validateRegistration(chapavehicle_jfxtextfield) && p.validateCombobox(vehiclebrand_jfxcombobox)) {
 
             ServicesLocator.getVehicleServices().insert(new VehicleDto(
                     0,
@@ -241,7 +228,7 @@ public class VehicleModal extends DataManagerFormController {
     public void update(ActionEvent event) throws SQLException {
         Validator p= new Validator();
 
-        if (p.validateNumber(capacitywithoutbaggage_jfxtextfield) && p.validateNumber(capacitywithbaggage_jfxtextfield) && p.validateRegistration(chapavehicle_jfxtextfield) && p.validateCombobox(vehiclebrand_jfxcombobox)) {
+        if (p.validateNumberInteger(capacitywithoutbaggage_jfxtextfield) && p.validateNumberInteger(capacitywithbaggage_jfxtextfield) && p.validateRegistration(chapavehicle_jfxtextfield) && p.validateCombobox(vehiclebrand_jfxcombobox)) {
 
             VehicleDto vehicleDto = (VehicleDto) dto;
             vehicleDto.setRegistration(chapavehicle_jfxtextfield.getText());

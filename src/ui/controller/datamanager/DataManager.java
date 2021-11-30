@@ -93,7 +93,7 @@ public class DataManager implements Initializable {
     }
 
     @FXML
-    void insert(ActionEvent event){
+    void insert(ActionEvent event) {
         try {
             Stage dataManagerFormStage = UserInterfaceUtils.showDataManagerForm(selectedTableName, null, (Stage) container_anchorpane.getScene().getWindow());
             dataManagerFormStage.showAndWait();
@@ -234,7 +234,10 @@ public class DataManager implements Initializable {
                 ((TreeItem) treeItems.get(2)).getChildren().add(new TreeItem<>(currentTableName));
             } else if (currentTableName.toLowerCase().contains("service") || currentTableName.toLowerCase().contains("activity")) {
                 ((TreeItem) treeItems.get(3)).getChildren().add(new TreeItem<>(currentTableName));
-            } else if (!currentTableName.toLowerCase().contains("touristc packages"))
+            } else if (currentTableName.toLowerCase().contains("touristicpackage")) {
+                ((TreeItem) treeItems.get(4)).getChildren().add(new TreeItem<>(currentTableName));
+
+            } else
                 ((TreeItem) treeItems.get(1)).getChildren().add(new TreeItem<>(currentTableName));
 
 
@@ -312,7 +315,7 @@ public class DataManager implements Initializable {
 
         for (Field declaredField : dtoClass.getDeclaredFields()) {
             String declaredFieldName = declaredField.getName();
-            if(!declaredFieldName.contains("id")) {
+            if (!declaredFieldName.contains("id")) {
 
                 TableColumn<?, ?> currentTableColumn = new TableColumn<>(declaredFieldName);
                 currentTableColumn.setCellValueFactory(new PropertyValueFactory<>(declaredFieldName));

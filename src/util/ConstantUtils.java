@@ -38,7 +38,7 @@ public class ConstantUtils {
             VehicleBrandDto.class
     );
 
-    public static final ArrayList<String> categories = new ArrayList<>(Arrays.asList("Contracts Tables","Hotels Tables","Transport Tables", "Services Tables","Touristic Packages"));
+    public static final ArrayList<String> categories = new ArrayList<>(Arrays.asList("Contracts Tables","Hotels Tables","Transport Tables", "Services Tables","Touristic Packages Table"));
 
 
 
