@@ -71,7 +71,7 @@ public class ContractTransportModal extends DataManagerFormController {
         java.sql.Date startDate= Date.valueOf(startdate_jfxdatepicker.getValue());
         java.sql.Date finishDate=Date.valueOf(finishdate_jfxdatepicker.getValue());
         java.sql.Date conciliationDate=Date.valueOf(conciliationndate_jfxdatepicker.getValue());
-        ContractTransportDto contractTransportDto= new ContractTransportDto(
+        ContractTransportDto contractTransportDto = new ContractTransportDto(
                 0,
                 contract_jfxcombobox.getValue(),
                 startDate,

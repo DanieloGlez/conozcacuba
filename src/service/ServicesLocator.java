@@ -1,7 +1,5 @@
 package service;
 
-import dto.ModalityTransportHrKmDto;
-import dto.TouristicPackageDto;
 import service.fun.RoleServices;
 import service.fun.UserServices;
 import service.nom.*;
@@ -41,6 +39,10 @@ public class ServicesLocator {
     private static RelationContractServiceServiceTypeServices relationContractServiceServiceTypeServices;
     private static RelationContractServiceCompanyServiceServices relationContractServiceCompanyServiceServices;
     private static RelationContractTransportVehicleServices relationContractTransportVehicleServices;
+    private static RelationHotelFoodPlanServices relationHotelFoodPlanServices;
+    private static RelationHotelModalityCommercialServices relationHotelModalityCommercialServices;
+    private static RelationHotelRoomTypeServices relationHotelRoomTypeServices;
+    private static RelationContractHotelSeasonServices relationContractHotelSeasonServices;
 
     // Connection
     public static Connection getConnection() throws SQLException {
@@ -249,5 +251,29 @@ public class ServicesLocator {
         if (relationContractTransportVehicleServices == null)
             relationContractTransportVehicleServices = new RelationContractTransportVehicleServices();
         return relationContractTransportVehicleServices;
+    }
+
+    public static RelationHotelFoodPlanServices getRelationHotelFoodPlanServices() {
+        if (relationHotelFoodPlanServices == null)
+            relationHotelFoodPlanServices = new RelationHotelFoodPlanServices();
+        return relationHotelFoodPlanServices;
+    }
+
+    public static RelationHotelModalityCommercialServices getRelationHotelModalityCommercialServices() {
+        if (relationHotelModalityCommercialServices == null)
+            relationHotelModalityCommercialServices = new RelationHotelModalityCommercialServices();
+        return relationHotelModalityCommercialServices;
+    }
+
+    public static RelationHotelRoomTypeServices getRelationHotelRoomTypeServices() {
+        if (relationHotelRoomTypeServices == null)
+            relationHotelRoomTypeServices = new RelationHotelRoomTypeServices();
+        return relationHotelRoomTypeServices;
+    }
+
+    public static RelationContractHotelSeasonServices getRelationContractHotelSeasonServices() {
+        if (relationContractHotelSeasonServices == null)
+            relationContractHotelSeasonServices = new RelationContractHotelSeasonServices();
+        return relationContractHotelSeasonServices;
     }
 }

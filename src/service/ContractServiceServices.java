@@ -251,7 +251,8 @@ public class ContractServiceServices implements Services<ContractServiceDto> {
 
     @Override
     public void insert(ContractServiceDto dto) throws SQLException {
-        ContractDto contractDto = new ContractDto(0,
+        ContractDto contractDto = new ContractDto(
+                dto.getId(),
                 dto.getContractTypeDto(),
                 dto.getStartDate(),
                 dto.getFinishDate(),

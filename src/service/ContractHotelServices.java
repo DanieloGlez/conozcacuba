@@ -107,7 +107,8 @@ public class ContractHotelServices implements Services<ContractHotelDto> {
 
     @Override
     public void insert(ContractHotelDto dto) throws SQLException {
-        ContractDto contractDto = new ContractDto(0,
+        ContractDto contractDto = new ContractDto(
+                dto.getId(),
                 dto.getContractTypeDto(),
                 dto.getStartDate(),
                 dto.getFinishDate(),
@@ -119,6 +120,7 @@ public class ContractHotelServices implements Services<ContractHotelDto> {
         callableStatement.setInt(1, contractDto.getId());
         callableStatement.setInt(2, dto.getHotel().getId());
         callableStatement.execute();
+        dto.setId(contractDto.getId());
 
         callableStatement.close();
         connection.close();

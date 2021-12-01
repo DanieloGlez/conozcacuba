@@ -48,6 +48,26 @@ public class HotelDto implements Dto {
         this.commercialModalities = new LinkedList<>();
     }
 
+    public HotelDto(int id, String name, String address, String category, String telephoneNumber, String fax, String email, float distToCity, float distToAirport, int roomsAmount, int floorsAmount, HotelFranchiseDto hotelFranchise, ProvinceDto province, LocalizationDto localization, List<RoomTypeDto> roomTypes, List<FoodPlanDto> foodPlans, List<ModalityCommercialDto> commercialModalities) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.category = category;
+        this.telephoneNumber = telephoneNumber;
+        this.fax = fax;
+        this.email = email;
+        this.distToCity = distToCity;
+        this.distToAirport = distToAirport;
+        this.roomsAmount = roomsAmount;
+        this.floorsAmount = floorsAmount;
+        this.hotelFranchise = hotelFranchise;
+        this.province = province;
+        this.localization = localization;
+        this.roomTypes = roomTypes;
+        this.foodPlans = foodPlans;
+        this.commercialModalities = commercialModalities;
+    }
+
     // Getters & Setters
     public int getId() {
         return id;
@@ -198,6 +218,10 @@ public class HotelDto implements Dto {
             ModalityCommercialDto currentModality = listIteratorModalities.next();
             this.commercialModalities.add(currentModality);
         }
+    }
+
+    public float hotelPrice(float priceRoom, int nightsAmount){
+        return (priceRoom + priceRoom * (float) 1.1) * nightsAmount;
     }
 
     public String toString() {

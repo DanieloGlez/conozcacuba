@@ -2,6 +2,7 @@ package dto;
 
 import dto.nom.ContractTypeDto;
 
+import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -15,6 +16,12 @@ public class ContractHotelDto extends ContractDto {
         super(id, contractTypeDto, startDate, finishDate, conciliationDate, description);
         this.hotel = hotel;
         this.seasons = new LinkedList<>();
+    }
+
+    public ContractHotelDto(int id, ContractTypeDto contractTypeDto, Date startDate, Date finishDate, Date conciliationDate, String description, List<SeasonDto> seasons, HotelDto hotel) {
+        super(id, contractTypeDto, startDate, finishDate, conciliationDate, description);
+        this.seasons = seasons;
+        this.hotel = hotel;
     }
 
     // Getters & Setters
@@ -31,6 +38,7 @@ public class ContractHotelDto extends ContractDto {
     }
 
     public void setSeasons(List<SeasonDto> seasons) {
+        this.seasons.clear();
         ListIterator<SeasonDto> listIterator = seasons.listIterator();
 
         while (listIterator.hasNext()) {
