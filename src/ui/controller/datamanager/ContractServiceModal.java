@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.validation.RegexValidator;
+import com.jfoenix.validation.RequiredFieldValidator;
 import dto.ContractDto;
 import dto.ContractServiceDto;
 import dto.Dto;
@@ -73,6 +75,35 @@ public class ContractServiceModal extends DataManagerFormController {
         initializeComboboxes();
         initializePaxCostSpinner();
 
+
+        RegexValidator regexTextValidator = new RegexValidator("This field requires a text");
+        RegexValidator regexNumericValidator = new RegexValidator("This field requires a Number");
+        RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator("This field is require");
+        regexTextValidator.setRegexPattern("[a-zA-Z].*" + "");
+        regexNumericValidator.setRegexPattern("[+-]?\\d*(\\.\\d+)?");
+
+        contract_jfxcombobox.getValidators().add(requiredFieldValidator);
+        province_jfxcombobox.getValidators().add(requiredFieldValidator);
+        description_jfxtextarea.getValidators().add(regexTextValidator);
+        description_jfxtextarea.getValidators().add(requiredFieldValidator);
+
+
+        contract_jfxcombobox.focusedProperty().addListener((o, oldVal, newVal) -> {
+            if (!newVal) contract_jfxcombobox.validate();
+        });
+
+        province_jfxcombobox.focusedProperty().addListener((o, oldVal, newVal) -> {
+            if (!newVal) province_jfxcombobox.validate();
+        });
+
+        description_jfxtextarea.focusedProperty().addListener((o, oldVal, newVal) -> {
+            if (!newVal) description_jfxtextarea.validate();
+        });
+
+
+
+
+
     }
 
     /*private void initializeIdContractSpinner() throws SQLException {
@@ -101,6 +132,7 @@ public class ContractServiceModal extends DataManagerFormController {
         SpinnerValueFactory<Double> valueFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(120, 2000, initialValue);
 
         paxcost_spinner.setValueFactory(valueFactory);
+
     }
 
 

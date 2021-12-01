@@ -1,6 +1,8 @@
 package ui.controller.datamanager;
 
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.validation.RegexValidator;
+import com.jfoenix.validation.RequiredFieldValidator;
 import dto.*;
 import dto.nom.ContractTypeDto;
 import javafx.event.ActionEvent;
@@ -55,6 +57,45 @@ public class ContractHotelModal extends DataManagerFormController{
             contracttype_jfxcombobox.getItems().addAll(ServicesLocator.getContractTypeServices().loadAll());
             hotel_jfxcombobox.getItems().addAll(ServicesLocator.getHotelServices().loadAll());
             season_checkcombobox.getItems().addAll(ServicesLocator.getSeasonServices().loadAll());
+
+
+            RegexValidator regexTextValidator = new RegexValidator("This field requires a text");
+            RegexValidator regexNumericValidator = new RegexValidator("This field requires a Number");
+            RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator("This field is require");
+            regexTextValidator.setRegexPattern("[a-zA-Z].*" + "");
+            regexNumericValidator.setRegexPattern("[+-]?\\d*(\\.\\d+)?");
+
+            contracttype_jfxcombobox.getValidators().add(requiredFieldValidator);
+            hotel_jfxcombobox.getValidators().add(requiredFieldValidator);
+            description_jfxtextarea.getValidators().add(requiredFieldValidator);
+            description_jfxtextarea.getValidators().add(regexTextValidator);
+            startdate_jfxdatepicker.getValidators().add(requiredFieldValidator);
+            finishdate_jfxdatepicker.getValidators().add(requiredFieldValidator);
+            conciliationdate_jfxdatepicker.getValidators().add(requiredFieldValidator);
+
+
+
+            contracttype_jfxcombobox.focusedProperty().addListener((o, oldVal, newVal) -> {
+                if (!newVal) contracttype_jfxcombobox.validate();
+            });
+            hotel_jfxcombobox.focusedProperty().addListener((o, oldVal, newVal) -> {
+                if (!newVal) hotel_jfxcombobox.validate();
+            });
+            description_jfxtextarea.focusedProperty().addListener((o, oldVal, newVal) -> {
+                if (!newVal) description_jfxtextarea.validate();
+            });
+            startdate_jfxdatepicker.focusedProperty().addListener((o, oldVal, newVal) -> {
+                if (!newVal) startdate_jfxdatepicker.validate();
+            });
+            finishdate_jfxdatepicker.focusedProperty().addListener((o, oldVal, newVal) -> {
+                if (!newVal) finishdate_jfxdatepicker.validate();
+            });
+            conciliationdate_jfxdatepicker.focusedProperty().addListener((o, oldVal, newVal) -> {
+                if (!newVal) conciliationdate_jfxdatepicker.validate();
+            });
+
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.validation.RegexValidator;
+import com.jfoenix.validation.RequiredFieldValidator;
 import dto.*;
 import dto.nom.*;
 import javafx.event.ActionEvent;
@@ -55,6 +57,35 @@ public class ContractTransportModal extends DataManagerFormController {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             initializeComboBoxes();
+
+
+            RegexValidator regexTextValidator = new RegexValidator("This field requires a text");
+            RegexValidator regexNumericValidator = new RegexValidator("This field requires a Number");
+            RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator("This field is require");
+            regexTextValidator.setRegexPattern("[a-zA-Z].*" + "");
+            regexNumericValidator.setRegexPattern("[+-]?\\d*(\\.\\d+)?");
+
+            contract_jfxcombobox.getValidators().add(requiredFieldValidator);
+            transportcompany_jfxcombobox.getValidators().add(requiredFieldValidator);
+            description_jfxtextarea.getValidators().add(regexTextValidator);
+            description_jfxtextarea.getValidators().add(requiredFieldValidator);
+
+
+            contract_jfxcombobox.focusedProperty().addListener((o, oldVal, newVal) -> {
+                if (!newVal) contract_jfxcombobox.validate();
+            });
+
+            transportcompany_jfxcombobox.focusedProperty().addListener((o, oldVal, newVal) -> {
+                if (!newVal) transportcompany_jfxcombobox.validate();
+            });
+
+            description_jfxtextarea.focusedProperty().addListener((o, oldVal, newVal) -> {
+                if (!newVal) description_jfxtextarea.validate();
+            });
+
+
+
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
