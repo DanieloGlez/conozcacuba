@@ -43,6 +43,7 @@ public class ServicesLocator {
     private static RelationHotelModalityCommercialServices relationHotelModalityCommercialServices;
     private static RelationHotelRoomTypeServices relationHotelRoomTypeServices;
     private static RelationContractHotelSeasonServices relationContractHotelSeasonServices;
+    private static RelationContractHotelRoomFoodSeasonServices relationContractHotelRoomFoodSeasonServices;
 
     // Connection
     public static Connection getConnection() throws SQLException {
@@ -275,5 +276,11 @@ public class ServicesLocator {
         if (relationContractHotelSeasonServices == null)
             relationContractHotelSeasonServices = new RelationContractHotelSeasonServices();
         return relationContractHotelSeasonServices;
+    }
+
+    public static RelationContractHotelRoomFoodSeasonServices getRelationContractHotelRoomFoodSeasonServices(){
+        if (relationContractHotelRoomFoodSeasonServices == null)
+            relationContractHotelRoomFoodSeasonServices = new RelationContractHotelRoomFoodSeasonServices();
+        return relationContractHotelRoomFoodSeasonServices;
     }
 }

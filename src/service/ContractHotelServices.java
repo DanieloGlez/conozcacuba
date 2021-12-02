@@ -19,6 +19,10 @@ public class ContractHotelServices implements Services<ContractHotelDto> {
         int idContract;
         int idSeason;
         List<Integer> idContainerSeason = new LinkedList<>();
+        HotelServices hotelServices = ServicesLocator.getHotelServices();
+        SeasonServices seasonServices = ServicesLocator.getSeasonServices();
+        ContractServices contractServices = ServicesLocator.getContractServices();
+
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.contract_hotel_load_by_id(?)}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
         callableStatement.setInt(2, id);
@@ -27,7 +31,7 @@ public class ContractHotelServices implements Services<ContractHotelDto> {
         resultSet.next();
 
         idContract = resultSet.getInt("id_contract");
-        contractDto = ServicesLocator.getContractServices().load(idContract);
+        contractDto = contractServices.load(idContract);
 
         contractHotelDto = new ContractHotelDto(
                 idContract,
@@ -36,13 +40,13 @@ public class ContractHotelServices implements Services<ContractHotelDto> {
                 contractDto.getConciliationDate(),
                 contractDto.getDescription(),
                 contractDto.getContractTypeDto(),
-                ServicesLocator.getHotelServices().load(resultSet.getInt("id_hotel")));
+                hotelServices.load(resultSet.getInt("id_hotel")));
 
         while (resultSet.next()) {
             idSeason = resultSet.getInt("id_season");
 
             if (!idContainerSeason.contains(idSeason)) {
-                contractHotelDto.getSeasons().add(ServicesLocator.getSeasonServices().load(idSeason));
+                contractHotelDto.getSeasons().add(seasonServices.load(idSeason));
                 idContainerSeason.add(idSeason);
             }
         }
@@ -62,6 +66,9 @@ public class ContractHotelServices implements Services<ContractHotelDto> {
         int idSeason;
         List<Integer> idContainerContractHotel = new LinkedList<>();
         List<Integer> idContainerSeason = new LinkedList<>();
+        HotelServices hotelServices = ServicesLocator.getHotelServices();
+        SeasonServices seasonServices = ServicesLocator.getSeasonServices();
+        ContractServices contractServices = ServicesLocator.getContractServices();
 
         connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.contract_hotel_load()}");
@@ -73,11 +80,11 @@ public class ContractHotelServices implements Services<ContractHotelDto> {
             idContractHotel = resultSet.getInt("id_contract");
             idSeason = resultSet.getInt("id_season");
 
-            if (!idContainerContractHotel.contains(idContractHotel)) {//inserto los elementos de la primera aparicion de un identificador
-                ContractDto contractDto = ServicesLocator.getContractServices().load(idContractHotel);
+            if (!idContainerContractHotel.contains(idContractHotel)) {
+                ContractDto contractDto = contractServices.load(idContractHotel);
                 idContainerContractHotel.add(idContractHotel);
                 idContainerSeason.clear();
-                seasonDto = ServicesLocator.getSeasonServices().load(idSeason);
+                seasonDto = seasonServices.load(idSeason);
                 List<SeasonDto> ListSeasonInsert = new LinkedList<>();
                 ListSeasonInsert.add(seasonDto);
                 idContainerSeason.add(idSeason);
@@ -89,12 +96,12 @@ public class ContractHotelServices implements Services<ContractHotelDto> {
                         contractDto.getConciliationDate(),
                         contractDto.getDescription(),
                         contractDto.getContractTypeDto(),
-                        ServicesLocator.getHotelServices().load(resultSet.getInt("id_hotel")));
+                        hotelServices.load(resultSet.getInt("id_hotel")));
                 contractHotelDto.setSeasons(ListSeasonInsert);
                 ListContractHotelDto.add(contractHotelDto);
-            } else {//inserto para el mismo id los tipos de hab, planes alim y modalidades diferentes
+            } else {
                 if (!idContainerSeason.contains(idSeason)) {
-                    contractHotelDto.getSeasons().add(ServicesLocator.getSeasonServices().load(idSeason));
+                    contractHotelDto.getSeasons().add(seasonServices.load(idSeason));
                     idContainerSeason.add(idSeason);
                 }
             }

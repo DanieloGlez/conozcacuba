@@ -21,6 +21,8 @@ public class ContractTransportServices implements Services<ContractTransportDto>
         int idContract;
         int idVehicle;
         List<Integer> idContainerVehicle = new LinkedList<>();
+        VehicleServices vehicleServices = ServicesLocator.getVehicleServices();
+
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.contract_transport_load_by_id(?)}");
         callableStatement.registerOutParameter(1, Types.REF_CURSOR);
         callableStatement.setInt(2, id);
@@ -44,7 +46,7 @@ public class ContractTransportServices implements Services<ContractTransportDto>
             idVehicle = resultSet.getInt("id_vehicle");
 
             if (!idContainerVehicle.contains(idVehicle)) {
-                contractTransportDto.getVehicles().add(ServicesLocator.getVehicleServices().load(idVehicle));
+                contractTransportDto.getVehicles().add(vehicleServices.load(idVehicle));
                 idContainerVehicle.add(idVehicle);
             }
         }
@@ -64,6 +66,9 @@ public class ContractTransportServices implements Services<ContractTransportDto>
         int idVehicle;
         List<Integer> idContainerContractTransport = new LinkedList<>();
         List<Integer> idContainerVehicle = new LinkedList<>();
+        ContractServices contractServices = ServicesLocator.getContractServices();
+        VehicleServices vehicleServices = ServicesLocator.getVehicleServices();
+        CompanyTransportServices companyTransportServices = ServicesLocator.getCompanyTransportServices();
 
         connection.setAutoCommit(false);
         CallableStatement callableStatement = connection.prepareCall("{? = call tpp.contract_transport_load()}");
@@ -75,11 +80,11 @@ public class ContractTransportServices implements Services<ContractTransportDto>
             idContractTransport = resultSet.getInt("id_contract");
             idVehicle = resultSet.getInt("id_vehicle");
 
-            if (!idContainerContractTransport.contains(idContractTransport)) {//inserto los elementos de la primera aparicion de un identificador
-                ContractDto contractDto = ServicesLocator.getContractServices().load(idContractTransport);
+            if (!idContainerContractTransport.contains(idContractTransport)) {
+                ContractDto contractDto = contractServices.load(idContractTransport);
                 idContainerContractTransport.add(idContractTransport);
                 idContainerVehicle.clear();
-                vehicleDto = ServicesLocator.getVehicleServices().load(idVehicle);
+                vehicleDto = vehicleServices.load(idVehicle);
                 List<VehicleDto> ListVehicleInsert = new LinkedList<>();
                 ListVehicleInsert.add(vehicleDto);
                 idContainerVehicle.add(idVehicle);
@@ -91,12 +96,12 @@ public class ContractTransportServices implements Services<ContractTransportDto>
                         contractDto.getFinishDate(),
                         contractDto.getConciliationDate(),
                         contractDto.getDescription(),
-                        ServicesLocator.getCompanyTransportServices().load(resultSet.getInt("id_company_transport")));
+                        companyTransportServices.load(resultSet.getInt("id_company_transport")));
                 contractTransportDto.setVehicles(ListVehicleInsert);
                 ListContractTransportDto.add(contractTransportDto);
-            } else {//inserto para el mismo id los tipos de hab, planes alim y modalidades diferentes
+            } else {
                 if (!idContainerVehicle.contains(idVehicle)) {
-                    contractTransportDto.getVehicles().add(ServicesLocator.getVehicleServices().load(idVehicle));
+                    contractTransportDto.getVehicles().add(vehicleServices.load(idVehicle));
                     idContainerVehicle.add(idVehicle);
                 }
             }
