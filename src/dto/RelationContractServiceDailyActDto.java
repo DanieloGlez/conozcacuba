@@ -3,22 +3,22 @@ package dto;
 import dto.nom.DailyActivityDto;
 
 public class RelationContractServiceDailyActDto{
-    private float cost;
+    private float price;
     private int idContractService;
     private DailyActivityDto dailyActivityDto;
 
     public RelationContractServiceDailyActDto(float cost, int idContractService, DailyActivityDto dailyActivityDto) {
-        this.cost = cost;
+        setPrice(cost);
         this.idContractService = idContractService;
         this.dailyActivityDto = dailyActivityDto;
     }
 
-    public float getCost() {
-        return cost;
+    public float getPrice() {
+        return price;
     }
 
-    public void setCost(float cost) {
-        this.cost = cost;
+    public void setPrice(float cost) {
+        this.price *= (float) 1.1;
     }
 
     public int getIdContractService() {

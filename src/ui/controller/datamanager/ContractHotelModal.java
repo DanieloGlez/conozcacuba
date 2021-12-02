@@ -126,21 +126,8 @@ public class ContractHotelModal extends DataManagerFormController{
 
         ServicesLocator.getContractHotelServices().insert(contractHotelDto);
         ServicesLocator.getRelationContractHotelSeasonServices().insert(contractHotelDto);
-        List<SeasonDto> seasons = season_checkcombobox.getCheckModel().getCheckedItems();
-        List<FoodPlanDto> plans = foodplan_checkcombobox.getCheckModel().getCheckedItems();
-        List<RoomTypeDto> rooms = roomtype_checkcombobox.getCheckModel().getCheckedItems();
-        ListIterator<RoomTypeDto> listIterator = rooms.listIterator();
-        int counter = 0;
 
-        while (listIterator.hasNext()){
-            ServicesLocator.getRelationContractHotelRoomFoodSeasonServices().insert(new RelationContractHotelRoomFoodSeasonDto(
-                    contractHotelDto.getId(),
-                    plans.get(counter).getId(),
-                    listIterator.next().getId(),
-                    seasons.get(counter).getId(),
-                    900));
-            counter++;
-        }
+        insertRSeasonFoodRoom(season_checkcombobox.getCheckModel().getCheckedItems(), foodplan_checkcombobox.getCheckModel().getCheckedItems(), roomtype_checkcombobox.getCheckModel().getCheckedItems(), contractHotelDto.getId());
 
         ((Stage) startdate_jfxdatepicker.getScene().getWindow()).close();
     }
@@ -160,6 +147,8 @@ public class ContractHotelModal extends DataManagerFormController{
 
         ServicesLocator.getContractHotelServices().update(contractHotelDto);
         ServicesLocator.getRelationContractHotelSeasonServices().update(contractHotelDto);
+        ServicesLocator.getRelationContractHotelRoomFoodSeasonServices().delete(contractHotelDto.getId());
+        insertRSeasonFoodRoom(season_checkcombobox.getCheckModel().getCheckedItems(), foodplan_checkcombobox.getCheckModel().getCheckedItems(), roomtype_checkcombobox.getCheckModel().getCheckedItems(), contractHotelDto.getId());
 
         ((Stage) contracttype_jfxcombobox.getScene().getWindow()).close();
     }
@@ -176,6 +165,30 @@ public class ContractHotelModal extends DataManagerFormController{
             description_jfxtextarea.setText(contractHotelDto.getDescription());
             contracttype_jfxcombobox.getSelectionModel().select(contractHotelDto.getContractTypeDto());
             hotel_jfxcombobox.getSelectionModel().select(contractHotelDto.getHotel());
+        }
+    }
+
+    private void insertRSeasonFoodRoom(List<SeasonDto> seasons, List<FoodPlanDto> plans,List<RoomTypeDto> rooms, int idContractHotel) throws SQLException {
+        ListIterator<SeasonDto> listIteratorSeasons = seasons.listIterator();
+
+        while (listIteratorSeasons.hasNext()){
+            SeasonDto currentSeasonDto = listIteratorSeasons.next();
+
+            ListIterator<FoodPlanDto> listIteratorPlans = plans.listIterator();
+            while (listIteratorPlans.hasNext()) {
+                FoodPlanDto currentFoodPlanDto = listIteratorPlans.next();
+
+                ListIterator<RoomTypeDto> listIteratorRooms = rooms.listIterator();
+                while (listIteratorRooms.hasNext())
+                    ServicesLocator.getRelationContractHotelRoomFoodSeasonServices().insert(
+                            new RelationContractHotelRoomFoodSeasonDto(
+                                    idContractHotel,
+                                    currentFoodPlanDto.getId(),
+                                    listIteratorRooms.next().getId(),
+                                    currentSeasonDto.getId(),
+                                    1500
+                            ));
+            }
         }
     }
 }

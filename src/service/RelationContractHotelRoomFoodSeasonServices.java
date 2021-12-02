@@ -1,6 +1,7 @@
 package service;
 
 import dto.RelationContractHotelRoomFoodSeasonDto;
+import dto.RelationContractServiceDailyActDto;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -17,6 +18,19 @@ public class RelationContractHotelRoomFoodSeasonServices {
         callableStatement.setInt(5, relation.getIdContractHotel());
         callableStatement.execute();
 
+        callableStatement.close();
+        connection.close();
+    }
+
+    public void update(RelationContractHotelRoomFoodSeasonDto relation) throws SQLException {
+        insert(relation);
+    }
+
+    public void delete(int idContractHotel) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{ call tpp.r_season_room_type_food_plan_delete(?)}");
+        callableStatement.setInt(1, idContractHotel);
+        callableStatement.execute();
         callableStatement.close();
         connection.close();
     }
