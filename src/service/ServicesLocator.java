@@ -54,6 +54,7 @@ public class ServicesLocator {
     private static ContractTransportReportServices contractTransportReportServices;
     private static SeasonContractHotelReportServices seasonContractHotelReportServices;
     private static ContractServiceReportServices contractServiceReportServices;
+    private static HotelReportServices hotelReportServices;
 
     // Connection
     public static Connection getConnection() throws SQLException {
@@ -321,5 +322,12 @@ public class ServicesLocator {
             contractServiceReportServices = new ContractServiceReportServices();
 
         return contractServiceReportServices;
+    }
+
+    public static HotelReportServices getHotelReportServices() {
+        if(hotelReportServices == null)
+            hotelReportServices = new HotelReportServices();
+
+        return hotelReportServices;
     }
 }
