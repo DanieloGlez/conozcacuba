@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
+import dto.Dto;
 import dto.HotelDto;
 import dto.nom.*;
 import javafx.event.ActionEvent;
@@ -220,5 +221,30 @@ public class HotelModal extends DataManagerFormController {
         ServicesLocator.getRelationHotelModalityCommercialServices().update(hotelDto);
 
         ((Stage) name_jfxtextfield.getScene().getWindow()).close();
+    }
+
+
+    @Override
+    public void setDto(Dto dto) {
+        super.setDto(dto);
+
+        if (dto!=null){
+            HotelDto hotelDto=(HotelDto) dto;
+
+            fax_jfxtextfield.setText(hotelDto.getFax());
+            telephone_jfxtextfield.setText(hotelDto.getTelephoneNumber());
+            name_jfxtextfield.setText(hotelDto.getName());
+            email_jfxtextfield.setText(hotelDto.getEmail());
+            address_jfxtextfield.setText(hotelDto.getAddress());
+            distancetoairport_jfxtextfield.setText(String.valueOf(hotelDto.getDistToAirport()));
+            distancetocity_jfxtextfield.setText(String.valueOf(hotelDto.getDistToCity()));
+            roomsamount_jfxtextfield.setText(String.valueOf(hotelDto.getRoomsAmount()));
+            flooramount_jfxtextfield.setText(String.valueOf(hotelDto.getFloorsAmount()));
+            category_jfxcombobox.getSelectionModel().select(hotelDto.getCategory());
+            hotelfranchise_jfxcombobox.getSelectionModel().select(hotelDto.getHotelFranchise());
+            province_jfxcombobox.getSelectionModel().select(hotelDto.getProvince());
+            localization_jfxcombobox.getSelectionModel().select(hotelDto.getLocalization());
+
+        }
     }
 }
