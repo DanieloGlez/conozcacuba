@@ -186,6 +186,8 @@ public class HotelDto implements Dto {
     }
 
     public void setRoomTypes(List<RoomTypeDto> roomTypes) {
+        this.roomTypes.clear();
+
         ListIterator<RoomTypeDto> listIteratorRoom = roomTypes.listIterator();
 
         while (listIteratorRoom.hasNext()) {
@@ -199,6 +201,7 @@ public class HotelDto implements Dto {
     }
 
     public void setFoodPlans(List<FoodPlanDto> foodPlans) {
+        this.foodPlans.clear();
         ListIterator<FoodPlanDto> listIteratorFood = foodPlans.listIterator();
 
         while (listIteratorFood.hasNext()) {
@@ -212,6 +215,8 @@ public class HotelDto implements Dto {
     }
 
     public void setCommercialModalities(List<ModalityCommercialDto> commercialModalities) {
+        this.commercialModalities.clear();
+
         ListIterator<ModalityCommercialDto> listIteratorModalities = commercialModalities.listIterator();
 
         while (listIteratorModalities.hasNext()) {

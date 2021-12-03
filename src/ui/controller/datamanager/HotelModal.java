@@ -216,6 +216,7 @@ public class HotelModal extends DataManagerFormController {
         hotelDto.setFoodPlans(foodplans_checkcombobox.getCheckModel().getCheckedItems());
         hotelDto.setCommercialModalities(commercialmodalities_checkcombobox.getCheckModel().getCheckedItems());
 
+        ServicesLocator.getHotelServices().update(hotelDto);
         ServicesLocator.getRelationHotelRoomTypeServices().update(hotelDto);
         ServicesLocator.getRelationHotelFoodPlanServices().update(hotelDto);
         ServicesLocator.getRelationHotelModalityCommercialServices().update(hotelDto);

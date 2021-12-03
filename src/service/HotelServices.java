@@ -209,20 +209,20 @@ public class HotelServices implements Services<HotelDto> {
     @Override
     public void update(HotelDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
-        CallableStatement callableStatement = connection.prepareCall("{call tpp.hotel_update(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+        CallableStatement callableStatement = connection.prepareCall("{call tpp.hotel_update(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
         callableStatement.setInt(1, dto.getId());
         callableStatement.setString(2, dto.getName());
-        callableStatement.setString(3, dto.getAddress());
-        callableStatement.setString(4, dto.getCategory());
-        callableStatement.setString(5, dto.getTelephoneNumber());
-        callableStatement.setString(6, dto.getFax());
-        callableStatement.setString(7, dto.getEmail());
-        callableStatement.setFloat(8, dto.getDistToCity());
-        callableStatement.setFloat(9, dto.getDistToAirport());
-        callableStatement.setInt(10, dto.getRoomsAmount());
-        callableStatement.setInt(11, dto.getFloorsAmount());
-        callableStatement.setInt(12, dto.getHotelFranchise().getId());
-        callableStatement.setInt(13, dto.getProvince().getId());
+        callableStatement.setInt(3, dto.getHotelFranchise().getId());
+        callableStatement.setInt(4, dto.getProvince().getId());
+        callableStatement.setString(5, dto.getAddress());
+        callableStatement.setString(6, dto.getCategory());
+        callableStatement.setString(7, dto.getTelephoneNumber());
+        callableStatement.setString(8, dto.getFax());
+        callableStatement.setString(9, dto.getEmail());
+        callableStatement.setDouble(10, dto.getDistToCity());
+        callableStatement.setDouble(11, dto.getDistToAirport());
+        callableStatement.setInt(12, dto.getRoomsAmount());
+        callableStatement.setInt(13, dto.getFloorsAmount());
         callableStatement.setInt(14, dto.getLocalization().getId());
         callableStatement.execute();
 
