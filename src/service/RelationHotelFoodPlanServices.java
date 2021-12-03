@@ -25,4 +25,16 @@ public class RelationHotelFoodPlanServices {
         callableStatement.close();
         connection.close();
     }
+
+    public void update(HotelDto hotelDto) throws SQLException {
+        Connection connection = ServicesLocator.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{ call tpp.r_hotel_food_plan_delete(?)}");
+        callableStatement.setInt(1, hotelDto.getId());
+        callableStatement.execute();
+
+        insert(hotelDto);
+
+        callableStatement.close();
+        connection.close();
+    }
 }

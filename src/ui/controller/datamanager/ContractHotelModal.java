@@ -5,10 +5,12 @@ import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 import dto.*;
 import dto.nom.ContractTypeDto;
+import dto.nom.DailyActivityDto;
 import dto.nom.FoodPlanDto;
 import dto.nom.RoomTypeDto;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.controlsfx.control.CheckComboBox;
 import service.ServicesLocator;
@@ -25,41 +27,43 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
+import util.Validator;
 
 public class ContractHotelModal extends DataManagerFormController{
     private final DateTimeFormatter sqlDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        @FXML
-        private JFXDatePicker startdate_jfxdatepicker;
+    Validator p=new Validator();
+    @FXML
+    private JFXDatePicker startdate_jfxdatepicker;
 
-        @FXML
-        private JFXDatePicker finishdate_jfxdatepicker;
+    @FXML
+    private JFXDatePicker finishdate_jfxdatepicker;
 
-        @FXML
-        private JFXDatePicker conciliationdate_jfxdatepicker;
+    @FXML
+    private JFXDatePicker conciliationdate_jfxdatepicker;
 
-        @FXML
-        private JFXTextField description_jfxtextarea;
+    @FXML
+    private JFXTextField description_jfxtextarea;
 
-        @FXML
-        private JFXComboBox<ContractTypeDto> contracttype_jfxcombobox;
+    @FXML
+    private JFXComboBox<ContractTypeDto> contracttype_jfxcombobox;
 
-        @FXML
-        private JFXComboBox<HotelDto> hotel_jfxcombobox;
+    @FXML
+    private JFXComboBox<HotelDto> hotel_jfxcombobox;
 
-        @FXML
-        private CheckComboBox<SeasonDto> season_checkcombobox;
+    @FXML
+    private CheckComboBox<SeasonDto> season_checkcombobox;
 
-        @FXML
-        private CheckComboBox<RoomTypeDto> roomtype_checkcombobox;
+    @FXML
+    private CheckComboBox<RoomTypeDto> roomtype_checkcombobox;
 
-        @FXML
-        private CheckComboBox<FoodPlanDto> foodplan_checkcombobox;
+    @FXML
+    private CheckComboBox<FoodPlanDto> foodplan_checkcombobox;
 
-        @FXML
-        private JFXButton insert_jfxbutton;
+    @FXML
+    private JFXButton insert_jfxbutton;
 
-        @FXML
-        private JFXButton update_jfxbutton;
+    @FXML
+    private JFXButton update_jfxbutton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -113,44 +117,54 @@ public class ContractHotelModal extends DataManagerFormController{
 
     @Override
     public void insert(ActionEvent event) throws SQLException {
-        ContractHotelDto contractHotelDto = new ContractHotelDto(
-                0,
-                contracttype_jfxcombobox.getValue(),
-                Date.valueOf (startdate_jfxdatepicker.getValue().format(sqlDateTimeFormatter)),
-                Date.valueOf(finishdate_jfxdatepicker.getValue().format(sqlDateTimeFormatter)),
-                Date.valueOf(conciliationdate_jfxdatepicker.getValue().format(sqlDateTimeFormatter)),
-                description_jfxtextarea.getText(),
-                season_checkcombobox.getCheckModel().getCheckedItems(),
-                hotel_jfxcombobox.getValue()
-        );
+        if (p.validateDates(startdate_jfxdatepicker,finishdate_jfxdatepicker,conciliationdate_jfxdatepicker)&& p.validateText(description_jfxtextarea)) {
+            ContractHotelDto contractHotelDto = new ContractHotelDto(
+                    0,
+                    contracttype_jfxcombobox.getValue(),
+                    Date.valueOf(startdate_jfxdatepicker.getValue().format(sqlDateTimeFormatter)),
+                    Date.valueOf(finishdate_jfxdatepicker.getValue().format(sqlDateTimeFormatter)),
+                    Date.valueOf(conciliationdate_jfxdatepicker.getValue().format(sqlDateTimeFormatter)),
+                    description_jfxtextarea.getText(),
+                    season_checkcombobox.getCheckModel().getCheckedItems(),
+                    hotel_jfxcombobox.getValue()
+            );
 
-        ServicesLocator.getContractHotelServices().insert(contractHotelDto);
-        ServicesLocator.getRelationContractHotelSeasonServices().insert(contractHotelDto);
+            ServicesLocator.getContractHotelServices().insert(contractHotelDto);
+            ServicesLocator.getRelationContractHotelSeasonServices().insert(contractHotelDto);
 
-        insertRSeasonFoodRoom(season_checkcombobox.getCheckModel().getCheckedItems(), foodplan_checkcombobox.getCheckModel().getCheckedItems(), roomtype_checkcombobox.getCheckModel().getCheckedItems(), contractHotelDto.getId());
-
-        ((Stage) startdate_jfxdatepicker.getScene().getWindow()).close();
+            Stage pricesStage = null;
+            Scene scene = null;
+            pricesStage = (Stage) conciliationdate_jfxdatepicker.getScene().getWindow();
+            RoomTypePricesModal roomTypePricesModal = new RoomTypePricesModal();
+            roomTypePricesModal.initializeNameTablePrices(roomtype_checkcombobox.getCheckModel().getCheckedItems(),
+                    season_checkcombobox.getCheckModel().getCheckedItems(),
+                    foodplan_checkcombobox.getCheckModel().getCheckedItems(),
+                    contractHotelDto.getId(),
+                    pricesStage);
+        }
     }
 
     @Override
     public void update(ActionEvent event) throws SQLException {
         ContractHotelDto contractHotelDto = (ContractHotelDto) dto;
 
-        contractHotelDto.setContractTypeDto(contracttype_jfxcombobox.getValue());
-        contractHotelDto.setStartDate( Date.valueOf (startdate_jfxdatepicker.getValue().format(sqlDateTimeFormatter)));
-        contractHotelDto.setFinishDate(Date.valueOf(finishdate_jfxdatepicker.getValue().format(sqlDateTimeFormatter)));
-        contractHotelDto.setConciliationDate(Date.valueOf(conciliationdate_jfxdatepicker.getValue().format(sqlDateTimeFormatter)));
-        contractHotelDto.setDescription(description_jfxtextarea.getText());
-        season_checkcombobox.getItems().removeAll(contractHotelDto.getSeasons());
-        contractHotelDto.setSeasons(season_checkcombobox.getCheckModel().getCheckedItems());
-        contractHotelDto.setHotel(hotel_jfxcombobox.getValue());
 
-        ServicesLocator.getContractHotelServices().update(contractHotelDto);
-        ServicesLocator.getRelationContractHotelSeasonServices().update(contractHotelDto);
-        ServicesLocator.getRelationContractHotelRoomFoodSeasonServices().delete(contractHotelDto.getId());
-        insertRSeasonFoodRoom(season_checkcombobox.getCheckModel().getCheckedItems(), foodplan_checkcombobox.getCheckModel().getCheckedItems(), roomtype_checkcombobox.getCheckModel().getCheckedItems(), contractHotelDto.getId());
 
-        ((Stage) contracttype_jfxcombobox.getScene().getWindow()).close();
+            contractHotelDto.setContractTypeDto(contracttype_jfxcombobox.getValue());
+            contractHotelDto.setStartDate(Date.valueOf(startdate_jfxdatepicker.getValue().format(sqlDateTimeFormatter)));
+            contractHotelDto.setFinishDate(Date.valueOf(finishdate_jfxdatepicker.getValue().format(sqlDateTimeFormatter)));
+            contractHotelDto.setConciliationDate(Date.valueOf(conciliationdate_jfxdatepicker.getValue().format(sqlDateTimeFormatter)));
+            contractHotelDto.setDescription(description_jfxtextarea.getText());
+            season_checkcombobox.getItems().removeAll(contractHotelDto.getSeasons());
+            contractHotelDto.setSeasons(season_checkcombobox.getCheckModel().getCheckedItems());
+            contractHotelDto.setHotel(hotel_jfxcombobox.getValue());
+        if (p.validateDates(startdate_jfxdatepicker,finishdate_jfxdatepicker,conciliationdate_jfxdatepicker)&& p.validateText(description_jfxtextarea)) {
+
+
+            ServicesLocator.getContractHotelServices().update(contractHotelDto);
+            ServicesLocator.getRelationContractHotelSeasonServices().update(contractHotelDto);
+            ServicesLocator.getRelationContractHotelRoomFoodSeasonServices().delete(contractHotelDto.getId());
+        }
     }
 
     @Override
@@ -165,30 +179,6 @@ public class ContractHotelModal extends DataManagerFormController{
             description_jfxtextarea.setText(contractHotelDto.getDescription());
             contracttype_jfxcombobox.getSelectionModel().select(contractHotelDto.getContractTypeDto());
             hotel_jfxcombobox.getSelectionModel().select(contractHotelDto.getHotel());
-        }
-    }
-
-    private void insertRSeasonFoodRoom(List<SeasonDto> seasons, List<FoodPlanDto> plans,List<RoomTypeDto> rooms, int idContractHotel) throws SQLException {
-        ListIterator<SeasonDto> listIteratorSeasons = seasons.listIterator();
-
-        while (listIteratorSeasons.hasNext()){
-            SeasonDto currentSeasonDto = listIteratorSeasons.next();
-
-            ListIterator<FoodPlanDto> listIteratorPlans = plans.listIterator();
-            while (listIteratorPlans.hasNext()) {
-                FoodPlanDto currentFoodPlanDto = listIteratorPlans.next();
-
-                ListIterator<RoomTypeDto> listIteratorRooms = rooms.listIterator();
-                while (listIteratorRooms.hasNext())
-                    ServicesLocator.getRelationContractHotelRoomFoodSeasonServices().insert(
-                            new RelationContractHotelRoomFoodSeasonDto(
-                                    idContractHotel,
-                                    currentFoodPlanDto.getId(),
-                                    listIteratorRooms.next().getId(),
-                                    currentSeasonDto.getId(),
-                                    1500
-                            ));
-            }
         }
     }
 }

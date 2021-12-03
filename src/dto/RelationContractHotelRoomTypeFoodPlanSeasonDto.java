@@ -1,13 +1,13 @@
 package dto;
 
-public class RelationContractHotelRoomFoodSeasonDto {
+public class RelationContractHotelRoomTypeFoodPlanSeasonDto implements Dto{
     private int idContractHotel;
     private int idFoodPlan;
     private int idRoomType;
     private int idSeason;
     private float price;
 
-    public RelationContractHotelRoomFoodSeasonDto(int idContractHotel, int idFoodPlan, int idRoomType, int idSeason, float price) {
+    public RelationContractHotelRoomTypeFoodPlanSeasonDto(int idContractHotel, int idFoodPlan, int idRoomType, int idSeason, float price) {
         this.idContractHotel = idContractHotel;
         this.idFoodPlan = idFoodPlan;
         this.idRoomType = idRoomType;
@@ -53,5 +53,10 @@ public class RelationContractHotelRoomFoodSeasonDto {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    @Override
+    public int getId() {
+        return this.idRoomType;
     }
 }

@@ -118,6 +118,15 @@ public class TouristicPackageServices implements Services<TouristicPackageDto> {
         callableStatement.setFloat(8, dto.getCostTotal());
         callableStatement.setFloat(9, dto.getPrice());
         callableStatement.execute();
+
+        connection.setAutoCommit(false);
+        callableStatement = connection.prepareCall("{ ? = call tpp.touristic_package_return_id_max()}");
+        callableStatement.registerOutParameter(1, Types.REF_CURSOR);
+        callableStatement.execute();
+        ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
+        resultSet.next();
+        dto.setId(resultSet.getInt(1));
+
         callableStatement.close();
         connection.close();
     }

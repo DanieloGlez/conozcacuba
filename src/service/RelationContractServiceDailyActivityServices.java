@@ -1,13 +1,13 @@
 package service;
 
-import dto.RelationContractServiceDailyActDto;
+import dto.RelationContractServiceDailyActivityDto;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class RelationContractServiceDailyActServices {
-    public void insert(RelationContractServiceDailyActDto relation) throws SQLException {
+public class RelationContractServiceDailyActivityServices {
+    public void insert(RelationContractServiceDailyActivityDto relation) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{ call tpp.r_contract_service_n_daily_activity_insert(?,?,?)}");
         callableStatement.setInt(1, relation.getIdContractService());
@@ -19,7 +19,7 @@ public class RelationContractServiceDailyActServices {
         connection.close();
     }
 
-    public void update(RelationContractServiceDailyActDto relation) throws SQLException {
+    public void update(RelationContractServiceDailyActivityDto relation) throws SQLException {
         insert(relation);
     }
 

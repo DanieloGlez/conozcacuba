@@ -1,6 +1,7 @@
 package service;
 
 import dto.Dto;
+import dto.nom.NomenclatorDto;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -12,4 +13,6 @@ public interface Services<T> {
     void insert(T dto) throws SQLException;
     void update(T dto) throws SQLException;
     void delete(int id) throws SQLException;
+
+
 }

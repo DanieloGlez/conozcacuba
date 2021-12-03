@@ -107,7 +107,6 @@ public class ContractModal extends DataManagerFormController {
 
     @Override
     public void update(ActionEvent event) throws SQLException {
-        if (p.validateDates(startdate_jfxdatepicker,finishdate_jfxdatepicker,conciliationdate_jfxdatepicker)&&p.validateText(description_jfxtextarea)&&p.validateCombobox(contracttype_jfxcombobox)) {
 
             ContractDto contractDto = (ContractDto) dto;
             contractDto.setContractTypeDto(contracttype_jfxcombobox.getValue());
@@ -115,6 +114,8 @@ public class ContractModal extends DataManagerFormController {
             contractDto.setFinishDate(Date.valueOf(finishdate_jfxdatepicker.getValue().format(sqlDateTimeFormatter)));
             contractDto.setConciliationDate(Date.valueOf(conciliationdate_jfxdatepicker.getValue().format(sqlDateTimeFormatter)));
             contractDto.setDescription(description_jfxtextarea.getText());
+
+        if (p.validateDates(startdate_jfxdatepicker,finishdate_jfxdatepicker,conciliationdate_jfxdatepicker)&&p.validateText(description_jfxtextarea)&&p.validateCombobox(contracttype_jfxcombobox)) {
 
             ServicesLocator.getContractServices().update(contractDto);
 

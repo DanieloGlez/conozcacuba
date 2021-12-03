@@ -36,7 +36,7 @@ public class ServicesLocator {
     private static ContractServiceServices contractServiceServices;
     private static ContractHotelServices contractHotelServices;
     private static TouristicPackageServices touristicPackageServices;
-    private static RelationContractServiceDailyActServices relationContractServiceDailyActServices;
+    private static RelationContractServiceDailyActivityServices relationContractServiceDailyActivityServices;
     private static RelationContractServiceServiceTypeServices relationContractServiceServiceTypeServices;
     private static RelationContractServiceCompanyServiceServices relationContractServiceCompanyServiceServices;
     private static RelationContractTransportVehicleServices relationContractTransportVehicleServices;
@@ -45,6 +45,7 @@ public class ServicesLocator {
     private static RelationHotelRoomTypeServices relationHotelRoomTypeServices;
     private static RelationContractHotelSeasonServices relationContractHotelSeasonServices;
     private static RelationContractHotelRoomFoodSeasonServices relationContractHotelRoomFoodSeasonServices;
+    private static RelationTouristicPackageContractTransportServices relationTouristicPackageContractTransportServices;
 
     // Reports
     private static ContractHotelReportServices contractHotelReportServices;
@@ -234,10 +235,10 @@ public class ServicesLocator {
         return touristicPackageServices;
     }
 
-    public static RelationContractServiceDailyActServices getRelationContractServiceDailyActServices() {
-        if (relationContractServiceDailyActServices == null)
-            relationContractServiceDailyActServices = new RelationContractServiceDailyActServices();
-        return relationContractServiceDailyActServices;
+    public static RelationContractServiceDailyActivityServices getRelationContractServiceDailyActServices() {
+        if (relationContractServiceDailyActivityServices == null)
+            relationContractServiceDailyActivityServices = new RelationContractServiceDailyActivityServices();
+        return relationContractServiceDailyActivityServices;
     }
 
     public static RelationContractServiceServiceTypeServices getRelationContractServiceServiceTypeServices() {
@@ -294,5 +295,11 @@ public class ServicesLocator {
             contractHotelReportServices = new ContractHotelReportServices();
 
         return contractHotelReportServices;
+    }
+
+    public static RelationTouristicPackageContractTransportServices getRelationTouristicPackageContractTransportServices(){
+        if (relationTouristicPackageContractTransportServices == null)
+            relationTouristicPackageContractTransportServices = new RelationTouristicPackageContractTransportServices();
+        return relationTouristicPackageContractTransportServices;
     }
 }

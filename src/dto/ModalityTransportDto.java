@@ -16,4 +16,6 @@ public abstract class ModalityTransportDto {
     public void setId(int id) {
         this.id = id;
     }
+
+    public abstract float getTotalCost();
 }

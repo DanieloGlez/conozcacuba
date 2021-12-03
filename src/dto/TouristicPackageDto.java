@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-public class TouristicPackageDto {
+public class TouristicPackageDto implements Dto{
     private int id;
     private String promotionalName;
     private int daysAmount;

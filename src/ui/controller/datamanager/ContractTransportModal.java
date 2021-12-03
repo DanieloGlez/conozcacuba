@@ -14,6 +14,7 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.stage.Stage;
 import org.controlsfx.control.CheckComboBox;
 import service.ServicesLocator;
+import util.Validator;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
@@ -26,6 +27,7 @@ import java.util.ListIterator;
 import java.util.ResourceBundle;
 
 public class ContractTransportModal extends DataManagerFormController {
+    Validator p= new Validator();
     @FXML
     private JFXComboBox<ContractTypeDto> contract_jfxcombobox;
 
@@ -102,21 +104,25 @@ public class ContractTransportModal extends DataManagerFormController {
         java.sql.Date startDate= Date.valueOf(startdate_jfxdatepicker.getValue());
         java.sql.Date finishDate=Date.valueOf(finishdate_jfxdatepicker.getValue());
         java.sql.Date conciliationDate=Date.valueOf(conciliationndate_jfxdatepicker.getValue());
-        ContractTransportDto contractTransportDto = new ContractTransportDto(
-                0,
-                contract_jfxcombobox.getValue(),
-                startDate,
-                finishDate,
-                conciliationDate,
-                description_jfxtextarea.getText(),
-                transportcompany_jfxcombobox.getValue(),
-                vehicleslist_combocheckbox.getCheckModel().getCheckedItems()
-                );
 
-        ServicesLocator.getContractTransportServices().insert(contractTransportDto);
-        ServicesLocator.getRelationContractTransportVehicleServices().insert(contractTransportDto);
+        if (p.validateCombobox(contract_jfxcombobox) && p.validateTextOfTextArea(description_jfxtextarea) && p.validateDates(startdate_jfxdatepicker,finishdate_jfxdatepicker,conciliationndate_jfxdatepicker)) {
 
-        ((Stage) contract_jfxcombobox.getScene().getWindow()).close();
+            ContractTransportDto contractTransportDto = new ContractTransportDto(
+                    0,
+                    contract_jfxcombobox.getValue(),
+                    startDate,
+                    finishDate,
+                    conciliationDate,
+                    description_jfxtextarea.getText(),
+                    transportcompany_jfxcombobox.getValue(),
+                    vehicleslist_combocheckbox.getCheckModel().getCheckedItems()
+            );
+
+            ServicesLocator.getContractTransportServices().insert(contractTransportDto);
+            ServicesLocator.getRelationContractTransportVehicleServices().insert(contractTransportDto);
+
+            ((Stage) contract_jfxcombobox.getScene().getWindow()).close();
+        }
     }
 
     @Override
@@ -132,9 +138,13 @@ public class ContractTransportModal extends DataManagerFormController {
         contractTransportDto.setConciliationDate(conciliationDate);
         contractTransportDto.setTransportCompany(transportcompany_jfxcombobox.getValue());
 
-        ServicesLocator.getRelationContractTransportVehicleServices().update(contractTransportDto);
+        if (p.validateCombobox(contract_jfxcombobox) && p.validateTextOfTextArea(description_jfxtextarea) && p.validateDates(startdate_jfxdatepicker,finishdate_jfxdatepicker,conciliationndate_jfxdatepicker)) {
 
-        ((Stage) contract_jfxcombobox.getScene().getWindow()).close();
+
+            ServicesLocator.getRelationContractTransportVehicleServices().update(contractTransportDto);
+
+            ((Stage) contract_jfxcombobox.getScene().getWindow()).close();
+        }
 
        /* ContractTransportDto contractTransportDto= new ContractTransportDto(
                 0,

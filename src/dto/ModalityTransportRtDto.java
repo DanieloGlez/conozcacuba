@@ -59,4 +59,9 @@ public class ModalityTransportRtDto extends ModalityTransportDto implements Dto 
     public void setVehicle(VehicleDto vehicle) {
         this.vehicle = vehicle;
     }
+
+    @Override
+    public float getTotalCost() {
+        return this.costRoundTrip + this.costRt;
+    }
 }

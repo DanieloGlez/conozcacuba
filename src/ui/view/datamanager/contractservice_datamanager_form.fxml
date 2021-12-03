@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../../asset/css/global.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.datamanager.ContractServiceModal">
+<AnchorPane fx:id="container_anchorpane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../asset/css/global.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.datamanager.ContractServiceModal">
    <children>
       <HBox alignment="CENTER" layoutX="111.0" layoutY="167.0" prefHeight="45.0" prefWidth="159.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
          <children>

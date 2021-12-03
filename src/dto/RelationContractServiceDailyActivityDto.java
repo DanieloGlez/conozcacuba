@@ -2,12 +2,12 @@ package dto;
 
 import dto.nom.DailyActivityDto;
 
-public class RelationContractServiceDailyActDto{
+public class RelationContractServiceDailyActivityDto implements Dto{
     private float price;
     private int idContractService;
     private DailyActivityDto dailyActivityDto;
 
-    public RelationContractServiceDailyActDto(float cost, int idContractService, DailyActivityDto dailyActivityDto) {
+    public RelationContractServiceDailyActivityDto(float cost, int idContractService, DailyActivityDto dailyActivityDto) {
         setPrice(cost);
         this.idContractService = idContractService;
         this.dailyActivityDto = dailyActivityDto;
@@ -18,7 +18,7 @@ public class RelationContractServiceDailyActDto{
     }
 
     public void setPrice(float cost) {
-        this.price *= (float) 1.1;
+        this.price = cost * (float) 1.1;
     }
 
     public int getIdContractService() {
@@ -35,5 +35,10 @@ public class RelationContractServiceDailyActDto{
 
     public void setDailyActivityDto(DailyActivityDto dailyActivityDto) {
         this.dailyActivityDto = dailyActivityDto;
+    }
+
+    @Override
+    public int getId() {
+        return this.dailyActivityDto.getId();
     }
 }

@@ -6,21 +6,22 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
-import dto.ContractDto;
 import dto.ContractServiceDto;
 import dto.Dto;
-import dto.RelationContractServiceDailyActDto;
+import dto.RelationContractServiceDailyActivityDto;
 import dto.nom.*;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.controlsfx.control.CheckComboBox;
-import service.RelationContractServiceCompanyServiceServices;
-import service.RelationContractServiceDailyActServices;
 import service.ServicesLocator;
+import util.UserInterfaceUtils;
 import util.Validator;
 
 import java.net.URL;
@@ -29,7 +30,10 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class ContractServiceModal extends DataManagerFormController {
+    Validator p= new Validator();
 
+    @FXML
+    private AnchorPane container_anchorpane;
     @FXML
     private JFXButton insert_jfxbutton;
 
@@ -101,17 +105,7 @@ public class ContractServiceModal extends DataManagerFormController {
         });
 
 
-
-
-
     }
-
-    /*private void initializeIdContractSpinner() throws SQLException {
-        int maxValue=ServicesLocator.getContractServices().loadAll().size();
-        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,maxValue, 1);
-        idcontract_spinner.setValueFactory(valueFactory);
-
-    }*/
 
     private void initializeComboboxes() {
         try {
@@ -142,35 +136,35 @@ public class ContractServiceModal extends DataManagerFormController {
         java.sql.Date finishDate = Date.valueOf(finishdate_jfxdatepicker.getValue());
         java.sql.Date conciliationDate = Date.valueOf(conciliationndate_jfxdatepicker.getValue());
         List<DailyActivityDto> listDaily = dailyactivities_checkcombobox.getCheckModel().getCheckedItems();
-        ContractServiceDto contractServiceDto = new ContractServiceDto(0,
-                startDate,
-                finishDate,
-                conciliationDate,
-                description_jfxtextarea.getText(),
-                contract_jfxcombobox.getValue(),
-                Float.parseFloat(paxcost_spinner.getValue().toString()),
-                province_jfxcombobox.getValue(),
-                listDaily,
-                servicecompanies_checkcombobox.getCheckModel().getCheckedItems(),
-                servicetypes_checkcombobox.getCheckModel().getCheckedItems()
-        );
-        ServicesLocator.getContractServiceServices().insert(contractServiceDto);
 
-        ListIterator<DailyActivityDto> listIterator = listDaily.listIterator();
-
-        while (listIterator.hasNext()) {
-            RelationContractServiceDailyActDto relation = new RelationContractServiceDailyActDto(
-                    (float) 45.0,
-                    contractServiceDto.getId(),
-                    listIterator.next()
+        if (p.validateTextOfTextArea(description_jfxtextarea) && p.validateDates(startdate_jfxdatepicker,finishdate_jfxdatepicker,conciliationndate_jfxdatepicker) &&p.validateCombobox(contract_jfxcombobox)&&p.validateCombobox(province_jfxcombobox)) {
+            ContractServiceDto contractServiceDto = new ContractServiceDto(0,
+                    startDate,
+                    finishDate,
+                    conciliationDate,
+                    description_jfxtextarea.getText(),
+                    contract_jfxcombobox.getValue(),
+                    Float.parseFloat(paxcost_spinner.getValue().toString()),
+                    province_jfxcombobox.getValue(),
+                    listDaily,
+                    servicecompanies_checkcombobox.getCheckModel().getCheckedItems(),
+                    servicetypes_checkcombobox.getCheckModel().getCheckedItems()
             );
-            ServicesLocator.getRelationContractServiceDailyActServices().insert(relation);
+
+            ServicesLocator.getContractServiceServices().insert(contractServiceDto);
+            ServicesLocator.getRelationContractServiceServiceTypeServices().insert(contractServiceDto);
+            ServicesLocator.getRelationContractServiceCompanyServiceServices().insert(contractServiceDto);
+
+            Stage pricesStage = null;
+            Scene scene = null;
+            pricesStage = (Stage) container_anchorpane.getScene().getWindow();
+            List<DailyActivityDto> checkedItems = dailyactivities_checkcombobox.getCheckModel().getCheckedItems();
+            DailyActivityPricesModal dailyActivityPricesModal = new DailyActivityPricesModal();
+            dailyActivityPricesModal.initializeNameTablePrices(checkedItems, contractServiceDto.getId(), pricesStage);
+
         }
-
-        ServicesLocator.getRelationContractServiceServiceTypeServices().insert(contractServiceDto);
-        ServicesLocator.getRelationContractServiceCompanyServiceServices().insert(contractServiceDto);
-
-        ((Stage) contract_jfxcombobox.getScene().getWindow()).close();
+        else
+            UserInterfaceUtils.showTemporaryLabel(new Label(),"Review your entries", Color.RED,3);
     }
 
     @Override
@@ -192,19 +186,22 @@ public class ContractServiceModal extends DataManagerFormController {
         contractServiceDto.setFinishDate(finishDate);
         contractServiceDto.setConciliationDate(conciliationDate);
 
-        ServicesLocator.getContractServiceServices().update(contractServiceDto);
-        ServicesLocator.getRelationContractServiceCompanyServiceServices().update(contractServiceDto);
-        ServicesLocator.getRelationContractServiceServiceTypeServices().update(contractServiceDto);
-        List<DailyActivityDto> dailyActivities = dailyactivities_checkcombobox.getCheckModel().getCheckedItems();
-        int idContract = contractServiceDto.getId();
-        ServicesLocator.getRelationContractServiceDailyActServices().delete(idContract);
-        ListIterator<DailyActivityDto> listIterator = dailyActivities.listIterator();
+        if (p.validateTextOfTextArea(description_jfxtextarea) && p.validateDates(startdate_jfxdatepicker,finishdate_jfxdatepicker,conciliationndate_jfxdatepicker) &&p.validateCombobox(contract_jfxcombobox)&&p.validateCombobox(province_jfxcombobox)) {
 
-        while (listIterator.hasNext()){
-            ServicesLocator.getRelationContractServiceDailyActServices().update(new RelationContractServiceDailyActDto((float) 90.0, idContract, listIterator.next()));
+            ServicesLocator.getContractServiceServices().update(contractServiceDto);
+            ServicesLocator.getRelationContractServiceCompanyServiceServices().update(contractServiceDto);
+            ServicesLocator.getRelationContractServiceServiceTypeServices().update(contractServiceDto);
+            List<DailyActivityDto> dailyActivities = dailyactivities_checkcombobox.getCheckModel().getCheckedItems();
+            int idContract = contractServiceDto.getId();
+            ServicesLocator.getRelationContractServiceDailyActServices().delete(idContract);
+            ListIterator<DailyActivityDto> listIterator = dailyActivities.listIterator();
+
+            while (listIterator.hasNext()) {
+                ServicesLocator.getRelationContractServiceDailyActServices().update(new RelationContractServiceDailyActivityDto((float) 90.0, idContract, listIterator.next()));
+            }
+
+            ((Stage) contract_jfxcombobox.getScene().getWindow()).close();
         }
-
-        ((Stage) contract_jfxcombobox.getScene().getWindow()).close();
     }
 
     @Override
