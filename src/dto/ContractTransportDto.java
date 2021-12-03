@@ -2,6 +2,7 @@ package dto;
 
 import dto.nom.CompanyTransportDto;
 import dto.nom.ContractTypeDto;
+import dto.rep.VehicleReportDto;
 
 import java.sql.Date;
 import java.util.LinkedList;
@@ -38,6 +39,20 @@ public class ContractTransportDto extends ContractDto {
         return vehicles;
     }
 
+    public List<VehicleReportDto> getVehiclesReport(LinkedList<VehicleDto> vehicles) {
+
+        List<VehicleReportDto> vehiclesR=new LinkedList<>();
+        ListIterator<VehicleDto> listIterator = vehicles.listIterator();
+
+        while (listIterator.hasNext()) {
+            vehiclesR.add(new VehicleReportDto(listIterator.next()));
+        }
+
+        return vehiclesR;
+    }
+
+
+
     public void setVehicles(List<VehicleDto> vehicles) {
         this.vehicles.clear();
         ListIterator<VehicleDto> listIterator = vehicles.listIterator();
@@ -47,6 +62,8 @@ public class ContractTransportDto extends ContractDto {
             this.vehicles.add(currentVehicleDto);
         }
     }
+
+
 
     @Override
     public String toString() {

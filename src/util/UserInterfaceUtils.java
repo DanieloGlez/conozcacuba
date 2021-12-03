@@ -1,6 +1,8 @@
 package util;
 
+import dto.ContractServiceDto;
 import dto.Dto;
+import dto.RelationContractServiceDailyActivityDto;
 import dto.nom.NomenclatorDto;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXMLLoader;
@@ -41,9 +43,6 @@ public class UserInterfaceUtils {
 
 
     public static Stage showDataManagerForm(String dtoClassSimpleName, Dto dto, Stage stage) throws IOException {
-        System.out.println(dtoClassSimpleName);
-
-
         Stage modalStage = new Stage();
         modalStage.initModality(Modality.WINDOW_MODAL);
         modalStage.initOwner(stage);
@@ -61,7 +60,9 @@ public class UserInterfaceUtils {
             NomenclatorForm nomenclatorForm = fxmlLoader.getController();
             nomenclatorForm.initializeNomenclatorClassName(dtoClassSimpleName);
             nomenclatorForm.setDto(dto);
-        } else {
+
+        }
+        else {
             url = "/ui/view/datamanager/" + dtoClassSimpleName.toLowerCase() + "_datamanager_form.fxml";
 
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));

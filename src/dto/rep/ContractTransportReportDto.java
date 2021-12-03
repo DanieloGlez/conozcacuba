@@ -1,11 +1,11 @@
 package dto.rep;
 
 import dto.ContractTransportDto;
-import dto.ContractTransportDto;
 import dto.VehicleDto;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ContractTransportReportDto {
@@ -15,14 +15,14 @@ public class ContractTransportReportDto {
    private String finishDate;
    private String conciliationDate;
    private JRBeanCollectionDataSource vehiclesDataSource;
-   private List<VehicleDto> vehicles;
+   private List<VehicleReportDto> vehicles;
 
    public ContractTransportReportDto(ContractTransportDto contractTransportDto) {
       companyName = contractTransportDto.getTransportCompany().getName();
       startDate = contractTransportDto.getStartDate().toString();
       finishDate = contractTransportDto.getFinishDate().toString();
       conciliationDate = contractTransportDto.getConciliationDate().toString();
-      vehicles = contractTransportDto.getVehicles();
+      vehicles = contractTransportDto.getVehiclesReport((LinkedList<VehicleDto>) contractTransportDto.getVehicles());
    }
 
    //Getter and Setter
@@ -64,6 +64,7 @@ public class ContractTransportReportDto {
    }
 
    public JRBeanCollectionDataSource getVehiclesDataSource() {
+
       return new JRBeanCollectionDataSource(vehicles, false);
    }
 
