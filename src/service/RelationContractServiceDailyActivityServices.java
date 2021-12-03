@@ -19,6 +19,7 @@ public class RelationContractServiceDailyActivityServices {
         connection.close();
     }
 
+
     public void update(RelationContractServiceDailyActivityDto relation) throws SQLException {
         insert(relation);
     }
