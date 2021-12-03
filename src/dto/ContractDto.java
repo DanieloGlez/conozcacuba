@@ -2,8 +2,6 @@ package dto;
 
 import dto.nom.ContractTypeDto;
 
-import java.util.Date;
-
 public class ContractDto implements Dto{
     protected int id;
     protected ContractTypeDto contractTypeDto;

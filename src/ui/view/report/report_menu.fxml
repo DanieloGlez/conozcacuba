@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.embed.swing.*?>
+<?import javafx.scene.layout.*?>
 
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.report.ReportMenu">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.report.ReportMenu">
    <children>
-      <Label layoutX="435.0" layoutY="348.0" text="Report Menu is not implemented yet" textFill="#468c82">
-         <font>
-            <Font name="Hack Bold" size="20.0" />
-         </font>
-      </Label>
+      <SwingNode layoutX="271.0" layoutY="183.0" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="54.0" />
    </children>
 </AnchorPane>

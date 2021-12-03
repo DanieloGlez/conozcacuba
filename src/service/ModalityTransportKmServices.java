@@ -63,11 +63,11 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
     public void insert(ModalityTransportKmDto dto) throws SQLException {
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_km_insert(?,?,?,?,?)}");
-        callableStatement.setFloat(1, dto.getCostKm());
-        callableStatement.setFloat(2, dto.getCostKmRoundTrip());
-        callableStatement.setFloat(3, dto.getCostHrWait());
-        callableStatement.setInt(4, dto.getContractTransport().getId());
-        callableStatement.setInt(5, dto.getVehicle().getId());
+        callableStatement.setDouble(3, dto.getCostKm());
+        callableStatement.setDouble(4, dto.getCostKmRoundTrip());
+        callableStatement.setDouble(5, dto.getCostHrWait());
+        callableStatement.setInt(1, dto.getContractTransport().getId());
+        callableStatement.setInt(2, dto.getVehicle().getId());
         callableStatement.execute();
         callableStatement.close();
         connection.close();
@@ -78,11 +78,11 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
         Connection connection = ServicesLocator.getConnection();
         CallableStatement callableStatement = connection.prepareCall("{call tpp.modality_transport_km_update(?,?,?,?,?,?)}");
         callableStatement.setInt(1, dto.getId());
-        callableStatement.setFloat(2, dto.getCostKm());
-        callableStatement.setFloat(3, dto.getCostKmRoundTrip());
-        callableStatement.setFloat(4, dto.getCostHrWait());
-        callableStatement.setInt(5, dto.getContractTransport().getId());
-        callableStatement.setInt(6, dto.getVehicle().getId());
+        callableStatement.setFloat(4, dto.getCostKm());
+        callableStatement.setFloat(5, dto.getCostKmRoundTrip());
+        callableStatement.setFloat(6, dto.getCostHrWait());
+        callableStatement.setInt(2, dto.getContractTransport().getId());
+        callableStatement.setInt(3, dto.getVehicle().getId());
         callableStatement.execute();
         callableStatement.close();
         connection.close();
@@ -97,4 +97,6 @@ public class ModalityTransportKmServices implements Services<ModalityTransportKm
         callableStatement.close();
         connection.close();
     }
+
+
 }

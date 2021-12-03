@@ -8,9 +8,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import service.ServicesLocator;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -42,6 +44,12 @@ public class MainMenu implements Initializable {
         }
 
         handleDrawerEvent(true);
+
+        try {
+            ServicesLocator.getContractHotelReportServices().loadAll().forEach(System.out::println);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setHamburgerTransition() {
