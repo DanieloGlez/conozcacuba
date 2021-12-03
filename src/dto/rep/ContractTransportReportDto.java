@@ -64,6 +64,7 @@ public class ContractTransportReportDto {
    }
 
    public JRBeanCollectionDataSource getVehiclesDataSource() {
+
       return new JRBeanCollectionDataSource(vehicles, false);
    }
 

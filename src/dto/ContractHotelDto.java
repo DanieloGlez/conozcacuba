@@ -1,6 +1,8 @@
 package dto;
 
 import dto.nom.ContractTypeDto;
+import dto.rep.SeasonReportDto;
+import dto.rep.VehicleReportDto;
 
 import java.sql.Date;
 import java.util.LinkedList;
@@ -45,6 +47,18 @@ public class ContractHotelDto extends ContractDto {
             SeasonDto currentSeason = listIterator.next();
             this.seasons.add(currentSeason);
         }
+    }
+
+    public List<SeasonReportDto> getSeasonsReport(LinkedList<SeasonDto> seasons) {
+
+        List<SeasonReportDto> seasonsR=new LinkedList<>();
+        ListIterator<SeasonDto> listIterator = seasons.listIterator();
+
+        while (listIterator.hasNext()) {
+            seasonsR.add(new SeasonReportDto(listIterator.next()));
+        }
+
+        return seasonsR;
     }
 
     @Override
