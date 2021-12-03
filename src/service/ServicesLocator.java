@@ -4,6 +4,7 @@ import service.fun.RoleServices;
 import service.fun.UserServices;
 import service.nom.*;
 import service.rep.ContractHotelReportServices;
+import service.rep.ContractTransportReportServices;
 import util.ConfigurationUtils;
 import util.DatabaseUtils;
 
@@ -48,6 +49,7 @@ public class ServicesLocator {
 
     // Reports
     private static ContractHotelReportServices contractHotelReportServices;
+    private static ContractTransportReportServices contractTransportReportServices;
 
     // Connection
     public static Connection getConnection() throws SQLException {
@@ -294,5 +296,12 @@ public class ServicesLocator {
             contractHotelReportServices = new ContractHotelReportServices();
 
         return contractHotelReportServices;
+    }
+
+    public static ContractTransportReportServices getContractTransportReportServices() {
+        if(contractTransportReportServices == null)
+            contractTransportReportServices = new ContractTransportReportServices();
+
+        return contractTransportReportServices;
     }
 }
