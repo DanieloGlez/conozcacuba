@@ -1,15 +1,7 @@
 package dto.rep;
 
-import dto.ContractHotelDto;
 import dto.ContractServiceDto;
-import dto.SeasonDto;
-import dto.VehicleDto;
-import dto.nom.ServiceTypeDto;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
 
 public class ContractServiceReportDto {
 
@@ -20,7 +12,7 @@ public class ContractServiceReportDto {
     private String paxCost;
     private String province;
     private JRBeanCollectionDataSource serviceTypeDataSource;
-    private List<String> serviceTypes;
+    private String serviceTypes;
 
     //Constructors
     public ContractServiceReportDto(ContractServiceDto contractServiceDto) {
@@ -31,13 +23,12 @@ public class ContractServiceReportDto {
         paxCost = String.valueOf(contractServiceDto.getPaxCost());
         province = contractServiceDto.getIdProvince().getName();
 
-        List<ServiceTypeDto> services = contractServiceDto.getServiceType();
-        ListIterator<ServiceTypeDto> listIterator = services.listIterator();
-
-        while (listIterator.hasNext()) {
-            assert false;
-            serviceTypes.add(listIterator.next().getName());
-        }
+        serviceTypes = contractServiceDto
+                .getServiceType()
+                .toString()
+                .replace("[", "")
+                .replace("]", "")
+        ;
     }
 
     //Getter and Setter
@@ -90,14 +81,4 @@ public class ContractServiceReportDto {
     public void setProvince(String province) {
         this.province = province;
     }
-
-    public void setServiceTypeDataSource(JRBeanCollectionDataSource serviceTypeDataSource) {
-        this.serviceTypeDataSource = serviceTypeDataSource;
-    }
-
-    public JRBeanCollectionDataSource getServiceTypeDataSource() {
-
-        return new JRBeanCollectionDataSource(serviceTypes, false);
-    }
-
 }
