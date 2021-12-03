@@ -5,10 +5,11 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 public class ContractServiceReportDto {
 
+    private String id;
     private String startDate;
     private String finishDate;
     private String conciliationDate;
-    private String description;
+    private String contractDescription;
     private String paxCost;
     private String province;
     private JRBeanCollectionDataSource serviceTypeDataSource;
@@ -16,10 +17,11 @@ public class ContractServiceReportDto {
 
     //Constructors
     public ContractServiceReportDto(ContractServiceDto contractServiceDto) {
+        id = String.valueOf("Service Contract #" + contractServiceDto.getId());
         startDate = contractServiceDto.getStartDate().toString();
         finishDate = contractServiceDto.getFinishDate().toString();
         conciliationDate = contractServiceDto.getConciliationDate().toString();
-        description = contractServiceDto.getDescription();
+        contractDescription = contractServiceDto.getDescription();
         paxCost = String.valueOf(contractServiceDto.getPaxCost());
         province = contractServiceDto.getIdProvince().getName();
 
@@ -33,6 +35,14 @@ public class ContractServiceReportDto {
 
     //Getter and Setter
 
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getStartDate() {
         return startDate;
@@ -58,12 +68,12 @@ public class ContractServiceReportDto {
         this.conciliationDate = conciliationDate;
     }
 
-    public String getDescription() {
-        return description;
+    public String getContractDescription() {
+        return contractDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setContractDescription(String description) {
+        this.contractDescription = description;
     }
 
     public String getPaxCost() {
