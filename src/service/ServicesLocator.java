@@ -3,10 +3,7 @@ package service;
 import service.fun.RoleServices;
 import service.fun.UserServices;
 import service.nom.*;
-import service.rep.ContractHotelReportServices;
-import service.rep.ContractServiceReportServices;
-import service.rep.ContractTransportReportServices;
-import service.rep.SeasonContractHotelReportServices;
+import service.rep.*;
 import util.ConfigurationUtils;
 import util.DatabaseUtils;
 
@@ -55,6 +52,7 @@ public class ServicesLocator {
     private static SeasonContractHotelReportServices seasonContractHotelReportServices;
     private static ContractServiceReportServices contractServiceReportServices;
     private static HotelReportServices hotelReportServices;
+    private static TouristicPackageReportServices touristicPackageReportServices;
 
     // Connection
     public static Connection getConnection() throws SQLException {
@@ -329,5 +327,12 @@ public class ServicesLocator {
             hotelReportServices = new HotelReportServices();
 
         return hotelReportServices;
+    }
+
+    public static TouristicPackageReportServices getTouristicPackageReportServices() {
+        if(touristicPackageReportServices == null)
+            touristicPackageReportServices = new TouristicPackageReportServices();
+
+        return touristicPackageReportServices;
     }
 }
