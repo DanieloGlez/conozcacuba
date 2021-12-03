@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2021-12-02T23:04:07 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contract_hotel" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="5e590181-6666-494a-bc0b-472456d4c432">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="hotelName" class="java.lang.String"/>
+	<field name="hotelFranchise" class="java.lang.String"/>
+	<field name="province" class="java.lang.String"/>
+	<field name="address" class="java.lang.String"/>
+	<field name="hotelCategory" class="java.lang.String"/>
+	<field name="startDate" class="java.lang.String"/>
+	<field name="finishDate" class="java.lang.String"/>
+	<field name="conciliationDate" class="java.lang.String"/>
+	<field name="contractDescription" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="80" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="752" height="60" uuid="d229b8bc-9ec7-4ddc-9455-82f1635d99b4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA["CONOZCA CUBA" 
+Touristic Package Planning Management System]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="752" height="20" uuid="0bcb9d58-a550-4ea2-b849-347e7e38d057"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Conciliated Hotel Contract Report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="139" splitType="Stretch">
+			<frame>
+				<reportElement x="10" y="10" width="730" height="20" uuid="97ba7552-8e40-496d-8b6e-1a8af4d7c957"/>
+				<frame>
+					<reportElement x="0" y="0" width="730" height="20" uuid="f2ff0003-93a0-4101-a3d8-9151c0d0d73a"/>
+					<textField isBlankWhenNull="false">
+						<reportElement x="0" y="0" width="730" height="20" uuid="b7df98c1-4d3f-47dc-99d0-80b912db02c1">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<box>
+							<topPen lineWidth="1.0"/>
+							<leftPen lineWidth="1.0"/>
+							<bottomPen lineWidth="1.0"/>
+							<rightPen lineWidth="1.0"/>
+						</box>
+						<textElement textAlignment="Center" verticalAlignment="Middle"/>
+						<textFieldExpression><![CDATA[$F{hotelName}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</frame>
+			<frame>
+				<reportElement x="10" y="30" width="730" height="100" uuid="fb06fd1a-0d6b-40de-9264-0efc7b2682e5"/>
+				<frame>
+					<reportElement x="0" y="0" width="730" height="100" uuid="d14fc4d9-7c15-4ccc-bb71-150153135b9e">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<staticText>
+						<reportElement x="10" y="70" width="90" height="20" uuid="e3c6d1e7-6a9b-46e5-86bb-9da7a4e28b6d">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle"/>
+						<text><![CDATA[Category:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement x="10" y="10" width="90" height="20" uuid="97ff130b-2db7-40a3-97ed-6756a24140b0">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle"/>
+						<text><![CDATA[Hotel's franchise:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement x="10" y="30" width="90" height="20" uuid="b70540c9-4f69-4250-b278-51c1c01c0c04">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle"/>
+						<text><![CDATA[Province:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement x="10" y="50" width="90" height="20" uuid="1f138a7d-37a1-4933-8f4a-68e080b73c3d">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle"/>
+						<text><![CDATA[Address:]]></text>
+					</staticText>
+					<textField>
+						<reportElement positionType="FixRelativeToBottom" stretchType="ContainerBottom" x="100" y="10" width="200" height="20" uuid="e5dbb584-864e-442c-9124-4420429b74c4">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle"/>
+						<textFieldExpression><![CDATA[$F{hotelFranchise}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement stretchType="RelativeToTallestObject" x="100" y="30" width="200" height="20" uuid="41b3f8bf-f070-40d3-aa29-8b03cbd1ebc7">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle"/>
+						<textFieldExpression><![CDATA[$F{province}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement stretchType="RelativeToTallestObject" x="100" y="70" width="200" height="20" uuid="7c6a8c48-d33c-421e-887f-4a821d4217b9">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle"/>
+						<textFieldExpression><![CDATA[$F{hotelCategory}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement stretchType="RelativeToTallestObject" x="100" y="50" width="200" height="20" uuid="643c2f48-8b5c-44fe-bdb1-ba4bcfff00d6">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle"/>
+						<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+					</textField>
+					<staticText>
+						<reportElement x="380" y="50" width="90" height="20" uuid="9aa2a0fe-b238-463e-8eca-d9b88eeba874">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle"/>
+						<text><![CDATA[Conciliation Date]]></text>
+					</staticText>
+					<textField>
+						<reportElement positionType="FixRelativeToBottom" stretchType="ContainerBottom" x="470" y="10" width="200" height="20" uuid="9c58ce79-98ed-488d-93b3-370450318004">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle"/>
+						<textFieldExpression><![CDATA[$F{startDate}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement stretchType="RelativeToTallestObject" x="470" y="30" width="200" height="20" uuid="0f3c24b5-d424-424a-8f80-7072154a5906">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle"/>
+						<textFieldExpression><![CDATA[$F{finishDate}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement stretchType="RelativeToTallestObject" x="470" y="70" width="200" height="20" uuid="8cca112b-c378-4e68-85b3-cb4bc54e81ef">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle"/>
+						<textFieldExpression><![CDATA[$F{contractDescription}]]></textFieldExpression>
+					</textField>
+					<staticText>
+						<reportElement x="380" y="10" width="90" height="20" uuid="8c1d8ec8-6ff0-45fa-8bff-77346ab5a635">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle"/>
+						<text><![CDATA[Start Date]]></text>
+					</staticText>
+					<textField>
+						<reportElement stretchType="RelativeToTallestObject" x="470" y="50" width="200" height="20" uuid="2a02b91e-c631-41dc-a934-c785bf242331">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle"/>
+						<textFieldExpression><![CDATA[$F{conciliationDate}]]></textFieldExpression>
+					</textField>
+					<staticText>
+						<reportElement x="380" y="70" width="90" height="20" uuid="1ded71fd-0387-41e5-8518-bc7f254b536d">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle"/>
+						<text><![CDATA[Description]]></text>
+					</staticText>
+					<staticText>
+						<reportElement x="380" y="30" width="90" height="20" uuid="f0057c6e-d879-4b4b-a855-ea5fc299bd96">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						</reportElement>
+						<textElement verticalAlignment="Middle"/>
+						<text><![CDATA[Finish Date]]></text>
+					</staticText>
+				</frame>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

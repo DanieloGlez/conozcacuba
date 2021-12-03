@@ -7,6 +7,8 @@ import javafx.stage.Stage;
 import service.ServicesLocator;
 import util.EncryptionUtils;
 
+import java.util.Arrays;
+
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
